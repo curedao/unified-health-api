@@ -14,3 +14,16 @@ _book
 *.epub
 *.mobi
 *.pdf
+reference-databases/SnomedRfsMySql/SnomedRfsMySql/win/snomed_wload_mysql.bat
+reference-databases/Loinc_2.71_Text_2.71/MySql/LoadMySql.bat
+reference-databases/Loinc_2.71_Text_2.71/MySql/MySqlDdl.sql
+reference-databases/Loinc_2.71_Text_2.71/MySql/MySqlLoader.sql
+reference-databases/Loinc_2.71_Text_2.71/MySql/ReadMe.txt
+reference-databases/SnomedRfsMySql/SnomedRfsMySql/lib/
+reference-databases/SnomedRfsMySql/
+reference-databases/Loinc_2.71_LoincTableCore/
+reference-databases/Loinc_2.71_Text_2.71/
+reference-databases/Loinc_2.71_LoincTableCore.zip
+reference-databases/Loinc_2.71_Text_2.71.zip
+reference-databases/snomed-release-service-4.4.0.zip
+reference-databases/SnomedRfsMySql.zip
