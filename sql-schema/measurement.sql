@@ -1,17 +1,16 @@
 create table measurements
 (
-	id                   bigint auto_increment
-		primary key comment 'A unique identifier for the measurement',
+	id                   bigint auto_increment primary key comment 'A unique identifier for the measurement',
 	user_id              bigint unsigned                     not null comment 'A unique identifier for the user who owns this measurement',
 	client_id            varchar(80)                         not null comment 'A unique identifier for data source',
 	connector_id         int unsigned                        null comment 'The id for the connector data source from which the measurement was obtained',
 	variable_id          int unsigned                        not null comment 'id of the variable for which we are creating the measurement records',
-	start_at           timestamp                       not null comment 'Start time for the measurement event in ISO 8601 format',
+	start_at           timestamp                       	not null comment 'Start time for the measurement event in ISO 8601 format',
 	value                double                              not null comment 'The value of the measurement after conversion to the default unit for that variable',
 	unit_id              smallint unsigned                   not null comment 'The default unit for the variable',
 	original_value       double                              not null comment 'Value of measurement as originally submitted (before conversion to default unit)',
 	original_unit_id     smallint unsigned                   not null comment 'Unit id of measurement as originally submitted',
-	duration             int(10)                             null comment 'Duration of the event being measurement in seconds',
+	duration             int(10)                             null comment 'Duration of the event being measured in seconds',
 	note                 text                                null comment 'An optional note the user may include with their measurement',
 	latitude             double                              null comment 'Latitude at which the measurement was taken',
 	longitude            double                              null comment 'Longitude at which the measurement was taken',
