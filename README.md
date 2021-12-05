@@ -39,7 +39,7 @@ When a Pull Request is made to the main branch, a new comment is
 posted on the PR where you can click :thumbsup:/
 :thumbsdown:.
 
-Only configured voters in [.voters.yml](.voting.yml) are counted. 
+Only configured voters in [.voters.yml](.voters.yml) are counted. 
 
 When a Pull Request is updated, it will clear the voting and restart the vote.
 
