@@ -59,7 +59,7 @@ results of a vote. These voters can be for or against. This number must be above
 
 ### Voters
 
-[.voters.yml](.voting.yml) define the voters and their vote weights.
+[.voters.yml](.voting.yml) defines the voters and their vote weights.
 
 Each entry should have the format of `<github-user>:<voting-weight>`. In a
 normal fair election, every voter has would be configured to have a weight of 1.
