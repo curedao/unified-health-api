@@ -32,36 +32,16 @@ The Unified Health API integrates the disparate health data standards in order t
 ## [Online Data Browser](https://data.crowdsourcingcures.org)
 Contact m@thinkbynumbers.org if you desire access.
 
-
-# Voting on Pull Requests
-
-When a Pull Request is made to the main branch, a new comment is
-posted on the PR where you can click :thumbsup:/
-:thumbsdown:.
-
-Only configured voters in [.voters.yml](.voters.yml) are counted. 
-
-When a Pull Request is updated, it will clear the voting and restart the vote.
+## Democratic Pull Requests
+When a Pull Request is made to the main branch, a new comment is posted on the PR where you can click :thumbsup: or :thumbsdown:. When a Pull Request is updated, it will clear the voting and restart the vote.
 
 ### Rules of Voting
-
-See [.voting.yml](.voting.yml) for the rules of voting.
-
-`percentageToApprove` is the percentage of weighted votes needed to approve a
-vote defined by the number of weighted for votes over the total number of
-weighted vote. This number must be above 0 for this action to have any affect.
-
-`minVotersRequired` is the minimum number of unique voters need to call the
-results of a vote. These voters can be for or against. This number must be above
-1 for the action to have any affect.
-
+[.voting.yml](.voting.yml) contains the rules of voting:
+`percentageToApprove` is the percentage of up-votes needed to approve a merge.
+`minVotersRequired` is the minimum number of unique voters needed to merge.
 `minVotingWindowMinutes` is the minimum amount of time that must pass after the voting comment is created before any vote can pass.
 
 ### Voters
-
-[.voters.yml](.voting.yml) defines the voters and their vote weights.
-
-Each entry should have the format of `<github-user>:<voting-weight>`. In a
-normal fair election, every voter has would be configured to have a weight of 1.
+[.voters.yml](.voting.yml) defines the allowed voters and their vote weights. Each entry has the format of `<github-user>:<voting-weight>`.
 
 Contact m@thinkbynumbers.org to add your name to the voter list.
