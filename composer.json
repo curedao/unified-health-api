@@ -10,8 +10,10 @@
         "guzzlehttp/guzzle": "^7.0.1",
         "joelbutcher/socialstream": "^3.2",
         "laravel/framework": "^8.65",
+        "laravel/passport": "^10.2",
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
+        "laravel/vapor-cli": "^1.34",
         "livewire/livewire": "^2.5"
     },
     "require-dev": {
@@ -35,6 +37,8 @@
         }
     },
     "scripts": {
+        "vapor-list": "php vendor/bin/vapor list",
+        "vapor-deploy": "php vendor/bin/vapor deploy",
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi"
