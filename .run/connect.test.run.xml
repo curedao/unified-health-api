@@ -2,4 +2,7 @@
   <configuration default="false" name="connect.test" type="PhpWebAppRunConfigurationType" factoryName="PHP Web Application" server_name="connect.test">
     <method v="2" />
   </configuration>
+  <configuration default="false" name="connect.test" type="PhpWebAppRunConfigurationType" factoryName="PHP Web Application" server_name="connect.test">
+    <method v="2" />
+  </configuration>
 </component>
