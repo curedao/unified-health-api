@@ -16,7 +16,8 @@
         "laravel/vapor-cli": "^1.34",
         "laravel/vapor-core": "^2.17",
         "laravel/vapor-ui": "^1.4",
-        "livewire/livewire": "^2.5"
+        "livewire/livewire": "^2.5",
+        "tcg/voyager": "^1.5"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

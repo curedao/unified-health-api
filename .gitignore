@@ -15,4 +15,7 @@ yarn-error.log
 /.vscode
 
 # Project exclude paths
-/storage/
+/storage/.vapor/
+.env.production
+.env.staging
+/.vapor/build/app/
