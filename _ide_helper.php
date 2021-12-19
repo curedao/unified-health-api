@@ -16430,6 +16430,202 @@
      
 }
 
+    namespace HiFolks\LaraLens { 
+            /**
+     * 
+     *
+     */ 
+        class LaraLensFacade {
+                    /**
+         * 
+         *
+         * @return \HiFolks\LaraLens\ResultLens 
+         * @static 
+         */ 
+        public static function getCredits()
+        {
+                        /** @var \HiFolks\LaraLens\Lens\LaraLens $instance */
+                        return $instance->getCredits();
+        }
+                    /**
+         * 
+         *
+         * @param bool $b
+         * @return string 
+         * @static 
+         */ 
+        public static function printBool($b)
+        {
+                        return \HiFolks\LaraLens\Lens\LaraLens::printBool($b);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getTablesListMysql()
+        {
+                        /** @var \HiFolks\LaraLens\Lens\LaraLens $instance */
+                        return $instance->getTablesListMysql();
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getTablesListSqlite()
+        {
+                        /** @var \HiFolks\LaraLens\Lens\LaraLens $instance */
+                        return $instance->getTablesListSqlite();
+        }
+                    /**
+         * Try to establish a db connection.
+         * 
+         * If it fails, return FALSE and fill checksBag.
+         *
+         * @return false|\Illuminate\Database\Connection 
+         * @static 
+         */ 
+        public static function dbConnection()
+        {
+                        /** @var \HiFolks\LaraLens\Lens\LaraLens $instance */
+                        return $instance->dbConnection();
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getDatabaseConnectionInfos($dbConnection, $results, $checkTable, $columnSorting)
+        {
+                        /** @var \HiFolks\LaraLens\Lens\LaraLens $instance */
+                        return $instance->getDatabaseConnectionInfos($dbConnection, $results, $checkTable, $columnSorting);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getDatabase($checkTable = 'users', $columnSorting = 'created_at')
+        {
+                        /** @var \HiFolks\LaraLens\Lens\LaraLens $instance */
+                        return $instance->getDatabase($checkTable, $columnSorting);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getConfigsDatabaseFromEnv($results = null)
+        {
+                        /** @var \HiFolks\LaraLens\Lens\LaraLens $instance */
+                        return $instance->getConfigsDatabaseFromEnv($results);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function checkDebugEnv($results = null)
+        {
+                        /** @var \HiFolks\LaraLens\Lens\LaraLens $instance */
+                        return $instance->checkDebugEnv($results);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getConfigsDatabase($results = null)
+        {
+                        /** @var \HiFolks\LaraLens\Lens\LaraLens $instance */
+                        return $instance->getConfigsDatabase($results);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getConfigs()
+        {
+                        /** @var \HiFolks\LaraLens\Lens\LaraLens $instance */
+                        return $instance->getConfigs();
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getConnections($checkPath)
+        {
+                        /** @var \HiFolks\LaraLens\Lens\LaraLens $instance */
+                        return $instance->getConnections($checkPath);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getRuntimeConfigs()
+        {
+                        /** @var \HiFolks\LaraLens\Lens\LaraLens $instance */
+                        return $instance->getRuntimeConfigs();
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function checkServerRequirements()
+        {
+                        /** @var \HiFolks\LaraLens\Lens\LaraLens $instance */
+                        return $instance->checkServerRequirements();
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getPhpExtensions()
+        {
+                        /** @var \HiFolks\LaraLens\Lens\LaraLens $instance */
+                        return $instance->getPhpExtensions();
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getPhpIniValues()
+        {
+                        /** @var \HiFolks\LaraLens\Lens\LaraLens $instance */
+                        return $instance->getPhpIniValues();
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function checkFiles()
+        {
+                        /** @var \HiFolks\LaraLens\Lens\LaraLens $instance */
+                        return $instance->checkFiles();
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getOsConfigs()
+        {
+                        /** @var \HiFolks\LaraLens\Lens\LaraLens $instance */
+                        return $instance->getOsConfigs();
+        }
+         
+    }
+     
+}
+
     namespace Intervention\Image\Facades { 
             /**
      * 
@@ -21764,6 +21960,7 @@ namespace  {
             class Widget extends \Arrilot\Widgets\Facade {}
             class AsyncWidget extends \Arrilot\Widgets\AsyncFacade {}
             class Flare extends \Facade\Ignition\Facades\Flare {}
+            class LaraLens extends \HiFolks\LaraLens\LaraLensFacade {}
             class Image extends \Intervention\Image\Facades\Image {}
             class Clockwork extends \Clockwork\Support\Laravel\Facade {}
             class Agent extends \Jenssegers\Agent\Facades\Agent {}

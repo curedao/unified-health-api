@@ -8,6 +8,7 @@
         "php": "^7.3|^8.0",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
+        "hi-folks/lara-lens": "^0.2.6",
         "itsgoingd/clockwork": "^5.1",
         "joelbutcher/socialstream": "^3.2",
         "laravel/framework": "^8.65",
@@ -52,7 +53,8 @@
         "vapor-login": "php vendor/bin/vapor login",
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
-            "@php artisan package:discover --ansi"
+            "@php artisan package:discover --ansi",
+            "@php artisan laralens:diagnostic"
         ],
         "post-update-cmd": [
             "@php artisan vendor:publish --tag=laravel-assets --ansi --force",

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e2c694301a7d2e828e626a38c74faf62",
+    "content-hash": "52e60737689438feff57a3546ad9e818",
     "packages": [
         {
             "name": "arrilot/laravel-widgets",
@@ -1733,6 +1733,76 @@
                 }
             ],
             "time": "2021-10-06T17:43:30+00:00"
+        },
+        {
+            "name": "hi-folks/lara-lens",
+            "version": "v0.2.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Hi-Folks/lara-lens.git",
+                "reference": "a074d8e34f88e2490efc207cbeb9ade43566b9fb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Hi-Folks/lara-lens/zipball/a074d8e34f88e2490efc207cbeb9ade43566b9fb",
+                "reference": "a074d8e34f88e2490efc207cbeb9ade43566b9fb",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "guzzlehttp/guzzle": "^6.0|^7.0",
+                "illuminate/support": "^6.0|^7.0|^8.0",
+                "php": "^7.2|^8.0"
+            },
+            "require-dev": {
+                "nunomaduro/larastan": "^0.7.2",
+                "orchestra/testbench": "4.*|5.*|6.*",
+                "phpunit/phpunit": "^8.0|^9.3",
+                "squizlabs/php_codesniffer": "^3.5"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "HiFolks\\LaraLens\\LaraLensServiceProvider"
+                    ],
+                    "aliases": {
+                        "LaraLens": "HiFolks\\LaraLens\\LaraLensFacade"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "HiFolks\\LaraLens\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Roberto Butti",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Laravel Diagnostic command for configuration, db connection, http request",
+            "homepage": "https://github.com/hi-folks/lara-lens",
+            "keywords": [
+                "cli",
+                "command-line",
+                "console",
+                "diagnostic",
+                "hi-folks",
+                "lara-lens",
+                "laravel",
+                "package"
+            ],
+            "support": {
+                "issues": "https://github.com/Hi-Folks/lara-lens/issues",
+                "source": "https://github.com/Hi-Folks/lara-lens/tree/v0.2.6"
+            },
+            "time": "2021-10-03T08:00:03+00:00"
         },
         {
             "name": "hollodotme/fast-cgi-client",
