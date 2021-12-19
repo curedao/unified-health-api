@@ -4,6 +4,7 @@ namespace App\Actions\Socialstream;
 
 use JoelButcher\Socialstream\Contracts\ResolvesSocialiteUsers;
 use JoelButcher\Socialstream\Socialstream;
+use Laravel\Socialite\Contracts\User;
 use Laravel\Socialite\Facades\Socialite;
 
 class ResolveSocialiteUser implements ResolvesSocialiteUsers
@@ -12,9 +13,9 @@ class ResolveSocialiteUser implements ResolvesSocialiteUsers
      * Resolve the user for a given provider.
      *
      * @param  string  $provider
-     * @return \Laravel\Socialite\AbstractUser
+     * @return \Laravel\Socialite\Contracts\User
      */
-    public function resolve($provider)
+    public function resolve($provider): User
     {
         $user = Socialite::driver($provider)->user();
 

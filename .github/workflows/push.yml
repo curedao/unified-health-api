@@ -16,7 +16,8 @@ jobs:
     strategy:
       matrix:
         operating-system: [ubuntu-latest]
-        php-versions: [ '8.0','7.4' ]
+        #php-versions: [ '8.0','7.4' ]
+        php-versions: [ '7.4' ]
         dependency-stability: [ 'prefer-none' ]
 
     name: P${{ matrix.php-versions }} - L${{ matrix.laravel }} - ${{ matrix.dependency-stability }} - ${{ matrix.operating-system}}
@@ -65,12 +66,12 @@ jobs:
         if: steps.vendor-cache.outputs.cache-hit != 'true'
         run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
 
-      - name: Update Dependencies with latest stable
-        if: matrix.dependency-stability == 'prefer-stable'
-        run: composer update --prefer-stable
-      - name: Update Dependencies with lowest stable
-        if: matrix.dependency-stability == 'prefer-lowest'
-        run: composer update --prefer-stable --prefer-lowest
+#      - name: Update Dependencies with latest stable
+#        if: matrix.dependency-stability == 'prefer-stable'
+#        run: composer update --prefer-stable
+#      - name: Update Dependencies with lowest stable
+#        if: matrix.dependency-stability == 'prefer-lowest'
+#        run: composer update --prefer-stable --prefer-lowest
 
       - name: Generate key
         run: php artisan key:generate
@@ -102,15 +103,15 @@ jobs:
 
 
 
-      - name: Execute Code Sniffer via phpcsphp artisan laralens:diagnostic
-        run: |
-          composer require --dev squizlabs/php_codesniffer
-          vendor/bin/phpcs --standard=PSR12 app
+#      - name: Execute Code Sniffer via phpcsphp artisan laralens:diagnostic
+#        run: |
+#          composer require --dev squizlabs/php_codesniffer
+#          vendor/bin/phpcs --standard=PSR12 app
 
-      - name: Execute Code Static Analysis (PHP Stan + Larastan)
-        run: |
-          composer require --dev nunomaduro/larastan
-          vendor/bin/phpstan analyse app -c ./vendor/nunomaduro/larastan/extension.neon  --level=4 --no-progress
+#      - name: Execute Code Static Analysis (PHP Stan + Larastan)
+#        run: |
+#          composer require --dev nunomaduro/larastan
+#          vendor/bin/phpstan analyse app -c ./vendor/nunomaduro/larastan/extension.neon  --level=4 --no-progress
 
 
       # Deployment Step

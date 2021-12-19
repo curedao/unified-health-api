@@ -1,7 +1,10 @@
+
 <x-jet-action-section>
-    <x-slot name="title">
+
+    <x-slot name="title" class="md:col-span-1 flex justify-between">
         {{ __('Connected Accounts') }}
     </x-slot>
+
 
     <x-slot name="description">
         {{ __('Manage and remove your connect accounts.') }}
@@ -16,9 +19,9 @@
             @endif
         </h3>
 
-        <div class="mt-3 max-w-xl text-sm text-gray-600">
-            {{ __('You are free to connect any social accounts to your profile and may remove any connected accounts at any time. If you feel any of your connected accounts have been compromised, you should disconnect them immediately and change your password.') }}
-        </div>
+{{--        <div class="mt-3 max-w-xl text-sm text-gray-600">--}}
+{{--            {{ __('You are free to connect any social accounts to your profile and may remove any connected accounts at any time. If you feel any of your connected accounts have been compromised, you should disconnect them immediately and change your password.') }}--}}
+{{--        </div>--}}
 
         <div class="mt-5 space-y-6">
             @foreach ($this->providers as $provider)
@@ -32,7 +35,8 @@
                         @if (! is_null($account))
                             <div class="flex items-center space-x-6">
                                 @if (Laravel\Jetstream\Jetstream::managesProfilePhotos() && ! is_null($account->avatar_path))
-                                    <button class="cursor-pointer ml-6 text-sm text-gray-500 focus:outline-none" wire:click="setAvatarAsProfilePhoto({{ $account->id }})">
+                                    <button class="cursor-pointer ml-6 text-sm text-gray-500 focus:outline-none"
+                                            wire:click="setAvatarAsProfilePhoto({{ $account->id }})">
                                         {{ __('Use Avatar as Profile Photo') }}
                                     </button>
                                 @endif

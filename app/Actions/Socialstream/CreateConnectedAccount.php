@@ -2,6 +2,7 @@
 
 namespace App\Actions\Socialstream;
 
+use JoelButcher\Socialstream\ConnectedAccount;
 use JoelButcher\Socialstream\Contracts\CreatesConnectedAccounts;
 use JoelButcher\Socialstream\Socialstream;
 use Laravel\Socialite\Contracts\User as ProviderUser;
@@ -13,8 +14,8 @@ class CreateConnectedAccount implements CreatesConnectedAccounts
      *
      * @param  mixed  $user
      * @param  string  $provider
-     * @param  \Laravel\Socialite\Contracts\User  $providerUser
-     * @return \JoelButcher\Socialstream\ConnectedAccount
+     * @param ProviderUser $providerUser
+     * @return ConnectedAccount
      */
     public function create($user, string $provider, ProviderUser $providerUser)
     {

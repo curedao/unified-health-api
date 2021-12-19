@@ -4,8 +4,8 @@
     version="1.1"
     id="svg2"
     xml:space="preserve"
-    width="105"
-    height="67"
+    width="52"
+    height="33"
     viewBox="0 0 419.99999 268"
     sodipodi:docname="LOGO_Start.ai"
     inkscape:version="0.92.2 (5c3e80d, 2017-08-06)"><metadata
