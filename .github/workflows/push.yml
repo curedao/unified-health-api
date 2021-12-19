@@ -4,7 +4,7 @@ name: Laravel application
 on:
   push:
     branches:
-      - main
+      - master
       - develop
       - features/**
 
