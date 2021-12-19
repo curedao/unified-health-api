@@ -10,8 +10,8 @@ class HandleInvalidState implements HandlesInvalidState
     /**
      * Handle an invalid state exception from a Socialite provider.
      *
-     * @param  \Laravel\Socialite\Two\InvalidStateException  $exception
-     * @param  callable  $callback
+     * @param InvalidStateException $exception
+     * @param callable|null $callback
      * @return mixed
      */
     public function handle(InvalidStateException $exception, callable $callback = null)
@@ -19,6 +19,8 @@ class HandleInvalidState implements HandlesInvalidState
         if ($callback) {
             return $callback($exception);
         }
+        return redirect()->back()->withErrors($exception->getMessage());
+
 
         throw $exception;
     }

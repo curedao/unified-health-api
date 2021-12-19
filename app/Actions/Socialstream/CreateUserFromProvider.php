@@ -17,14 +17,14 @@ class CreateUserFromProvider implements CreatesUserFromProvider
     /**
      * The creates connected accounts instance.
      *
-     * @var \JoelButcher\Socialstream\Contracts\CreatesConnectedAccounts
+     * @var CreatesConnectedAccounts
      */
     public $createsConnectedAccounts;
 
     /**
      * Create a new action instance.
      *
-     * @param  \JoelButcher\Socialstream\Contracts\CreatesConnectedAccounts  $createsConnectedAccounts
+     * @param CreatesConnectedAccounts $createsConnectedAccounts
      */
     public function __construct(CreatesConnectedAccounts $createsConnectedAccounts)
     {
@@ -35,10 +35,10 @@ class CreateUserFromProvider implements CreatesUserFromProvider
      * Create a new user from a social provider user.
      *
      * @param  string  $provider
-     * @param  \Laravel\Socialite\Contracts\User  $providerUser
-     * @return \App\Models\User
+     * @param ProviderUserContract $providerUser
+     * @return User
      */
-    public function create(string $provider, ProviderUserContract $providerUser)
+    public function create(string $provider, ProviderUserContract $providerUser): User
     {
         return DB::transaction(function () use ($provider, $providerUser) {
             return tap(User::create([
@@ -48,8 +48,10 @@ class CreateUserFromProvider implements CreatesUserFromProvider
                 $user->markEmailAsVerified();
 
                 if (Features::profilePhotos()) {
-                    if (Socialstream::hasProviderAvatarsFeature() && Jetstream::managesProfilePhotos() && $providerUser->getAvatar()) {
-                        $user->setProfilePhotoFromUrl($providerUser->getAvatar());
+                    if (Socialstream::hasProviderAvatarsFeature() && Jetstream::managesProfilePhotos() &&
+                        $providerUser->getAvatar()) {
+                        $user->avatar = $providerUser->getAvatar();
+                        //$user->setProfilePhotoFromUrl($providerUser->getAvatar());
                     }
                 }
 
@@ -65,7 +67,7 @@ class CreateUserFromProvider implements CreatesUserFromProvider
     /**
      * Create a personal team for the user.
      *
-     * @param  \App\Models\User  $user
+     * @param User $user
      * @return void
      */
     protected function createTeam(User $user)
