@@ -21,3 +21,4 @@ yarn-error.log
 /.vapor/build/app/
 /resources/docs/clients/
 /resources/docs/servers/
+.env.local
