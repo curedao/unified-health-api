@@ -1,7 +1,5 @@
 <?php
 
-use App\Models\ConnectedAccount;
-use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,19 +19,17 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware([
     'auth:sanctum',
-    'verified'
+    'verified',
 ])->get('/', function () {
     return view('dashboard');
 })->name('dashboard');
 
 Route::middleware([
     'auth:sanctum',
-    'verified'
+    'verified',
 ])->get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
-
-
 
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();

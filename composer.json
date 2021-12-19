@@ -34,7 +34,9 @@
         "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^5.10",
         "orchestra/testbench-browser-kit": ">=4.0",
-        "phpunit/phpunit": "^9.5.10"
+        "phpunit/phpunit": "^9.5.10",
+        "squizlabs/php_codesniffer": "^3.6",
+        "friendsofphp/php-cs-fixer": "^3.4"
     },
     "autoload": {
         "psr-4": {
@@ -56,11 +58,14 @@
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi",
             "@php artisan laralens:diagnostic",
-            "@php artisan clear-compiled"
+            "@php artisan clear-compiled",
+            "php artisan storage:link"
         ],
         "post-update-cmd": [
             "@php artisan vendor:publish --tag=laravel-assets --ansi --force",
-            "@php artisan vapor-ui:publish --ansi",
+            "@php artisan vapor-ui:publish --ansi"
+        ],
+        "ide-helper": [
             "@php artisan ide-helper:generate",
             "@php artisan ide-helper:meta",
             "@php artisan ide-helper:models --nowrite"

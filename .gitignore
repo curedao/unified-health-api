@@ -20,3 +20,4 @@ yarn-error.log
 /resources/docs/servers/
 !.env.testing
 !.env.example
+/.php-cs-fixer.cache
