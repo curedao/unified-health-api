@@ -11,6 +11,7 @@
         "itsgoingd/clockwork": "^5.1",
         "joelbutcher/socialstream": "^3.2",
         "laravel/framework": "^8.65",
+        "laravel/legacy-factories": "^1.1",
         "laravel/passport": "^10.2",
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
@@ -18,14 +19,7 @@
         "laravel/vapor-core": "^2.17",
         "laravel/vapor-ui": "^1.4",
         "livewire/livewire": "^2.5",
-        "socialiteproviders/asana": "*",
-        "socialiteproviders/atlassian": "*",
-        "socialiteproviders/fitbit": "*",
-        "socialiteproviders/foursquare": "*",
-        "socialiteproviders/garmin-connect": "*",
         "socialiteproviders/generators": "^4.6",
-        "socialiteproviders/goodreads": "*",
-        "socialiteproviders/notion": "*",
         "socialiteproviders/providers": "dev-master",
         "tcg/voyager": "^1.5"
     },
@@ -36,7 +30,9 @@
         "laravel/sail": "^1.0.1",
         "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^5.10",
-        "phpunit/phpunit": "^9.5.10"
+        "phpunit/phpunit": "^9.5.10",
+        "laravel/browser-kit-testing": ">=5.0.0",
+        "orchestra/testbench-browser-kit": ">=4.0"
     },
     "autoload": {
         "psr-4": {
@@ -62,7 +58,8 @@
             "@php artisan vendor:publish --tag=laravel-assets --ansi --force",
             "@php artisan vapor-ui:publish --ansi",
             "@php artisan ide-helper:generate",
-            "@php artisan ide-helper:meta"
+            "@php artisan ide-helper:meta",
+            "@php artisan ide-helper:models --nowrite"
         ],
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""

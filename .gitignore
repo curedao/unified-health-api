@@ -19,3 +19,5 @@ yarn-error.log
 .env.production
 .env.staging
 /.vapor/build/app/
+/resources/docs/clients/
+/resources/docs/servers/

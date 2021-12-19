@@ -1,0 +1,3808 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "1.0.2",
+        "title": "PKB REST API"
+    },
+    "basePath": "/json",
+    "tags": [
+        {
+            "name": "Attachments"
+        },
+        {
+            "name": "Messages"
+        },
+        {
+            "name": "Symptoms"
+        },
+        {
+            "name": "Treatment Plans"
+        },
+        {
+            "name": "Users"
+        },
+        {
+            "name": "Consent"
+        },
+        {
+            "name": "Journals"
+        },
+        {
+            "name": "Measurements"
+        },
+        {
+            "name": "Medications"
+        },
+        {
+            "name": "Internal authorization"
+        },
+        {
+            "name": "OTPs"
+        },
+        {
+            "name": "Tests"
+        },
+        {
+            "name": "Treatments"
+        },
+        {
+            "name": "Allergies"
+        },
+        {
+            "name": "Break The Glass"
+        },
+        {
+            "name": "Careplans"
+        },
+        {
+            "name": "Data"
+        },
+        {
+            "name": "Diagnoses"
+        },
+        {
+            "name": "Encounters"
+        }
+    ],
+    "paths": {
+        "/attachments/{id}": {
+            "get": {
+                "tags": [
+                    "Attachments"
+                ],
+                "summary": "Scope: PATIENT, CLINICIAN, TEAMCOORD",
+                "description": "Download attachment by id.",
+                "operationId": "getAttachment",
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Attachment downloaded successfully.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request!",
+                        "schema": {
+                            "$ref": "#/definitions/RestError"
+                        }
+                    }
+                }
+            }
+        },
+        "/messages/after/{timestamp}": {
+            "get": {
+                "tags": [
+                    "Messages"
+                ],
+                "summary": "Scope: PATIENT, CLINICIAN",
+                "description": "",
+                "operationId": "getMessagesSince",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "timestamp",
+                        "in": "path",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/Locale"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ApiConversation"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/symptomReports/all": {
+            "get": {
+                "tags": [
+                    "Symptoms"
+                ],
+                "summary": "Scope: PATIENT",
+                "description": "",
+                "operationId": "getSymptomReportsAll",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ApiSymptomReport"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/treatmentPlans/forPatient/{id}": {
+            "get": {
+                "tags": [
+                    "Treatment Plans"
+                ],
+                "summary": "Scope: PATIENT, CLINICIAN, TEAMCOORD",
+                "description": "PDF content is currently unsupported",
+                "operationId": "getTreatmentPlansForPatient",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ApiTreatmentPlan"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/self": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Scope: PATIENT, CLINICIAN",
+                "description": "",
+                "operationId": "getUser",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "$ref": "#/definitions/ApiUser"
+                        }
+                    }
+                }
+            }
+        },
+        "/users/myPatients": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Scope: CLINICIAN",
+                "description": "",
+                "operationId": "getMyPatients",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ApiUser"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/myClinicians": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Scope: PATIENT",
+                "description": "",
+                "operationId": "getMyClinicians",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ApiUser"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/myCarers": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Scope: PATIENT",
+                "description": "",
+                "operationId": "getMyCarers",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ApiUser"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/consents/additional/forPatient/{patientId}": {
+            "post": {
+                "tags": [
+                    "Consent"
+                ],
+                "summary": "Scope: TEAMCOORD",
+                "description": "",
+                "operationId": "setAdditionalConsentsByPatientId",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/ApiPatientAdditionalConsent"
+                        }
+                    },
+                    {
+                        "name": "teamCode",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "patientId",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "$ref": "#/definitions/ApiWriteResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/consents/forPatient/{patientId}": {
+            "post": {
+                "tags": [
+                    "Consent"
+                ],
+                "summary": "Scope: TEAMCOORD",
+                "description": "",
+                "operationId": "setConsentsByPatientId",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/ApiPatientConsent"
+                        }
+                    },
+                    {
+                        "name": "teamCode",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "patientId",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "$ref": "#/definitions/ApiWriteResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/consents/byPatient/{patientId}": {
+            "get": {
+                "tags": [
+                    "Consent"
+                ],
+                "summary": "Scope: TEAMCOORD",
+                "description": "",
+                "operationId": "getConsentsByPatientId",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "teamCode",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "patientId",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "$ref": "#/definitions/ApiReadResponseApiPatientConsent"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/consents/additional/byPatient/{patientId}": {
+            "get": {
+                "tags": [
+                    "Consent"
+                ],
+                "summary": "Scope: TEAMCOORD",
+                "description": "",
+                "operationId": "getAdditionalConsentsByPatientId",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "teamCode",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "patientId",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "$ref": "#/definitions/ApiReadResponseApiPatientAdditionalConsent"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/journal": {
+            "post": {
+                "tags": [
+                    "Journals"
+                ],
+                "summary": "Scope: PATIENT",
+                "description": "",
+                "operationId": "addJournalEntryForPatient",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/ApiJournalEntry"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "$ref": "#/definitions/ApiWriteResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/measurements/{measurementId}": {
+            "delete": {
+                "tags": [
+                    "Measurements"
+                ],
+                "summary": "Scope: PATIENT",
+                "description": "",
+                "operationId": "deleteMeasurement",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "measurementId",
+                        "in": "path",
+                        "required": true,
+                        "type": "string",
+                        "format": "uuid"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "$ref": "#/definitions/ApiWriteResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/measurements": {
+            "post": {
+                "tags": [
+                    "Measurements"
+                ],
+                "summary": "Scope: PATIENT",
+                "description": "",
+                "operationId": "createMeasurement",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/ApiMeasurement"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "$ref": "#/definitions/ApiWriteResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/medications": {
+            "get": {
+                "tags": [
+                    "Medications"
+                ],
+                "summary": "Scope: PATIENT",
+                "description": "",
+                "operationId": "getAllMedications",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "$ref": "#/definitions/ApiReadResponseApiMedication"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Medications"
+                ],
+                "summary": "Scope: PATIENT",
+                "description": "",
+                "operationId": "addOrUpdateMedication",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/ApiMedication"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "$ref": "#/definitions/ApiWriteResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/medications/forPatient/{patientId}": {
+            "get": {
+                "tags": [
+                    "Medications"
+                ],
+                "summary": "Scope: CLINICIAN",
+                "description": "",
+                "operationId": "getMedicationsForPatient",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "patientId",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    {
+                        "name": "apiRef",
+                        "in": "query",
+                        "description": "This parameter is not currently supported.",
+                        "required": false,
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "multi"
+                    },
+                    {
+                        "name": "updatedSince",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "includeMedicationsNotTaken",
+                        "in": "query",
+                        "required": false,
+                        "type": "boolean"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "$ref": "#/definitions/ApiReadResponseApiMedication"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/medications/active": {
+            "get": {
+                "tags": [
+                    "Medications"
+                ],
+                "summary": "Scope: PATIENT",
+                "description": "",
+                "operationId": "getActiveMedications",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "apiRef",
+                        "in": "query",
+                        "description": "This parameter is not currently supported.",
+                        "required": false,
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "multi"
+                    },
+                    {
+                        "name": "updatedSince",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "includeMedicationsNotTaken",
+                        "in": "query",
+                        "required": false,
+                        "type": "boolean"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "$ref": "#/definitions/ApiReadResponseApiMedication"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/medications/forPatient/{patientId}/active": {
+            "get": {
+                "tags": [
+                    "Medications"
+                ],
+                "summary": "Scope: CLINICIAN",
+                "description": "",
+                "operationId": "getActiveMedicationsForPatient",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "patientId",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    {
+                        "name": "apiRef",
+                        "in": "query",
+                        "description": "This parameter is not currently supported.",
+                        "required": false,
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "multi"
+                    },
+                    {
+                        "name": "updatedSince",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "includeMedicationsNotTaken",
+                        "in": "query",
+                        "required": false,
+                        "type": "boolean"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "$ref": "#/definitions/ApiReadResponseApiMedication"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/ui/exchange": {
+            "get": {
+                "tags": [
+                    "Internal authorization"
+                ],
+                "operationId": "exchange",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [],
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/v1/otp": {
+            "get": {
+                "tags": [
+                    "OTPs"
+                ],
+                "summary": "Scope: PATIENT, CLINICIAN",
+                "description": "",
+                "operationId": "getOTP",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "$ref": "#/definitions/ApiWebappOTP"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/symptoms/monitored": {
+            "get": {
+                "tags": [
+                    "Symptoms"
+                ],
+                "summary": "Scope: PATIENT",
+                "description": "",
+                "operationId": "getMonitoredSymptomsByTeam",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "$ref": "#/definitions/ApiReadResponseApiTeamSymptoms"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/symptoms/all": {
+            "get": {
+                "tags": [
+                    "Symptoms"
+                ],
+                "summary": "Scope: PUBLIC",
+                "description": "",
+                "operationId": "getAllSymptoms",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "$ref": "#/definitions/ApiReadResponseApiSymptom"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/symptoms/reports": {
+            "post": {
+                "tags": [
+                    "Symptoms"
+                ],
+                "summary": "Scope: PATIENT",
+                "description": "Reports new symptom for referred patient according to parameters.",
+                "operationId": "createSymptomReport",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/ApiSymptomReport"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Symptom reported successfully.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request!",
+                        "schema": {
+                            "$ref": "#/definitions/RestError"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/symptoms/reports/after/{timestamp}": {
+            "get": {
+                "tags": [
+                    "Symptoms"
+                ],
+                "summary": "Scope: PATIENT, CLINICIAN",
+                "description": "",
+                "operationId": "getSymptomReportsAfter",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "timestamp",
+                        "in": "path",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int32"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "$ref": "#/definitions/ApiReadResponseApiSymptomReport"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/symptoms/reports/forPatient/bySymptoms": {
+            "get": {
+                "tags": [
+                    "Symptoms"
+                ],
+                "summary": "Scope: PATIENT, CLINICIAN",
+                "description": "",
+                "operationId": "getSymptomReportsForPatientByApiRef",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "patientid",
+                        "in": "query",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    {
+                        "name": "after",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "apiRefs",
+                        "in": "query",
+                        "required": false,
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "multi"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "$ref": "#/definitions/ApiReadResponseApiSymptomReport"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/tests/results/forPatient/byTestIds": {
+            "get": {
+                "tags": [
+                    "Tests"
+                ],
+                "summary": "Scope: CLINICIAN",
+                "description": "Allows a professional to search for the test results of a patient. Optionally, the results can be filtered by specific test IDs. These IDs are assigned by PKB to specific test types, which are always associated with a LOINC code, so you will need to contact PKB support to identify the correct values to supply to this parameter. If provided, search results will be filtered to tests that were either matched directly to the corresponding type when supplied, or which were subsequently mapped to that type. Since the filtering works on LOINC-based common test types, this endpoint cannot be used to search specifically for results associated with local test codes that have not been mapped to a common LOINC code. See our guidance on the <a href=\"https://deploy.patientsknowbest.com/integrations/HL7/Path/LOINC\">Benefits of LOINC mapping</a> for more information.",
+                "operationId": "getTestResultsForPatientByTestIds",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "patientid",
+                        "in": "query",
+                        "description": "The PKB ID of the patient whose results you wish to fetch.",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64",
+                        "x-example": 111
+                    },
+                    {
+                        "name": "testid",
+                        "in": "query",
+                        "description": "Zero, one or more test IDs (repeat the parameter using & to provide multiple values). If provided, the search will only return results associated with one of the specified test types. Example: ?testid=1&testid=2&testid=3",
+                        "required": false,
+                        "type": "array",
+                        "items": {
+                            "type": "integer",
+                            "format": "int64"
+                        },
+                        "collectionFormat": "multi",
+                        "x-example": "222"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ApiTest"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/treatmentPlans": {
+            "post": {
+                "tags": [
+                    "Treatments"
+                ],
+                "summary": "Scope: CLINICIAN, TEAMCOORD",
+                "description": "PDF content cannot yet be accepted.",
+                "operationId": "createTreatmentPlan",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/ApiTreatmentPlan"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "$ref": "#/definitions/ApiWriteResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/treatmentPlans/mine": {
+            "get": {
+                "tags": [
+                    "Treatments"
+                ],
+                "summary": "Scope: PATIENT",
+                "description": "PDF content is currently unsupported",
+                "operationId": "getUsersTreatmentPlans",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "$ref": "#/definitions/ApiReadResponseApiTreatmentPlan"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/users": {
+            "put": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Scope: CLINICIAN, TEAMCOORD",
+                "description": "Creates or Updates a user. A National ID is required to create a patient. If an email address is supplied, the specified user will be sent a new registration email.An existing user will be updated if user details are supplied which can be found in the database, and the calling user has permission to perform this update. Invite an existing user to a new team. An existing patient user will be invited to the team for which the calling user is a coordinator if the specified user exists in the database but has not granted access to the relevant team.  If the patient exists but has Sharing Disabled then they will NOT be invited to join the team, NO INDICATION of this is returned to the API user to resepect the patients privacy choice.",
+                "operationId": "updateUser",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/ApiUser"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "$ref": "#/definitions/ApiWriteResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/users/{patientId}/recordAccessToken": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Scope: TEAMCOORD",
+                "description": "Generates an access code and a secret token for a given patient. Generated values are used in postal mail registration.",
+                "operationId": "generateLetterInvitation",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "patientId",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "$ref": "#/definitions/ApiLetterInvitation"
+                        }
+                    },
+                    "400": {
+                        "description": "Given patient might not exist or might not fulfill a token registration requirements such as missing DoB, national identifier or local identifier. Token cannot be generated if a patient is already registered. Each error detail consists of error code and list of human readeable messages. Possible error codes: 'invitation.patient.usertype', 'invitation.patient.status', 'invitation.patient.identifier', 'invitation.patient.dob', 'invitation.patient.systemId' ",
+                        "schema": {
+                            "$ref": "#/definitions/ValidationRestError"
+                        }
+                    },
+                    "500": {
+                        "description": "Error creating access token due to internal server error.",
+                        "schema": {
+                            "$ref": "#/definitions/RestError"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/users/{userId}": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Scope: PATIENT, CLINICIAN, TEAMCOORD",
+                "description": "",
+                "operationId": "getUserById",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "$ref": "#/definitions/ApiUser"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/users/self/patients": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Scope: CLINICIAN, TEAMCOORD",
+                "description": "",
+                "operationId": "getMyPatients_1",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "withMetrics",
+                        "in": "query",
+                        "required": false,
+                        "type": "boolean"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "$ref": "#/definitions/ApiReadResponseApiUserPublicId"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/users/deactivate": {
+            "put": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Scope: TEAMCOORD",
+                "description": "",
+                "operationId": "deactivateUser",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "query",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "$ref": "#/definitions/ApiWriteResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/v2-beta/allergies/forPatient/{patientId}": {
+            "get": {
+                "tags": [
+                    "Allergies"
+                ],
+                "summary": "Scope: CLINICIAN",
+                "description": "Returns allergies for the specified patient. Please see the <a href=\"http://dev.patientsknowbest.com/home/data-model#TOC-Allergy\">[[Allergy]]</a> section of our Data Model for more information.",
+                "operationId": "getAllergiesForPatient",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "patientId",
+                        "in": "path",
+                        "description": "The PKB ID of the patient whose allergies should be returned.",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    {
+                        "name": "updatedSince",
+                        "in": "query",
+                        "description": "This parameter is not currently supported.",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "apiRef",
+                        "in": "query",
+                        "description": "This parameter is not currently supported.",
+                        "required": false,
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "multi"
+                    },
+                    {
+                        "name": "includeNegativeAllergies",
+                        "in": "query",
+                        "description": "This parameter is not currently supported.",
+                        "required": false,
+                        "type": "boolean"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "$ref": "#/definitions/ApiReadResponseApiAllergy"
+                        }
+                    }
+                }
+            }
+        },
+        "/v2-beta/allergies/apiRefs": {
+            "get": {
+                "tags": [
+                    "Allergies"
+                ],
+                "summary": "Scope: PATIENT, CLINICIAN",
+                "description": "This operation is no longer supported.",
+                "operationId": "getApiRefs",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v2-beta/btg/log/{patientId}": {
+            "get": {
+                "tags": [
+                    "Break The Glass"
+                ],
+                "summary": "Scope: TEAMCOORD",
+                "description": "Fetch a log for btg events made against a patient by the current user. Returns a btg log",
+                "operationId": "getBtgLog",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "patientId",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "$ref": "#/definitions/BreakTheGlassLog"
+                        }
+                    }
+                }
+            }
+        },
+        "/v2-beta/btg/{patientId}": {
+            "post": {
+                "tags": [
+                    "Break The Glass"
+                ],
+                "summary": "Scope: TEAMCOORD",
+                "description": "Fetch a btg token for the current user to be used against a specific patient. Returns a breaktheglass token that will expire after a set time(usually 30 mins). If a client wishes to invoke the BreakTheGlass option, she must include an additional request header named: breaktheglass with the value returned by this call. e.g. breaktheglass: eyJhbGciOiJIUzI1NiJ9.eyJqdGk. This operation is currently not possible via Swagger. Please use Postman or simlar tools to test this.",
+                "operationId": "getBtgToken",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "patientId",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "successful operation",
+                        "schema": {
+                            "$ref": "#/definitions/BTG Token"
+                        }
+                    }
+                }
+            }
+        },
+        "/v2-beta/careplans/{patientId}": {
+            "get": {
+                "tags": [
+                    "Careplans"
+                ],
+                "summary": "Scope: CLINICIAN, TEAMCOORD",
+                "description": "Get careplans for the patient given by {patientId}, optionally linked to another data point",
+                "operationId": "getCarePlansForPatient",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "patientId",
+                        "in": "path",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ApiCarePlan"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v2-beta/datafromotherorgs/{patientId}": {
+            "get": {
+                "tags": [
+                    "Data"
+                ],
+                "summary": "Scope: TEAMCOORD",
+                "description": "This call returns a YES/NO indicating whether there is any data about the patient emanating from organizations other than the request caller",
+                "operationId": "getNewDataFromOtherOrgs",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "patientId",
+                        "in": "path",
+                        "description": "PKB patient id",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    {
+                        "name": "fromDate",
+                        "in": "query",
+                        "description": "fetch data not older than",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "toDate",
+                        "in": "query",
+                        "description": "fetch data not newer than",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/v2-beta/diagnoses/forPatient/{patientId}": {
+            "get": {
+                "tags": [
+                    "Diagnoses"
+                ],
+                "summary": "Scope: CLINICIAN",
+                "description": "Returns diagnoses for the specified patient. Please see the <a href=\"http://dev.patientsknowbest.com/home/data-model#TOC-Diagnosis\">[[Diagnosis]]</a> section of our Data Model for more information.",
+                "operationId": "getDiagnosesForPatient",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "patientId",
+                        "in": "path",
+                        "description": "The PKB ID of the patient whose diagnoses should be returned.",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    {
+                        "name": "updatedSince",
+                        "in": "query",
+                        "description": "If provided, only diagnoses where <a href=\"http://dev.patientsknowbest.com/home/data-model#TOC-Data-Point\">[[Diagnosis.Entered Timestamp]]</a> is greater than the provided value will be returned.",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "apiRef",
+                        "in": "query",
+                        "description": "This parameter is not currently supported.",
+                        "required": false,
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "multi"
+                    },
+                    {
+                        "name": "includeNegativeConditions",
+                        "in": "query",
+                        "description": "This parameter is not currently supported.",
+                        "required": false,
+                        "type": "boolean"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "$ref": "#/definitions/ApiReadResponseApiDiagnosis"
+                        }
+                    }
+                }
+            }
+        },
+        "/v2-beta/diagnoses/apiRefs": {
+            "get": {
+                "tags": [
+                    "Diagnoses"
+                ],
+                "summary": "Scope: PATIENT, CLINICIAN",
+                "description": "This operation is no longer supported.",
+                "operationId": "getApiRefs_1",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v2-beta/encounters": {
+            "get": {
+                "tags": [
+                    "Encounters"
+                ],
+                "summary": "Scope: PATIENT",
+                "description": "Finds encounters results for current patient",
+                "operationId": "getEncounters",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "reason",
+                        "in": "query",
+                        "description": "encounter reason",
+                        "required": false,
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "multi"
+                    },
+                    {
+                        "name": "updatedSince",
+                        "in": "query",
+                        "description": "timestamp since encounter was updated",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "encounterClass",
+                        "in": "query",
+                        "description": "Class of encounter",
+                        "required": false,
+                        "type": "string",
+                        "enum": [
+                            "IN_PATIENT",
+                            "OUT_PATIENT",
+                            "AMBULATORY",
+                            "EMERGENCY",
+                            "HOME",
+                            "FIELD",
+                            "DAYTIME",
+                            "VIRTUAL",
+                            "OTHER",
+                            "BLANK",
+                            "UNRECOGNISED"
+                        ]
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/Locale"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ApiEncounter"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v2-beta/measurements": {
+            "get": {
+                "tags": [
+                    "Measurements"
+                ],
+                "summary": "Find measurements results for patient",
+                "description": "Returns measurements per patient",
+                "operationId": "getMeasurements",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "apiRefs",
+                        "in": "query",
+                        "description": "list of api references",
+                        "required": false,
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "multi"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Measurement model"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v2-beta/measurements/{patientId}": {
+            "get": {
+                "tags": [
+                    "Measurements"
+                ],
+                "summary": "Find measurements results for patient",
+                "description": "Returns measurements per patient",
+                "operationId": "getMeasurementOfPatient",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "patientId",
+                        "in": "path",
+                        "description": "the PKB ID of the patient",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    {
+                        "name": "apiRefs",
+                        "in": "query",
+                        "description": "list of api references. ",
+                        "required": true,
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "multi"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Measurement model"
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Measurements"
+                ],
+                "summary": "Scope: PATIENT, CLINICIAN",
+                "description": "Creates measurements by patient. Returns result of operation",
+                "operationId": "createOrUpdateMeasurementsForPatient",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Api Measurement model V2",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/Measurement model"
+                        }
+                    },
+                    {
+                        "name": "patientId",
+                        "in": "path",
+                        "description": "Patient ID",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "$ref": "#/definitions/ApiWriteResponse"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "patient_oauth": [
+                            "PATIENT"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/v2-beta/measurements/apiRefs": {
+            "get": {
+                "tags": [
+                    "Measurements"
+                ],
+                "summary": "Scope: PUBLIC",
+                "description": "",
+                "operationId": "getMeasurementTypes",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "Your bearer token, in the form: Bearer <myBearerToken>",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "$ref": "#/definitions/ApiReadResponseApiMeasurementType"
+                        }
+                    }
+                }
+            }
+        },
+        "/v2-beta/tests/results": {
+            "get": {
+                "tags": [
+                    "Tests"
+                ],
+                "summary": "Scope: PATIENT",
+                "description": "Allows a patient to search for their test results based on one or more provided <a href=\"http://loinc.org\">LOINC codes</a>. Optionally, set latestOnly to true to retrieve only the most recent test result for each matching test type. Test results that have a non-expired delay will be omitted from the search results. Note that in PKB a test type is defined not just by the code but also by the units (this ensures all results for a given type can be graphed together safely). As such, searching by a single LOINC code might match more than one PKB test type, and so more than one result might be returned even with latestOnly set to true. Since this endpoint searches by LOINC code, test results that are not mapped to a supported LOINC code cannot be retrieved using this API call. See our guidance on the <a href=\"https://deploy.patientsknowbest.com/integrations/HL7/Path/LOINC\">Benefits of LOINC mapping</a> for more information.",
+                "operationId": "getTestResults",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "loincCode",
+                        "in": "query",
+                        "description": "One or more LOINC codes (repeat the parameter using & to provide multiple values). The search will only return results for test types associated with one of the provided codes. Example: ?loincCode=14743-9&loincCode=704-7",
+                        "required": true,
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "multi",
+                        "x-example": "704-7"
+                    },
+                    {
+                        "name": "latestOnly",
+                        "in": "query",
+                        "description": "If set to true then for each test type which matches the search criteria only the latest result will be returned. Defaults to false.",
+                        "required": false,
+                        "type": "boolean",
+                        "x-example": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Test Result model v2"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v2-beta/users/byNationalId/{nationalId}/{nationalIdType}": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Scope: PATIENT, CLINICIAN, TEAMCOORD",
+                "description": "Given a national number, this call provides a way to retrieve a user",
+                "operationId": "getNationalNumberByPatientId",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "nationalId",
+                        "in": "path",
+                        "description": "a national ID such as an NHS Number",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "nationalIdType",
+                        "in": "path",
+                        "description": "Type of Id. See /nationalIdTypes for options",
+                        "required": true,
+                        "type": "string",
+                        "enum": [
+                            "NHS_NUMBER",
+                            "CHI_NUMBER",
+                            "H_AND_C_NUMBER",
+                            "IHI_NUMBER",
+                            "SSN_USA",
+                            "SIN_CA",
+                            "HKID_HK",
+                            "BSN_NL",
+                            "KVN_DE",
+                            "CIVIL_ID_KW"
+                        ]
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "$ref": "#/definitions/ApiUser"
+                        }
+                    }
+                }
+            }
+        },
+        "/v2-beta/users/nationalIdTypes": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Scope: PUBLIC",
+                "description": "This call returns all supported NationalIdTypes",
+                "operationId": "getApiRefsNational",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "Auth Token in the form Bearer <my-token>",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "NHS_NUMBER",
+                                "CHI_NUMBER",
+                                "H_AND_C_NUMBER",
+                                "IHI_NUMBER",
+                                "SSN_USA",
+                                "SIN_CA",
+                                "HKID_HK",
+                                "BSN_NL",
+                                "KVN_DE",
+                                "CIVIL_ID_KW"
+                            ]
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "securityDefinitions": {
+        "user": {
+            "description": "",
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
+        }
+    },
+    "definitions": {
+        "RestError": {
+            "type": "object",
+            "properties": {
+                "statusCode": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "errorMessage": {
+                    "type": "string"
+                },
+                "developerMessage": {
+                    "type": "string"
+                }
+            }
+        },
+        "ApiAttachment": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "label": {
+                    "type": "string"
+                },
+                "mediaType": {
+                    "type": "string"
+                },
+                "uploadTime": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "contentUrl": {
+                    "type": "string"
+                }
+            }
+        },
+        "ApiConversation": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "messages": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ApiMessage"
+                    }
+                },
+                "participants": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ApiMessageUser"
+                    }
+                },
+                "latestMessageId": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "messageCount": {
+                    "type": "integer",
+                    "format": "int64"
+                }
+            },
+            "xml": {
+                "name": "Conversation"
+            }
+        },
+        "ApiMessage": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "conversationId": {
+                    "type": "string"
+                },
+                "subject": {
+                    "type": "string"
+                },
+                "content": {
+                    "type": "string"
+                },
+                "attachmentCount": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "attachments": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ApiAttachment"
+                    }
+                },
+                "timestamp": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "senderId": {
+                    "type": "string"
+                },
+                "onBehalfOfId": {
+                    "type": "string"
+                },
+                "htmlContent": {
+                    "type": "boolean"
+                },
+                "recipientIds": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "patientId": {
+                    "type": "string"
+                },
+                "messageStatus": {
+                    "type": "string"
+                }
+            },
+            "xml": {
+                "name": "Message"
+            }
+        },
+        "ApiMessageUser": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "firstName": {
+                    "type": "string"
+                },
+                "lastName": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "teamName": {
+                    "type": "string"
+                },
+                "jobTitle": {
+                    "type": "string"
+                }
+            }
+        },
+        "Locale": {
+            "type": "object",
+            "properties": {
+                "displayName": {
+                    "type": "string"
+                },
+                "script": {
+                    "type": "string"
+                },
+                "country": {
+                    "type": "string"
+                },
+                "variant": {
+                    "type": "string"
+                },
+                "extensionKeys": {
+                    "type": "array",
+                    "uniqueItems": true,
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "unicodeLocaleAttributes": {
+                    "type": "array",
+                    "uniqueItems": true,
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "unicodeLocaleKeys": {
+                    "type": "array",
+                    "uniqueItems": true,
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "iso3Language": {
+                    "type": "string"
+                },
+                "iso3Country": {
+                    "type": "string"
+                },
+                "displayLanguage": {
+                    "type": "string"
+                },
+                "displayScript": {
+                    "type": "string"
+                },
+                "displayCountry": {
+                    "type": "string"
+                },
+                "displayVariant": {
+                    "type": "string"
+                },
+                "language": {
+                    "type": "string"
+                }
+            }
+        },
+        "ApiSymptomReport": {
+            "type": "object",
+            "required": [
+                "reportDateISO",
+                "severity0to3",
+                "symptomApiRef"
+            ],
+            "properties": {
+                "symptomApiRef": {
+                    "type": "string",
+                    "example": "stomachAcheAbdominalPain",
+                    "description": "Code of symptom (e.g. 'stomachAcheAbdominalPain'). Use <a href='#!/Symptoms/getAllSymptoms'>/v1/symptoms/all</a> to see possible values."
+                },
+                "severity0to3": {
+                    "type": "integer",
+                    "format": "int32",
+                    "example": 0,
+                    "description": "Severity of symptom. Can be between 0-3",
+                    "enum": [
+                        0,
+                        1,
+                        2,
+                        3
+                    ]
+                },
+                "reportDateISO": {
+                    "type": "string",
+                    "example": "2019-07-02T12:53:25.395Z",
+                    "description": "Date of symptom occurrence. Can be provided with time (yyyy-MM-dd'T'HH:mm:ss.SSSZ - e.g. 2019-07-02T12:53:25.395Z) or without time (yyyy-mm-dd - e.g. 2019-07-02)"
+                }
+            },
+            "xml": {
+                "name": "SymptomReport"
+            }
+        },
+        "ApiMetric": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "apiRef": {
+                    "type": "string"
+                }
+            }
+        },
+        "ApiTreatmentPlan": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "patientId": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "version": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "lastEditedOn": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "creationDate": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "enteredDate": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "persistedDate": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "lastEditedOnISO": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "note": {
+                    "type": "string"
+                },
+                "fields": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Field"
+                    }
+                },
+                "attachments": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ApiAttachment"
+                    }
+                },
+                "symptoms": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ApiMetric"
+                    }
+                },
+                "measurements": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ApiMetric"
+                    }
+                },
+                "tests": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ApiMetric"
+                    }
+                }
+            },
+            "xml": {
+                "name": "TreatmentPlan"
+            }
+        },
+        "Field": {
+            "type": "object",
+            "properties": {
+                "label": {
+                    "type": "string"
+                },
+                "text": {
+                    "type": "string"
+                }
+            }
+        },
+        "ApiContact": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "contactType": {
+                    "type": "string"
+                },
+                "contactValue": {
+                    "type": "string"
+                },
+                "primary": {
+                    "type": "boolean"
+                },
+                "confirmed": {
+                    "type": "boolean"
+                }
+            },
+            "xml": {
+                "name": "Contact"
+            }
+        },
+        "ApiNationalId": {
+            "type": "object",
+            "properties": {
+                "value": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "countryCodes": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            },
+            "xml": {
+                "name": "NationalId"
+            }
+        },
+        "ApiOrgLevelId": {
+            "type": "object",
+            "properties": {
+                "value": {
+                    "type": "string"
+                }
+            },
+            "xml": {
+                "name": "OrgLevelId"
+            }
+        },
+        "ApiTeamLevelId": {
+            "type": "object",
+            "properties": {
+                "value": {
+                    "type": "string"
+                }
+            },
+            "xml": {
+                "name": "OrgLevelId"
+            }
+        },
+        "ApiUser": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "userType": {
+                    "type": "string",
+                    "enum": [
+                        "PATIENT",
+                        "REG_CLINICIAN",
+                        "INSTITUTE_ADMIN"
+                    ]
+                },
+                "heightCm": {
+                    "type": "string"
+                },
+                "heightFeet": {
+                    "type": "string"
+                },
+                "heightInches": {
+                    "type": "string"
+                },
+                "heightInchesTotal": {
+                    "type": "string"
+                },
+                "weightKg": {
+                    "type": "string"
+                },
+                "weightLbs": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "firstName": {
+                    "type": "string"
+                },
+                "lastName": {
+                    "type": "string"
+                },
+                "dob": {
+                    "type": "string"
+                },
+                "dateDeceased": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "genderMF": {
+                    "type": "string"
+                },
+                "gender": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "phone": {
+                    "type": "string"
+                },
+                "address1": {
+                    "type": "string"
+                },
+                "address2": {
+                    "type": "string"
+                },
+                "city": {
+                    "type": "string"
+                },
+                "state": {
+                    "type": "string"
+                },
+                "postalCode": {
+                    "type": "string"
+                },
+                "country": {
+                    "type": "string"
+                },
+                "jobTitle": {
+                    "type": "string"
+                },
+                "organizationName": {
+                    "type": "string"
+                },
+                "teamName": {
+                    "type": "string"
+                },
+                "nationalIds": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ApiNationalId"
+                    }
+                },
+                "orgLevelIds": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ApiOrgLevelId"
+                    }
+                },
+                "teamLevelIds": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ApiTeamLevelId"
+                    }
+                },
+                "contacts": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ApiContact"
+                    }
+                },
+                "patient": {
+                    "type": "boolean"
+                }
+            },
+            "xml": {
+                "name": "User"
+            }
+        },
+        "ApiWriteResponse": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "operationPerformed": {
+                    "type": "string",
+                    "enum": [
+                        "CREATED",
+                        "UPDATED",
+                        "DELETED"
+                    ]
+                }
+            }
+        },
+        "ApiPatientAdditionalConsent": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "teamCode": {
+                    "type": "string"
+                },
+                "additionalConsent": {
+                    "type": "string",
+                    "enum": [
+                        "CONTACT_BY_EMAIL",
+                        "CONTACT_BY_SMS",
+                        "CONTACT_BY_POST",
+                        "CONTACT_FOR_RESEARCH",
+                        "SAMPLE_STORAGE"
+                    ]
+                }
+            }
+        },
+        "ApiPatientConsent": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "generalHealthConsentGranted": {
+                    "type": "boolean"
+                },
+                "sexualHealthConsentGranted": {
+                    "type": "boolean"
+                },
+                "mentalHealthConsentGranted": {
+                    "type": "boolean"
+                },
+                "socialCareConsentGranted": {
+                    "type": "boolean"
+                },
+                "reason": {
+                    "$ref": "#/definitions/ApiPatientConsentReason"
+                }
+            }
+        },
+        "ApiPatientConsentReason": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "generalHealthConsentGrantedReason": {
+                    "type": "string",
+                    "enum": [
+                        "MIGRATED",
+                        "CREATED_ACCOUNT",
+                        "REFERRAL",
+                        "POA",
+                        "COURT_ORDER",
+                        "EXPLICIT_CONSENT"
+                    ]
+                },
+                "generalHealthConsentGrantedReasonText": {
+                    "type": "string"
+                },
+                "socialCareConsentGrantedReason": {
+                    "type": "string",
+                    "enum": [
+                        "MIGRATED",
+                        "CREATED_ACCOUNT",
+                        "REFERRAL",
+                        "POA",
+                        "COURT_ORDER",
+                        "EXPLICIT_CONSENT"
+                    ]
+                },
+                "socialCareConsentGrantedReasonText": {
+                    "type": "string"
+                },
+                "mentalHealthConsentGrantedReason": {
+                    "type": "string",
+                    "enum": [
+                        "MIGRATED",
+                        "CREATED_ACCOUNT",
+                        "REFERRAL",
+                        "POA",
+                        "COURT_ORDER",
+                        "EXPLICIT_CONSENT"
+                    ]
+                },
+                "mentalHealthConsentGrantedReasonText": {
+                    "type": "string"
+                },
+                "sexualHealthConsentGrantedReason": {
+                    "type": "string",
+                    "enum": [
+                        "MIGRATED",
+                        "CREATED_ACCOUNT",
+                        "REFERRAL",
+                        "POA",
+                        "COURT_ORDER",
+                        "EXPLICIT_CONSENT"
+                    ]
+                },
+                "sexualHealthConsentGrantedReasonText": {
+                    "type": "string"
+                }
+            }
+        },
+        "ApiReadResponse": {
+            "type": "object",
+            "properties": {
+                "results": {
+                    "type": "array",
+                    "items": {
+                        "type": "object"
+                    }
+                }
+            }
+        },
+        "ApiReadResponseApiPatientConsent": {
+            "type": "object",
+            "properties": {
+                "results": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ApiPatientConsent"
+                    }
+                }
+            }
+        },
+        "ApiReadResponseApiPatientAdditionalConsent": {
+            "type": "object",
+            "properties": {
+                "results": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ApiPatientAdditionalConsent"
+                    }
+                }
+            }
+        },
+        "ApiJournalEntry": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "date": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "authorId": {
+                    "type": "string"
+                },
+                "subjectOfEntry": {
+                    "type": "string"
+                },
+                "entryTextPlain": {
+                    "type": "string"
+                },
+                "entryTextHtml": {
+                    "type": "string"
+                }
+            }
+        },
+        "ApiMeasurement": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "measureDate": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "measureDateISO": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "number",
+                    "format": "double"
+                },
+                "value2": {
+                    "type": "number",
+                    "format": "double"
+                },
+                "apiRef": {
+                    "type": "string"
+                }
+            },
+            "xml": {
+                "name": "Measurement"
+            }
+        },
+        "ApiMedication": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "apiRef": {
+                    "type": "string"
+                },
+                "substance": {
+                    "type": "string"
+                },
+                "doseValue": {
+                    "type": "number",
+                    "format": "double"
+                },
+                "doseUnit": {
+                    "type": "string"
+                },
+                "frequency": {
+                    "type": "string"
+                },
+                "patientOnMedication": {
+                    "type": "boolean"
+                },
+                "additionalInstructions": {
+                    "type": "string"
+                },
+                "startDate": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "endDate": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "persistedDate": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "notedTimestamp": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "enteredDate": {
+                    "type": "string",
+                    "format": "date-time"
+                }
+            },
+            "xml": {
+                "name": "Medication"
+            }
+        },
+        "ApiReadResponseApiMedication": {
+            "type": "object",
+            "properties": {
+                "results": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ApiMedication"
+                    }
+                }
+            }
+        },
+        "ApiWebappOTP": {
+            "type": "object",
+            "properties": {
+                "otp_token": {
+                    "type": "string"
+                }
+            }
+        },
+        "ApiReadResponseApiTeamSymptoms": {
+            "type": "object",
+            "properties": {
+                "results": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ApiTeamSymptoms"
+                    }
+                }
+            }
+        },
+        "ApiSymptom": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "apiRef": {
+                    "type": "string"
+                },
+                "severity0Text": {
+                    "type": "string"
+                },
+                "severity1Text": {
+                    "type": "string"
+                },
+                "severity2Text": {
+                    "type": "string"
+                },
+                "severity3Text": {
+                    "type": "string"
+                }
+            }
+        },
+        "ApiTeamSymptoms": {
+            "type": "object",
+            "properties": {
+                "teamName": {
+                    "type": "string"
+                },
+                "symptoms": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ApiSymptom"
+                    }
+                }
+            }
+        },
+        "ApiReadResponseApiSymptom": {
+            "type": "object",
+            "properties": {
+                "results": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ApiSymptom"
+                    }
+                }
+            }
+        },
+        "ApiReadResponseApiSymptomReport": {
+            "type": "object",
+            "properties": {
+                "results": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ApiSymptomReport"
+                    }
+                }
+            }
+        },
+        "ApiTest": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "A PKB-assigned ID which identifies this particular test type."
+                },
+                "code": {
+                    "type": "string",
+                    "description": "The test code."
+                },
+                "name": {
+                    "type": "string",
+                    "description": "A human readable name for this test."
+                },
+                "testResults": {
+                    "type": "array",
+                    "description": "A list of results for this test.",
+                    "items": {
+                        "$ref": "#/definitions/ApiTestResult"
+                    }
+                },
+                "unit": {
+                    "type": "string",
+                    "description": "The units in which the result was measured."
+                },
+                "codeSystem": {
+                    "type": "string",
+                    "description": "The coding system from which the test code was taken."
+                }
+            },
+            "xml": {
+                "name": "Test"
+            }
+        },
+        "ApiTestResult": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "A PKB-assigned ID which identifies this particular test result."
+                },
+                "resultDate": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "The clinically relevant timestamp of the result."
+                },
+                "value": {
+                    "type": "string",
+                    "description": "The value of the result. It may be either numeric or textual."
+                },
+                "comments": {
+                    "type": "string",
+                    "description": "Any comments accompanying the result value. If this result was a single textual report then there will be only comments (no value)."
+                },
+                "rangeHigh": {
+                    "type": "number",
+                    "format": "double",
+                    "description": "The upper limit of the reference range, if the range was numeric."
+                },
+                "rangeLow": {
+                    "type": "number",
+                    "format": "double",
+                    "description": "The lower limit of the reference range, if the range was numeric."
+                }
+            },
+            "xml": {
+                "name": "TestResult"
+            }
+        },
+        "ApiReadResponseApiTreatmentPlan": {
+            "type": "object",
+            "properties": {
+                "results": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ApiTreatmentPlan"
+                    }
+                }
+            }
+        },
+        "ApiLetterInvitation": {
+            "type": "object",
+            "properties": {
+                "invitationCode": {
+                    "type": "string"
+                },
+                "token": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string",
+                    "enum": [
+                        "NOT_INVITED_NOT_REGISTERED",
+                        "INVITED_NOT_REGISTERED"
+                    ]
+                }
+            }
+        },
+        "ErrorDetails": {
+            "type": "object",
+            "properties": {
+                "errorCode": {
+                    "type": "string"
+                },
+                "messages": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "ValidationRestError": {
+            "type": "object",
+            "properties": {
+                "statusCode": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "errorMessage": {
+                    "type": "string"
+                },
+                "developerMessage": {
+                    "type": "string"
+                },
+                "errorDetails": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ErrorDetails"
+                    }
+                }
+            }
+        },
+        "ApiReadResponseApiUserPublicId": {
+            "type": "object",
+            "properties": {
+                "results": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ApiUserPublicId"
+                    }
+                }
+            }
+        },
+        "ApiUserPublicId": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "userType": {
+                    "type": "string",
+                    "enum": [
+                        "PATIENT",
+                        "REG_CLINICIAN",
+                        "INSTITUTE_ADMIN"
+                    ]
+                },
+                "heightCm": {
+                    "type": "string"
+                },
+                "heightFeet": {
+                    "type": "string"
+                },
+                "heightInches": {
+                    "type": "string"
+                },
+                "heightInchesTotal": {
+                    "type": "string"
+                },
+                "weightKg": {
+                    "type": "string"
+                },
+                "weightLbs": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "firstName": {
+                    "type": "string"
+                },
+                "lastName": {
+                    "type": "string"
+                },
+                "dob": {
+                    "type": "string"
+                },
+                "dateDeceased": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "genderMF": {
+                    "type": "string"
+                },
+                "gender": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "phone": {
+                    "type": "string"
+                },
+                "address1": {
+                    "type": "string"
+                },
+                "address2": {
+                    "type": "string"
+                },
+                "city": {
+                    "type": "string"
+                },
+                "state": {
+                    "type": "string"
+                },
+                "postalCode": {
+                    "type": "string"
+                },
+                "country": {
+                    "type": "string"
+                },
+                "jobTitle": {
+                    "type": "string"
+                },
+                "organizationName": {
+                    "type": "string"
+                },
+                "teamName": {
+                    "type": "string"
+                },
+                "nationalIds": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ApiNationalId"
+                    }
+                },
+                "orgLevelIds": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ApiOrgLevelId"
+                    }
+                },
+                "teamLevelIds": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ApiTeamLevelId"
+                    }
+                },
+                "contacts": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ApiContact"
+                    }
+                },
+                "publicId": {
+                    "type": "string",
+                    "format": "uuid"
+                },
+                "patient": {
+                    "type": "boolean"
+                }
+            },
+            "xml": {
+                "name": "User"
+            }
+        },
+        "ApiAllergy": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "format": "uuid"
+                },
+                "substanceCode": {
+                    "type": "string"
+                },
+                "allergen": {
+                    "type": "string"
+                },
+                "onsetOfSymptoms": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "enteredDate": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "reactions": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "severity": {
+                    "type": "string"
+                },
+                "persistedDate": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "patientIsAllergic": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "ApiReadResponseApiAllergy": {
+            "type": "object",
+            "properties": {
+                "results": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ApiAllergy"
+                    }
+                }
+            }
+        },
+        "BreakTheGlassLog": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "accessingPersonId": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "teamId": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "patientPersonId": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "accessTime": {
+                    "type": "integer",
+                    "format": "int64"
+                }
+            }
+        },
+        "BTG Token": {
+            "type": "object",
+            "properties": {
+                "token": {
+                    "type": "string",
+                    "description": "token string."
+                },
+                "expiryTimeStamp": {
+                    "type": "integer",
+                    "format": "int64",
+                    "description": "Unix timestamp indicating expiry."
+                }
+            },
+            "description": "Version 2 of the BTG token"
+        },
+        "ApiCarePlan": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "format": "uuid"
+                },
+                "subject": {
+                    "type": "string"
+                },
+                "version": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "modified": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "lastEditedOnISO": {
+                    "type": "string"
+                },
+                "creationDate": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "enteredDate": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "persistedDate": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "note": {
+                    "type": "string"
+                },
+                "creator": {
+                    "$ref": "#/definitions/ApiParticipant"
+                },
+                "lastEditor": {
+                    "$ref": "#/definitions/ApiParticipant"
+                },
+                "status": {
+                    "type": "string",
+                    "enum": [
+                        "APPROVED",
+                        "INDRAFT",
+                        "ACTIVE",
+                        "DELETED",
+                        "COMPLETED",
+                        "NULL"
+                    ]
+                },
+                "approvalStatus": {
+                    "type": "string",
+                    "enum": [
+                        "APPROVED",
+                        "AWAITING_APPROVAL",
+                        "NULL"
+                    ]
+                },
+                "approverId": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "reviewDate": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "editableStatus": {
+                    "type": "string",
+                    "enum": [
+                        "ALL",
+                        "CREATOR"
+                    ]
+                }
+            }
+        },
+        "ApiParticipant": {
+            "type": "object",
+            "properties": {
+                "pkbParticipantId": {
+                    "type": "string"
+                },
+                "nonPkbParticipant": {
+                    "type": "string"
+                },
+                "participantRole": {
+                    "type": "string",
+                    "enum": [
+                        "BLANK",
+                        "ADMITTER",
+                        "DISCHARGER",
+                        "CONSULTANT",
+                        "ATTENDER",
+                        "REFERRER",
+                        "CARER",
+                        "PATIENT",
+                        "UNRECOGNISED"
+                    ]
+                },
+                "firstName": {
+                    "type": "string"
+                },
+                "lastName": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "teamName": {
+                    "type": "string"
+                },
+                "jobTitle": {
+                    "type": "string"
+                }
+            }
+        },
+        "ApiDiagnosis": {
+            "type": "object",
+            "properties": {
+                "enteredDate": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "persistedDate": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "id": {
+                    "type": "string",
+                    "format": "uuid"
+                },
+                "apiRef": {
+                    "type": "string"
+                },
+                "diagnosis": {
+                    "type": "string"
+                },
+                "startDate": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "endDate": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "patientHasCondition": {
+                    "type": "boolean"
+                },
+                "abatementEstimatedDate": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "abatementAge": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "abatementInRemission": {
+                    "type": "boolean"
+                },
+                "details": {
+                    "type": "string"
+                },
+                "severity": {
+                    "type": "string"
+                }
+            }
+        },
+        "ApiReadResponseApiDiagnosis": {
+            "type": "object",
+            "properties": {
+                "results": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ApiDiagnosis"
+                    }
+                }
+            }
+        },
+        "ApiEncounter": {
+            "type": "object",
+            "required": [
+                "encounterClass",
+                "reason"
+            ],
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "format": "uuid"
+                },
+                "encounterClass": {
+                    "type": "string",
+                    "enum": [
+                        "IN_PATIENT",
+                        "OUT_PATIENT",
+                        "AMBULATORY",
+                        "EMERGENCY",
+                        "HOME",
+                        "FIELD",
+                        "DAYTIME",
+                        "VIRTUAL",
+                        "OTHER",
+                        "BLANK",
+                        "UNRECOGNISED"
+                    ]
+                },
+                "startDate": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "endDate": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "indication": {
+                    "type": "string"
+                },
+                "patientId": {
+                    "type": "string"
+                },
+                "participants": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ApiParticipant"
+                    }
+                },
+                "reason": {
+                    "type": "string",
+                    "enum": [
+                        "emergencyRoomAdmission",
+                        "antenatalAdmission",
+                        "antenatalTelephoneCall",
+                        "antenatalSecondAssessment",
+                        "antenatalDayAssessment",
+                        "antenatalOtherContact"
+                    ]
+                },
+                "enteredDate": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "persistedDate": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "messages": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ApiEncounterMessage"
+                    }
+                },
+                "status": {
+                    "type": "string",
+                    "enum": [
+                        "PLANNED",
+                        "ARRIVED",
+                        "IN_PROGRESS",
+                        "ON_LEAVE",
+                        "FINISHED",
+                        "CANCELLED",
+                        "BLANK",
+                        "UNRECOGNISED"
+                    ]
+                }
+            },
+            "description": "Encounter mdoel"
+        },
+        "ApiEncounterMessage": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "contentType": {
+                    "type": "string"
+                },
+                "body": {
+                    "type": "string"
+                },
+                "subject": {
+                    "type": "string"
+                },
+                "senderId": {
+                    "type": "string"
+                },
+                "enteredDate": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "persistedDate": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "attachments": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ApiAttachment"
+                    }
+                }
+            }
+        },
+        "Measurement model": {
+            "type": "object",
+            "required": [
+                "value"
+            ],
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "format": "uuid",
+                    "description": "Identifying ID for a measurement."
+                },
+                "measureDate": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "This refers to the date the measurement was made."
+                },
+                "enteredDate": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "the date that the info was entered into a medical system (eg it could report a measurement made last week)"
+                },
+                "persistedDate": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "This refers to exactly when the measurement was saved to the database. This value is set by the server and must never be provided by the client."
+                },
+                "value": {
+                    "type": "number",
+                    "format": "double",
+                    "description": "Primary measurement value."
+                },
+                "value2": {
+                    "type": "number",
+                    "format": "double",
+                    "description": "Secondary measurement value. Useful for example where a measurement has two components e.g. Blood Pressure or Height in Feet and inches"
+                },
+                "apiRef": {
+                    "type": "string",
+                    "description": "Api Reference. see /apirefs for allowed values"
+                }
+            },
+            "description": "Version 2 of the Measurements model"
+        },
+        "ApiMeasurementType": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "apiRef": {
+                    "type": "string"
+                },
+                "category": {
+                    "type": "string",
+                    "enum": [
+                        "BMI",
+                        "VITAL_SIGNS",
+                        "STRENGTH",
+                        "BREATHING",
+                        "CHILDHOOD",
+                        "NUTRITION",
+                        "FITNESS",
+                        "ROUTINE",
+                        "SLEEP",
+                        "PREGNANCY",
+                        "DRUG_ALCOHOL"
+                    ]
+                },
+                "unit": {
+                    "type": "string"
+                },
+                "unit2": {
+                    "type": "string"
+                },
+                "code": {
+                    "type": "string"
+                },
+                "code2": {
+                    "type": "string"
+                },
+                "codeOfWhole": {
+                    "type": "string"
+                },
+                "codeSystem": {
+                    "type": "string"
+                },
+                "codeSystemName": {
+                    "type": "string"
+                }
+            }
+        },
+        "ApiReadResponseApiMeasurementType": {
+            "type": "object",
+            "properties": {
+                "results": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ApiMeasurementType"
+                    }
+                }
+            }
+        },
+        "Test Result model v2": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "format": "uuid",
+                    "description": "A PKB-assigned UUID which identifies this particular test result."
+                },
+                "textValue": {
+                    "type": "string",
+                    "description": "A textual representation of the result for textual or structured numeric results. This field is not populated for plain numeric results."
+                },
+                "resultDate": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "The clinically relevant timestamp of the result."
+                },
+                "resultDateIncludesTimestamp": {
+                    "type": "boolean",
+                    "description": "Whether or not resultDate was provided with a time in addition to the date."
+                },
+                "value": {
+                    "type": "string",
+                    "description": "The value of plain numeric results, or the number component of a structured numeric result."
+                },
+                "comments": {
+                    "type": "string",
+                    "description": "Any comments accompanying the result value. If this result was a single textual report then there will be only comments (no value)."
+                },
+                "rangeLow": {
+                    "type": "number",
+                    "format": "double",
+                    "description": "The lower limit of the reference range, if the range was numeric."
+                },
+                "rangeLowInclusive": {
+                    "type": "boolean",
+                    "description": "Whether or not the rangeLow value is inclusive."
+                },
+                "rangeHigh": {
+                    "type": "number",
+                    "format": "double",
+                    "description": "The upper limit of the reference range, if the range was numeric."
+                },
+                "rangeHighInclusive": {
+                    "type": "boolean",
+                    "description": "Whether or not the rangeHigh value is inclusive."
+                },
+                "textRange": {
+                    "type": "string",
+                    "description": "The reference range of the result, if it was textual."
+                },
+                "unit": {
+                    "type": "string",
+                    "description": "The units in which the result was measured."
+                },
+                "delayDisplayDays": {
+                    "type": "integer",
+                    "format": "int64",
+                    "description": "The number of days for which the display of this result was delayed to patients."
+                },
+                "loincCode": {
+                    "type": "string",
+                    "description": "The LOINC code of the result. Note that since locally-coded test results can be mapped by PKB to common LOINC codes, this value might not be the same as the originally provided test code."
+                },
+                "enteredDate": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "The timestamp when the result was entered."
+                },
+                "persistedDate": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "The timestamp when the result was persisted by the server."
+                }
+            },
+            "xml": {
+                "name": "V2TestResult",
+                "namespace": "v2-beta"
+            },
+            "description": "Represents a test result"
+        }
+    }
+}

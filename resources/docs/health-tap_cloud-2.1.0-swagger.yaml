@@ -1,0 +1,4970 @@
+swagger: '2.0'
+info:
+  version: 2.1.0
+  title: HealthTap Cloud
+  description: >-
+    HealthTap cloud is a open platform where top health developers make their
+    apps interoperable, engaging, and smart
+  termsOfService: 'https://www.healthtap.com/terms'
+  contact:
+    name: HealthTap API Team
+  license:
+    name: MIT
+securityDefinitions:
+  oauth:
+    type: oauth2
+    authorizationUrl: 'https://next-enterpriseqa.healthtap.com/oauth/authorize'
+    tokenUrl: 'https://next-enterpriseqa.healthtap.com/oauth/token'
+    flow: accessCode
+    scopes:
+      member_write: modify your account
+      member_read: read your profile
+host: next-enterpriseqa.healthtap.com
+basePath: /api/v2.1
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /users/me/basic_profile:
+    get:
+      description: Get current user's basic profile
+      operationId: User Profile
+      summary: Get Basic Profile
+      produces:
+        - application/json
+      tags:
+        - User
+      security:
+        - oauth:
+            - member_read
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/user_profile'
+    put:
+      description: >-
+        Update health profiles for current user. You can update the following
+        fields with value and unit:
+              city, state, country, postcode, gender, dob, given_name, family_name, middle_name, email, phone, phone_country_code,
+              address_line_1, address_line_2, address_city, address_state, address_postcode, address_country.
+              If you want to customize fields, please contact us.
+      operationId: put_health_profile
+      summary: Update Basic Profile
+      produces:
+        - application/json
+      tags:
+        - User
+      security:
+        - oauth:
+            - member_write
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/basic_profile_input'
+      responses:
+        '204':
+          description: no content
+  /users/me/feed:
+    get:
+      description: Get user's feed
+      operationId: User feed
+      summary: Get Feed
+      produces:
+        - application/json
+      tags:
+        - Engagement
+      security:
+        - oauth:
+            - member_read
+      parameters:
+        - name: page
+          description: pagination setting
+          required: false
+          in: query
+          type: integer
+        - name: per_page
+          description: pagination setting
+          required: false
+          in: query
+          type: integer
+      responses:
+        '200':
+          description: success
+          schema:
+            $ref: '#/definitions/user_feed'
+  /users/me/checklists:
+    get:
+      description: Get user's checklists
+      operationId: User checklists
+      summary: Get Checklists
+      produces:
+        - application/json
+      tags:
+        - Engagement
+      security:
+        - oauth:
+            - member_read
+      parameters:
+        - name: page
+          description: pagination setting
+          required: false
+          in: query
+          type: integer
+        - name: per_page
+          description: pagination setting
+          required: false
+          in: query
+          type: integer
+      responses:
+        '200':
+          description: success
+          schema:
+            $ref: '#/definitions/checklist_schema'
+  /users:
+    post:
+      description: Create a new user account
+      operationId: Create User Account
+      summary: Create User Account
+      produces:
+        - application/json
+      tags:
+        - User
+      security:
+        - {}
+      parameters:
+        - name: username
+          type: string
+          in: formData
+          description: username (can be your internal user id)
+          required: true
+        - name: password
+          type: string
+          in: formData
+          description: password
+          required: true
+      responses:
+        '201':
+          description: success
+          schema:
+            $ref: '#/definitions/user_credential'
+  /users/me/health_profile:
+    put:
+      description: >-
+        Update health profiles for current user. You can update the following
+        fields with value and unit:
+              city, state, country, postcode, gender, dob, given_name, family_name, middle_name, email, phone, phone_country_code,
+              address_line_1, address_line_2, address_city, address_state, address_postcode, address_country,
+              ethnicity, height, weight, dietary_restriction, sexually_active, alcohol_use,
+              tobacco_use, recreational_drug_use.
+              If you want to customize fields, please contact us.
+      operationId: put_health_profile
+      summary: Update Health Profile
+      produces:
+        - application/json
+      tags:
+        - User
+      security:
+        - oauth:
+            - member_write
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/health_profile_input'
+      responses:
+        '204':
+          description: no content
+    get:
+      description: |-
+        <p>Get current user's overall health profile</p>
+
+              <div class='profile-item profile-title-wrap'><div class='profile-property profile-title'>Property</div><div class='profile-description profile-title'>Description</div></div>
+
+              <div class='profile-item'><div class='profile-property'>Medications</div><div class='profile-description'>A list of medications, including notes, that user either took in the past or is currently taking</div></div>
+
+              <div class='profile-item'><div class='profile-property'>Allergies</div><div class='profile-description'>A list of medical allergies the user has experienced so far</div></div>
+
+              <div class='profile-item'><div class='profile-property'>Conditions and Symptoms</div><div class='profile-description'>A list of conditions and symptoms the user has exhibited so far</div></div>
+
+              <div class='profile-item'><div class='profile-property'>Treatments</div><div class='profile-description'>A list of treatments, including notes, the user has undergone so far</div></div>
+
+              <div class='profile-item'><div class='profile-property'>Vaccinations</div><div class='profile-description'>A list of vaccinations the user has been given so far</div></div>
+
+              <div class='profile-item'><div class='profile-property'>Pregnancy</div><div class='profile-description'>The user's pregnancy details</div></div>
+
+              <div class='profile-item'><div class='profile-property'>Family History</div><div class='profile-description'>Health profiles of the user's family members</div></div>
+
+              <div class='profile-item'><div class='profile-property'>Pharmacy Details</div><div class='profile-description'>The address and ID of the pharmacy the user use to fill medications</div></div>
+
+              <div class='profile-item'><div class='profile-property'>Lifestyle</div><div class='profile-description'>The user's dietary_restrictions, recreational_drug use, alcohol use, tobacco use and sexual activity</div></div>
+
+              <div class='profile-item'><div class='profile-property'>Health Metrics</div><div class='profile-description'>The user's health metrics</div></div>
+
+              <div class='profile-item'><div class='profile-property'>Lab results</div><div class='profile-description'>A list of the user's test results</div></div>
+
+              <div class='profile-item'><div class='profile-property'>Mailing Address</div><div class='profile-description'>The user's mailing address</div></div>
+
+              <div class='profile-item'><div class='profile-property'>Mobile phone</div><div class='profile-description'>The user's mobile phone</div></div>
+
+              <div class='profile-item'><div class='profile-property'>Work Email</div><div class='profile-description'>The user's work email</div></div>
+
+              <div class='profile-item'><div class='profile-property'>Photo</div><div class='profile-description'>The user's photo url</div></div>
+
+              <div class='profile-item'><div class='profile-property'>Age</div><div class='profile-description'>The user's age</div></div>
+
+              <div class='profile-item'><div class='profile-property'>Gender</div><div class='profile-description'>The user's gender</div></div>
+
+              <div class='profile-item'><div class='profile-property'>Ethnicity</div><div class='profile-description'>The user's ethnicity</div></div>
+
+              <div class='profile-item'><div class='profile-property'>Height</div><div class='profile-description'>The user's height</div></div>
+
+              <div class='profile-item'><div class='profile-property'>Weight</div><div class='profile-description'>The user's weight</div></div>
+              
+      operationId: get_health_profiles
+      summary: Get Health Profile
+      produces:
+        - application/json
+      tags:
+        - User
+      security:
+        - oauth:
+            - member_read
+      responses:
+        '200':
+          description: success
+          schema:
+            $ref: '#/definitions/health_profile'
+  /users/me/ccds:
+    get:
+      description: Return full CCDs available for the user including the raw xml.
+      operationId: get_CCD
+      summary: Get CCD
+      produces:
+        - application/json
+      tags:
+        - User
+      security:
+        - oauth:
+            - member_read
+      responses:
+        '200':
+          description: success
+          schema:
+            properties:
+              links:
+                required:
+                  - self
+                properties:
+                  self:
+                    type: string
+                    example: 'https://www.healthtap.com/api/v2.1/users/me/ccds'
+              data:
+                type: array
+                items:
+                  properties:
+                    type:
+                      type: string
+                      example: CCD
+                    id:
+                      type: string
+                      example: 54e35f5de0b3d53af2c65921
+                    attributes:
+                      properties:
+                        source:
+                          type: string
+                          example: emr-1-320
+                        expert:
+                          type: string
+                          example: Alex Williams
+                        organization:
+                          properties:
+                            id:
+                              type: string
+                              example: 53c050ac51c69003200aa998
+                            name:
+                              type: string
+                              example: Mayo Clinic
+                        locale:
+                          type: string
+                          example: en-US
+  /users/me/timeline:
+    get:
+      description: |-
+        <p>Get a list of medical timeline of the user</p>
+
+              <div class='profile-item profile-title-wrap'><div class='profile-property profile-title'>Timeline Types</div><div class='profile-description profile-title'>Details</div></div>
+
+              <div class='profile-item'><div class='profile-property'>Asked a question</div><div class='profile-description'>question: question text,<br>question_id: question id</div></div>
+
+              <div class='profile-item'><div class='profile-property'>Completed a consult</div><div class='profile-description'>consult_reason: the reason to call for a consult,<br>expert: expert you did consult with</div></div>
+
+              <div class='profile-item'><div class='profile-property'>Added a health metrics</div><div class='profile-description'>category: category of added health metrics,<br>value: value of the metrics, <br>unit: the unit of the metrics</div></div>
+
+              <div class='profile-item'><div class='profile-property'>Scheduled an appointment</div><div class='profile-description'>appointment_id: appointment id,<br>expert: expert you will talked to, <br> appointment_time: appointment time, <br> appointment reason: the reason for this appointment</div></div>
+
+              <div class='profile-item'><div class='profile-property'>Made a test order</div><div class='profile-description'>type: type of test,<br>test_order_id: test order id</div></div>
+
+              <div class='profile-item'><div class='profile-property'>Received a test result</div><div class='profile-description'>type: type of test,<br>test_order_id: test order id, <br>result: the result of test</div></div>
+
+              <div class='profile-item'><div class='profile-property'>Received a prescription</div><div class='profile-description'>prescription_id: prescription id,<br>prescription: prescription details</div></div>
+
+              <div class='profile-item'><div class='profile-property'>Added a topic</div><div class='profile-description'>topic_id: topic id,<br>topic_type: topic type, <br>topic_name: the name of topic</div></div>
+
+              
+      operationId: get_timeline
+      summary: Get Timeline
+      produces:
+        - application/json
+      tags:
+        - User
+      security:
+        - oauth:
+            - member_read
+      responses:
+        '200':
+          description: success
+          schema:
+            properties:
+              links:
+                required:
+                  - self
+                properties:
+                  self:
+                    type: string
+                    example: 'https://www.healthtap.com/api/v2.1/users/me/timeline'
+              data:
+                type: array
+                items:
+                  properties:
+                    type:
+                      type: string
+                      example: CompletedConsult
+                    id:
+                      type: string
+                      example: '1000'
+                    attributes:
+                      properties:
+                        timestamp:
+                          type: string
+                          example: '2014-05-13T17:53:20+00:00'
+                        details:
+                          properties:
+                            consult_reason:
+                              type: string
+                              example: I have very bad headache
+                            expert:
+                              type: string
+                              example: Dr. Alex Williams
+                        locale:
+                          type: string
+                          example: en-US
+  /users/me/health_metrics:
+    get:
+      description: |-
+        <p>Get current user health metrics</p>
+
+              <div class='profile-item profile-title-wrap'><div class='profile-property profile-title'>Property</div><div class='profile-description profile-title'>Unit / Value type</div></div>
+
+              <div class='profile-item'><div class='profile-property'>Body Fat Percentage</div><div class='profile-description'>percentage / Integer</div></div>
+
+              <div class='profile-item'><div class='profile-property'>Body Mass Index</div><div class='profile-description'>BMI / Integer</div></div>
+
+              <div class='profile-item'><div class='profile-property'>Height</div><div class='profile-description'> ft / Integer</div></div>
+
+              <div class='profile-item'><div class='profile-property'>Lean Body Mass</div><div class='profile-description'> lbs / Integer</div></div>
+
+              <div class='profile-item'><div class='profile-property'>Weight</div><div class='profile-description'> lbs / Integer</div></div>
+
+              <div class='profile-item'><div class='profile-property'>Active Calories</div><div class='profile-description'> cal / Integer</div></div>
+
+              <div class='profile-item'><div class='profile-property'>Cyclling Distance</div><div class='profile-description'> miles / Integer</div></div>
+
+              <div class='profile-item'><div class='profile-property'>Steps</div><div class='profile-description'> Steps / Integer</div></div>
+
+              <div class='profile-item'><div class='profile-property'>Running Walking Distance</div><div class='profile-description'> miles / Integer</div></div>
+
+              <div class='profile-item'><div class='profile-property'>Blood Type</div><div class='profile-description'> type / String</div></div>
+
+              <div class='profile-item'><div class='profile-property'>Blood Glucose</div><div class='profile-description'> mg/dl / Integer</div></div>
+
+              <div class='profile-item'><div class='profile-property'>Inhaler Usage</div><div class='profile-description'> times / Integer</div></div>
+
+              <div class='profile-item'><div class='profile-property'>Oxygen Saturation</div><div class='profile-description'> percentage / Integer</div></div>
+
+              <div class='profile-item'><div class='profile-property'>Peak Expiratory Flow Rate</div><div class='profile-description'> l/min / Integer</div></div>
+
+              <div class='profile-item'><div class='profile-property'>Body Temperature</div><div class='profile-description'> celsius / Integer</div></div>
+
+              <div class='profile-item'><div class='profile-property'>Blood Pressure Diastolic</div><div class='profile-description'> mmhg / Integer</div></div>
+
+              <div class='profile-item'><div class='profile-property'>Blood Pressure Systolic</div><div class='profile-description'> mmhg / Integer</div></div>
+
+              <div class='profile-item'><div class='profile-property'>Heart Rate</div><div class='profile-description'> beats/minute / Integer</div></div>
+
+              <div class='profile-item'><div class='profile-property'>Respiratory Rate</div><div class='profile-description'> breaths/minute / Integer</div></div>
+
+              <div class='profile-item'><div class='profile-property'>Dietary Calories</div><div class='profile-description'> cal / Integer</div></div>
+
+              
+      operationId: get_health_metrics
+      summary: Get Health Metrics
+      produces:
+        - application/json
+      tags:
+        - User
+      security:
+        - oauth:
+            - member_read
+      parameters:
+        - name: metrics
+          in: query
+          description: metrics to get
+          required: true
+          type: string
+        - name: n_points
+          in: query
+          description: number of point of data to get
+          required: false
+          type: string
+        - name: start_ts
+          in: query
+          description: start_ts of the data (Timestamp integer)
+          required: false
+          type: string
+        - name: end_ts
+          in: query
+          description: end_ts of the data (Timestamp integer)
+          required: false
+          type: string
+      responses:
+        '200':
+          description: success
+          schema:
+            $ref: '#/definitions/health_metrics'
+    post:
+      description: >-
+        Update user health metrics, with the following property, value type and
+        unit.
+              <div class='profile-item profile-title-wrap'><div class='profile-property profile-title'>Property</div><div class='profile-description profile-title'>Unit / Value type</div></div>
+
+              <div class='profile-item'><div class='profile-property'>Body Fat Percentage</div><div class='profile-description'>percentage / Integer</div></div>
+
+              <div class='profile-item'><div class='profile-property'>Body Mass Index</div><div class='profile-description'>BMI / Integer</div></div>
+
+              <div class='profile-item'><div class='profile-property'>Height</div><div class='profile-description'> ft / Integer</div></div>
+
+              <div class='profile-item'><div class='profile-property'>Lean Body Mass</div><div class='profile-description'> lbs / Integer</div></div>
+
+              <div class='profile-item'><div class='profile-property'>Weight</div><div class='profile-description'> lbs / Integer</div></div>
+
+              <div class='profile-item'><div class='profile-property'>Active Calories</div><div class='profile-description'> cal / Integer</div></div>
+
+              <div class='profile-item'><div class='profile-property'>Cyclling Distance</div><div class='profile-description'> miles / Integer</div></div>
+
+              <div class='profile-item'><div class='profile-property'>Steps</div><div class='profile-description'> Steps / Integer</div></div>
+
+              <div class='profile-item'><div class='profile-property'>Running Walking Distance</div><div class='profile-description'> miles / Integer</div></div>
+
+              <div class='profile-item'><div class='profile-property'>Blood Type</div><div class='profile-description'> type / String</div></div>
+
+              <div class='profile-item'><div class='profile-property'>Blood Glucose</div><div class='profile-description'> mg/dl / Integer</div></div>
+
+              <div class='profile-item'><div class='profile-property'>Inhaler Usage</div><div class='profile-description'> times / Integer</div></div>
+
+              <div class='profile-item'><div class='profile-property'>Oxygen Saturation</div><div class='profile-description'> percentage / Integer</div></div>
+
+              <div class='profile-item'><div class='profile-property'>Peak Expiratory Flow Rate</div><div class='profile-description'> l/min / Integer</div></div>
+
+              <div class='profile-item'><div class='profile-property'>Body Temperature</div><div class='profile-description'> celsius / Integer</div></div>
+
+              <div class='profile-item'><div class='profile-property'>Blood Pressure Diastolic</div><div class='profile-description'> mmhg / Integer</div></div>
+
+              <div class='profile-item'><div class='profile-property'>Blood Pressure Systolic</div><div class='profile-description'> mmhg / Integer</div></div>
+
+              <div class='profile-item'><div class='profile-property'>Heart Rate</div><div class='profile-description'> beats/minute / Integer</div></div>
+
+              <div class='profile-item'><div class='profile-property'>Respiratory Rate</div><div class='profile-description'> breaths/minute / Integer</div></div>
+
+              <div class='profile-item'><div class='profile-property'>Dietary Calories</div><div class='profile-description'> cal / Integer</div></div>
+
+              
+      operationId: write_health_metrics
+      summary: Update Health Metrics
+      produces:
+        - application/json
+      tags:
+        - User
+      security:
+        - oauth:
+            - member_write
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/health_metrics_input_format'
+      responses:
+        '204':
+          description: success
+  /users/me/appointments:
+    get:
+      description: Get all appointments of current user
+      operationId: user appointments
+      summary: Get all appointments
+      produces:
+        - application/json
+      tags:
+        - Scheduling
+      security:
+        - oauth:
+            - member_read
+      responses:
+        '200':
+          description: success
+          schema:
+            $ref: '#/definitions/appointment_schema'
+  /users/me/test_results:
+    get:
+      description: Get a list of medical lab’s results from a user’s medical record
+      operationId: test_result
+      summary: Get Test Results
+      produces:
+        - application/json
+      tags:
+        - User
+      security:
+        - oauth:
+            - member_read
+      parameters:
+        - name: page
+          description: pagination setting
+          required: false
+          in: query
+          type: integer
+        - name: per_page
+          description: pagination setting
+          required: false
+          in: query
+          type: integer
+      responses:
+        '200':
+          description: success
+          schema:
+            $ref: '#/definitions/test_result'
+  /users/me/health_graph:
+    get:
+      description: 'PRIVATE — For access, please contact us.'
+      operationId: health_graph
+      summary: Get Health Graph
+      produces:
+        - application/json
+      tags:
+        - User
+      security:
+        - oauth:
+            - member_read
+      responses:
+        '200':
+          description: success
+  /users/me/adherence_data:
+    get:
+      description: 'PRIVATE — For access, please contact us.'
+      operationId: adherence_data
+      summary: Get Adherence Data
+      produces:
+        - application/json
+      tags:
+        - User
+      security:
+        - oauth:
+            - member_read
+      responses:
+        '200':
+          description: success
+  /users/me/notifications:
+    get:
+      description: 'PRIVATE — For access, please contact us.'
+      operationId: notifications
+      summary: Get Notifications
+      produces:
+        - application/json
+      tags:
+        - Engagement
+      security:
+        - oauth:
+            - member_read
+      parameters:
+        - name: page
+          description: pagination setting
+          required: false
+          in: query
+          type: integer
+        - name: per_page
+          description: pagination setting
+          required: false
+          in: query
+          type: integer
+      responses:
+        '200':
+          description: success
+  /users/me/topics_and_goals:
+    get:
+      description: Get user's topics and goals of interest.
+      operationId: topics_and_goals
+      summary: Get User Topics/Goals
+      produces:
+        - application/json
+      tags:
+        - Engagement
+      security:
+        - oauth:
+            - member_read
+      parameters:
+        - name: page
+          description: pagination setting
+          required: false
+          in: query
+          type: integer
+        - name: per_page
+          description: pagination setting
+          required: false
+          in: query
+          type: integer
+      responses:
+        '200':
+          description: success
+          schema:
+            $ref: '#/definitions/topics_and_goals'
+  /users/me:
+    get:
+      description: Get basic info of current user
+      operationId: my_basic_info
+      summary: Get User Basic Info
+      produces:
+        - application/json
+      tags:
+        - User
+      security:
+        - oauth:
+            - member_read
+      responses:
+        '200':
+          description: success
+          schema:
+            properties:
+              data:
+                properties:
+                  type:
+                    type: string
+                    example: Provider
+                  chat_user_username:
+                    type: string
+                    example: username
+                  chat_user_password:
+                    type: string
+                    example: password
+                  personal_channel_name:
+                    type: string
+                    example: person-xxxxx
+                  presence_channel_name:
+                    type: string
+                    example: presence-xxxxx
+  /users/me/register_available:
+    post:
+      description: Register Availablity
+      operationId: register_availability
+      summary: Register Availablity
+      produces:
+        - application/json
+      tags:
+        - User
+      security:
+        - oauth:
+            - provider_write
+      parameters:
+        - name: online
+          type: boolean
+          in: formData
+          description: online flag
+          required: true
+        - name: online_set_reason
+          type: string
+          enum:
+            - user_action
+            - bandwidth_check
+            - plugin_uninstalled
+          in: formData
+          description: online reason
+          required: false
+        - name: free
+          type: boolean
+          in: formData
+          description: true of false
+          required: false
+        - name: available_amount_sec
+          type: number
+          in: formData
+          description: The number of seconds this doctor intends to stay available
+          required: false
+      responses:
+        '200':
+          description: success
+          schema:
+            $ref: '#/definitions/basic_availability_info_schema'
+  /users/sign_out:
+    get:
+      description: User Sign Out
+      operationId: user_sign_out
+      summary: User Sign Out
+      produces:
+        - application/json
+      tags:
+        - User
+      security:
+        - {}
+      responses:
+        '204':
+          description: success
+  /users/me/availability_info:
+    get:
+      description: Get Availablity Info
+      operationId: get_availability_info
+      summary: Get Availablity Info
+      produces:
+        - application/json
+      tags:
+        - User
+      security:
+        - oauth:
+            - provider_read
+      responses:
+        '204':
+          description: success
+          schema:
+            $ref: '#/definitions/availability_info_schema'
+  /users/me/keep_alive:
+    post:
+      description: 'Keep Alive Operation: polling every 60 seconds'
+      operationId: keep_alive_operation
+      summary: Keep Alive Operation
+      produces:
+        - application/json
+      tags:
+        - User
+      security:
+        - oauth:
+            - expert_write
+      responses:
+        '204':
+          description: success
+  /users/sign_in:
+    post:
+      description: User Sign In
+      operationId: user_sign_in
+      summary: User Sign In
+      produces:
+        - application/json
+      tags:
+        - User
+      security:
+        - {}
+      parameters:
+        - name: username
+          type: string
+          in: formData
+          description: username
+          required: true
+        - name: password
+          type: string
+          in: formData
+          description: password
+          required: true
+        - name: app_id
+          type: string
+          in: formData
+          description: APP ID
+          required: true
+      responses:
+        '200':
+          description: success
+          schema:
+            $ref: '#/definitions/user_credential'
+  /users/enterprise_sign_in:
+    post:
+      description: Enterprise User Sign In
+      operationId: enterprise_user_sign_in
+      summary: Enterprise User Sign In
+      produces:
+        - application/json
+      tags:
+        - User
+      security:
+        - {}
+      parameters:
+        - name: code
+          type: string
+          in: formData
+          description: code passed back from user signs in enterprise sites
+          required: true
+        - name: auth_type
+          type: string
+          in: formData
+          description: 'authentication type, e.g. oauth2'
+          required: true
+        - name: app_id
+          type: string
+          in: formData
+          description: APP ID
+          required: true
+      responses:
+        '200':
+          description: success
+          schema:
+            $ref: '#/definitions/enterprise_user_credential'
+  /search?category=questions:
+    get:
+      description: Search questions
+      operationId: search_questions
+      summary: Search Questions
+      produces:
+        - application/json
+      tags:
+        - Library
+      security:
+        - oauth:
+            - member_read
+      parameters:
+        - name: q
+          in: query
+          description: search string
+          required: true
+          type: string
+      responses:
+        '200':
+          description: success
+          schema:
+            $ref: '#/definitions/question'
+  /search?category=tips:
+    get:
+      description: search tips
+      operationId: search_tips
+      summary: Search Tips
+      produces:
+        - application/json
+      tags:
+        - Library
+      security:
+        - oauth:
+            - member_read
+      parameters:
+        - name: q
+          in: query
+          description: search string
+          required: true
+          type: string
+      responses:
+        '200':
+          description: success
+          schema:
+            $ref: '#/definitions/tips'
+  /search?category=news:
+    get:
+      description: search news
+      operationId: search_news
+      summary: Search News
+      produces:
+        - application/json
+      tags:
+        - Library
+      security:
+        - oauth:
+            - member_read
+      parameters:
+        - name: q
+          in: query
+          description: search string
+          required: true
+          type: string
+      responses:
+        '200':
+          description: success
+          schema:
+            $ref: '#/definitions/news'
+  /search?category=topics:
+    get:
+      description: search topics
+      operationId: search_topics
+      summary: Search Topics
+      produces:
+        - application/json
+      tags:
+        - Library
+      security:
+        - oauth:
+            - member_read
+      parameters:
+        - name: q
+          in: query
+          description: search string
+          required: true
+          type: string
+      responses:
+        '200':
+          description: success
+          schema:
+            $ref: '#/definitions/topic'
+  /search?category=doctor:
+    get:
+      description: search doctor
+      operationId: search_doctor
+      summary: Search Experts
+      produces:
+        - application/json
+      tags:
+        - Directory
+      security:
+        - oauth:
+            - member_read
+      parameters:
+        - name: q
+          in: query
+          description: search string
+          required: true
+          type: string
+      responses:
+        '200':
+          description: success
+          schema:
+            $ref: '#/definitions/doctor'
+  '/topics/{id}':
+    get:
+      description: Get topic details by topic ID
+      operationId: topics
+      summary: Get Topic Details
+      produces:
+        - application/json
+      tags:
+        - Library
+      security:
+        - oauth:
+            - member_read
+      parameters:
+        - name: id
+          in: path
+          description: topic id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: success
+          schema:
+            $ref: '#/definitions/topic_details'
+  /search?category=tags:
+    get:
+      description: 'PRIVATE — For access, please contact us.'
+      operationId: tags
+      summary: Get Tags by Query
+      produces:
+        - application/json
+      tags:
+        - Ontology
+      security:
+        - oauth:
+            - member_read
+      parameters:
+        - name: q
+          in: query
+          description: search string
+          required: true
+          type: string
+      responses:
+        '200':
+          description: success
+  /search?category=specialties:
+    get:
+      description: Get specialties by query
+      operationId: specialties_by_query
+      summary: Get Specialties by Query
+      produces:
+        - application/json
+      tags:
+        - Ontology
+      security:
+        - oauth:
+            - member_read
+      parameters:
+        - name: q
+          in: query
+          description: search string
+          required: true
+          type: string
+      responses:
+        '200':
+          description: success
+          schema:
+            $ref: '#/definitions/specialties'
+  '/experts/{id}/referral_graph':
+    get:
+      description: 'PRIVATE — For access, please contact us.'
+      operationId: referral_graph
+      summary: Get Expert Referral Graph
+      produces:
+        - application/json
+      tags:
+        - Directory
+      parameters:
+        - name: id
+          type: integer
+          description: Expert id
+          in: path
+          required: true
+      responses:
+        '200':
+          description: success
+  '/experts/{id}/office_hours':
+    get:
+      description: Get available slots in office hours by expert
+      operationId: fetch_office_hours
+      summary: Fetch expert office hours
+      produces:
+        - application/json
+      tags:
+        - Scheduling
+      security:
+        - oauth:
+            - member_read
+      parameters:
+        - name: id
+          type: string
+          required: true
+          description: expert id
+          in: path
+        - name: day
+          type: string
+          in: query
+          required: true
+          description: day of month given
+        - name: month
+          type: string
+          in: query
+          required: true
+          description: month of year given
+        - name: year
+          type: string
+          in: query
+          required: true
+          description: year
+      responses:
+        '200':
+          description: success
+          schema:
+            $ref: '#/definitions/appointments_slots'
+  '/experts/{id}/schedule_appointment':
+    post:
+      description: Make an virtual appointment according to expert and time slot
+      operationId: schedule_appointment
+      summary: Schedule virtual appointment
+      produces:
+        - application/json
+      tags:
+        - Scheduling
+      security:
+        - oauth:
+            - member_write
+      parameters:
+        - name: id
+          type: integer
+          description: expert id
+          required: true
+          in: path
+        - name: slot_id
+          type: integer
+          description: slot id
+          required: true
+          in: formData
+        - name: question_text
+          type: string
+          description: >-
+            Share a detailed description of your symptom, conerns and how you
+            would like the doctor to help you (at lease three words)
+          required: true
+          in: formData
+        - name: live_consult_type
+          type: string
+          enum:
+            - video
+            - audio
+            - text
+          description: consult type
+          required: true
+          in: formData
+      responses:
+        '200':
+          description: success
+          schema:
+            $ref: '#/definitions/scheduled_schema'
+  '/experts/{id}':
+    get:
+      description: Get expert details
+      operationId: expert_details
+      summary: Expert Details
+      produces:
+        - application/json
+      tags:
+        - Directory
+      parameters:
+        - name: id
+          type: integer
+          description: Expert id
+          in: path
+          required: true
+      responses:
+        '200':
+          description: success
+          schema:
+            $ref: '#/definitions/expert_details'
+  '/experts/{id}/known_fors':
+    get:
+      description: 'PRIVATE — For access, please contact us.'
+      operationId: known_fors
+      summary: Get Expert Known Fors
+      produces:
+        - application/json
+      tags:
+        - Directory
+      parameters:
+        - name: id
+          type: integer
+          description: Expert id
+          in: path
+          required: true
+      responses:
+        '200':
+          description: success
+  '/experts/{id}/add_to_care_team':
+    post:
+      description: Add experts to care team
+      operationId: add_to_care_team
+      summary: Add to Care-Team
+      produces:
+        - application/json
+      tags:
+        - Directory
+      parameters:
+        - name: id
+          type: integer
+          description: Expert id
+          in: path
+          required: true
+      responses:
+        '204':
+          description: success
+  '/experts/{id}/remove_from_care_team':
+    put:
+      description: Remove experts from care team
+      operationId: remove_from_care_team
+      summary: Remove from Care-Team
+      produces:
+        - application/json
+      tags:
+        - Directory
+      parameters:
+        - name: id
+          type: integer
+          description: Expert id
+          in: path
+          required: true
+      responses:
+        '204':
+          description: success
+  /experts/me/chat_sessions_rating:
+    get:
+      description: Experts see consult rating from patients
+      operationId: expert_see_consult_rating
+      summary: Expert see consult ratings
+      produces:
+        - application/json
+      tags:
+        - Directory
+      parameters:
+        - name: page
+          type: integer
+          description: Pagination setting
+          in: query
+          required: false
+        - name: per_page
+          type: integer
+          description: Pagination setting
+          in: query
+          required: false
+      responses:
+        '200':
+          description: success
+          schema:
+            $ref: '#/definitions/chat_sessions_rating'
+  experts/me/upcoming_appointments:
+    get:
+      description: Get expert's upcoming appointments for the following weeks
+      operationId: get_upcoming_appointments
+      summary: Expert Upcoming Appointments
+      produces:
+        - application/json
+      tags:
+        - Directory
+      parameters:
+        - name: number_of_week
+          type: integer
+          description: >-
+            See upcoming N th week's appointments, N is number_of_week and is
+            default set to 0
+          in: query
+          required: false
+      responses:
+        '200':
+          description: success
+          schema:
+            $ref: '#/definitions/upcoming_appointments'
+  /experts/me/profile:
+    get:
+      description: Get current expert's profile
+      operationId: Expert Profile
+      summary: Get Expert Profile
+      produces:
+        - application/json
+      tags:
+        - Directory
+      security:
+        - oauth:
+            - provider_read
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/expert_profile'
+  /experts/me/update_profile:
+    post:
+      description: |-
+        Update profiles for provider. You can update the following fields:
+              gender, specialty, medical_school, graduation_year, given_name, family_name, middle_name,
+              phone, phone_country_code, address_line_1, address_line_2, address_state, address_city,
+              [fellowship_specialty, fellowship_hospital, fellowship_year],
+              [residencies_specialty, residencies_primary_hospital, residencies_year],
+              specialties
+              If you want to customize fields, please contact us.
+      operationId: post_update_expert_profile
+      summary: Update Expert Profile
+      produces:
+        - application/json
+      tags:
+        - Directory
+      security:
+        - oauth:
+            - provider_write
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/expert_profile_input'
+      responses:
+        '204':
+          description: no content
+  /experts/me/feed:
+    get:
+      description: Get current expert's feed
+      operationId: expert_feed
+      summary: Get Expert Feed
+      produces:
+        - application/json
+      tags:
+        - Directory
+      security:
+        - oauth:
+            - provider_read
+      parameters:
+        - name: filter_specialty
+          description: specialty filter
+          required: false
+          in: query
+          type: string
+        - name: page
+          description: pagination setting
+          required: false
+          in: query
+          type: integer
+        - name: per_page
+          description: pagination setting
+          required: false
+          in: query
+          type: integer
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/expert_feed'
+  '/checklists/{id}/mark_complete':
+    post:
+      description: Mark a checklist as complete
+      operationId: Mark checklists
+      summary: Mark Action as Complete
+      produces:
+        - application/json
+      tags:
+        - Engagement
+      security:
+        - oauth:
+            - member_write
+      parameters:
+        - name: id
+          type: integer
+          in: path
+          description: Checklist id
+          required: true
+      responses:
+        '200':
+          description: success
+          schema:
+            $ref: '#/definitions/checklist_complete'
+  '/checklists/{id}/subscribe':
+    post:
+      description: Subscirbe to a checklist by id
+      operationId: subscirbe checklists
+      summary: Subscribe to Checklist
+      produces:
+        - application/json
+      tags:
+        - Engagement
+      security:
+        - oauth:
+            - member_write
+      parameters:
+        - name: id
+          type: integer
+          in: path
+          description: Checklist id
+          required: true
+      responses:
+        '204':
+          description: success
+  /services/prescriptions:
+    post:
+      description: 'PRIVATE — For access, please contact us.'
+      operationId: order_prescription
+      summary: Order Prescription
+      produces:
+        - application/json
+      tags:
+        - Services
+      security:
+        - oauth:
+            - member_write
+      responses:
+        '200':
+          description: success
+  /services/lab_tests:
+    post:
+      description: 'PRIVATE — For access, please contact us.'
+      operationId: order_lab_tests
+      summary: Order Lab Tests
+      produces:
+        - application/json
+      tags:
+        - Services
+      security:
+        - oauth:
+            - member_write
+      responses:
+        '200':
+          description: success
+  /payments/transactions:
+    post:
+      description: 'PRIVATE — For access, please contact us.'
+      operationId: create_transaction
+      summary: Create Transaction
+      produces:
+        - application/json
+      tags:
+        - Payments
+      security:
+        - oauth:
+            - member_write
+      responses:
+        '200':
+          description: success
+  /payments/subscriptions:
+    post:
+      description: 'PRIVATE — For access, please contact us.'
+      operationId: start_subscription
+      summary: Start Subscription
+      produces:
+        - application/json
+      tags:
+        - Payments
+      security:
+        - oauth:
+            - member_write
+      responses:
+        '200':
+          description: success
+    put:
+      description: 'PRIVATE — For access, please contact us.'
+      operationId: cancel_subscription
+      summary: Cancel Subscription
+      produces:
+        - application/json
+      tags:
+        - Payments
+      security:
+        - oauth:
+            - member_write
+      responses:
+        '200':
+          description: success
+  /payments/insurance:
+    get:
+      description: 'PRIVATE — For access, please contact us.'
+      operationId: check_insurance
+      summary: Check Insurance Eligibility
+      produces:
+        - application/json
+      tags:
+        - Payments
+      security:
+        - oauth:
+            - member_write
+      responses:
+        '200':
+          description: success
+    post:
+      description: 'PRIVATE — For access, please contact us.'
+      operationId: submit_claim
+      summary: Submit Claim
+      produces:
+        - application/json
+      tags:
+        - Payments
+      security:
+        - oauth:
+            - member_write
+      responses:
+        '200':
+          description: success
+  /ontology/health_goal:
+    get:
+      description: 'PRIVATE — For access, please contact us.'
+      operationId: health_goal
+      summary: Get Health Goal
+      produces:
+        - application/json
+      tags:
+        - Ontology
+      security:
+        - oauth:
+            - member_read
+      responses:
+        '200':
+          description: success
+  /ontology/specialties:
+    get:
+      description: 'PRIVATE — For access, please contact us.'
+      operationId: specialties
+      summary: Get Specialties
+      produces:
+        - application/json
+      tags:
+        - Ontology
+      security:
+        - oauth:
+            - member_read
+      responses:
+        '200':
+          description: success
+  /questions:
+    post:
+      description: >-
+        Ask a question via HealthTap. Doctors will respond quickly and we will
+        post answers back to you
+      operationId: askQuestion
+      summary: Send a Question
+      produces:
+        - application/json
+      tags:
+        - Library
+      security:
+        - oauth:
+            - member_write
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/post_question_input_format'
+      responses:
+        '201':
+          description: success
+          schema:
+            $ref: '#/definitions/post_question'
+  '/questions/{id}':
+    get:
+      description: Get question details by quesiton ID
+      operationId: questions
+      summary: Get Question Details
+      produces:
+        - application/json
+      tags:
+        - Library
+      security:
+        - oauth:
+            - member_read
+      parameters:
+        - name: id
+          in: path
+          description: question id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: success
+          schema:
+            $ref: '#/definitions/question_output'
+  '/appointments/{id}/cancel':
+    put:
+      description: Cancel an appointment by id
+      operationId: cancel_my_appointment
+      summary: Cancel an appointment
+      produces:
+        - application/json
+      tags:
+        - Scheduling
+      security:
+        - oauth:
+            - member_write
+      parameters:
+        - name: id
+          type: integer
+          in: path
+          required: true
+          description: appointment id
+        - name: status
+          type: array
+          items:
+            type: string
+            enum:
+              - cancel
+          in: formData
+          required: true
+          description: status change to
+      responses:
+        '204':
+          description: no content
+  /analytics/concept/co-occurrence:
+    get:
+      description: >-
+        Co-occurrence of Concepts in Population (Demographics, Time Range,
+        Geography) API
+      operationId: co_occurence_of_concept
+      summary: Co-occurrence of concepts
+      produces:
+        - application/json
+      tags:
+        - Analytics
+      security:
+        - oauth:
+            - member_read
+      parameters:
+        - name: concept1
+          description: First concept
+          in: query
+          required: true
+          type: string
+        - name: concept2
+          description: Second concept
+          in: query
+          required: true
+          type: string
+        - name: demographics
+          description: demographics
+          in: query
+          required: true
+          type: string
+        - name: time_range
+          description: time of trends
+          in: query
+          required: true
+          type: string
+        - name: geography
+          description: location of trends
+          in: query
+          required: true
+          type: string
+      responses:
+        '200':
+          description: success
+          schema:
+            properties:
+              data:
+                properties:
+                  total:
+                    type: integer
+                    example: 5600
+                  count:
+                    type: integer
+                    example: 145
+  /analytics/concept/frequency:
+    get:
+      description: >-
+        Frequency of Concepts in Population (Demographics, Time Range,
+        Geography) API
+      operationId: frequency_of_concept
+      summary: Frequency of concept
+      produces:
+        - application/json
+      tags:
+        - Analytics
+      security:
+        - oauth:
+            - member_read
+      parameters:
+        - name: concept
+          description: Concept
+          in: query
+          required: true
+          type: string
+        - name: demographics
+          description: demographics
+          in: query
+          required: true
+          type: string
+        - name: time_range
+          description: time of trends
+          in: query
+          required: true
+          type: string
+        - name: geography
+          description: location of trends
+          in: query
+          required: true
+          type: string
+      responses:
+        '200':
+          description: success
+          schema:
+            properties:
+              data:
+                properties:
+                  total:
+                    type: integer
+                    example: 2000
+                  count:
+                    type: integer
+                    example: 74
+  '/news/{id}':
+    get:
+      description: Get news details by news ID
+      operationId: news
+      summary: Get News Details
+      produces:
+        - application/json
+      tags:
+        - Library
+      security:
+        - oauth:
+            - member_read
+      parameters:
+        - name: id
+          in: path
+          description: News id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: success
+          schema:
+            $ref: '#/definitions/news_details'
+  '/tips/{id}':
+    get:
+      description: Get tips details by tips ID
+      operationId: tips
+      summary: Get Tips Details
+      produces:
+        - application/json
+      tags:
+        - Library
+      security:
+        - oauth:
+            - member_read
+      parameters:
+        - name: id
+          in: path
+          description: Tips id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: success
+          schema:
+            $ref: '#/definitions/tips_detail'
+  /files.json:
+    post:
+      description: upload a file
+      operationId: File
+      summary: Upload file
+      produces:
+        - application/json
+      tags:
+        - File
+      security:
+        - oauth:
+            - member_write
+      parameters:
+        - name: file
+          type: file
+          in: formData
+          description: file to upload
+          required: true
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/file_upload_schema'
+  '/chat_sessions/{id}':
+    get:
+      description: Get chat_session details by chat session id
+      operationId: chat_session
+      summary: Get Chat Session Details
+      produces:
+        - application/json
+      tags:
+        - ChatSession
+      security:
+        - oauth:
+            - member_read
+      parameters:
+        - name: id
+          in: path
+          description: ChatSession id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: success
+          schema: {}
+  '/chat_sessions/{id}/feed':
+    get:
+      description: Get chat_session feed by chat session id
+      operationId: chat_session
+      summary: Get Chat Session Feed
+      produces:
+        - application/json
+      tags:
+        - ChatSession
+      security:
+        - oauth:
+            - member_read
+      parameters:
+        - name: id
+          in: path
+          description: ChatSession id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: success
+          schema:
+            $ref: '#/definitions/chat_session_feed'
+  /chat_sessions:
+    post:
+      description: Start a session
+      operationId: start_session
+      summary: Start a session
+      produces:
+        - application/json
+      tags:
+        - ChatSession
+      security:
+        - oauth:
+            - member_write
+      parameters:
+        - name: appointment_id
+          in: path
+          description: appointment id
+          required: true
+          type: string
+      responses:
+        '201':
+          description: success
+          schema:
+            $ref: '#/definitions/session_detail'
+        '400':
+          description: bad request
+          schema:
+            $ref: '#/definitions/ErrorModel'
+          examples:
+            application/json:
+              - message: >-
+                  We sincerely apologize, but there seems to be a technical
+                  issue with starting your consult. We've already pinged our top
+                  engineers to investigate and resolve the issue. If you need
+                  further assistance, please don't hesitate to contact our
+                  Quality Care Team at support@healthtap.com. If you cannot
+                  start your consult in time, we will fully re-credit your
+                  account. (Error code: %{error})
+                subcode: APPTST-100
+              - message: >-
+                  We sincerely apologize, but there seems to be a technical
+                  issue with starting your consult. We've already pinged our top
+                  engineers to investigate and resolve the issue. If you need
+                  further assistance, please don't hesitate to contact our
+                  Quality Care Team at support@healthtap.com. If you cannot
+                  start your consult in time, we will fully re-credit your
+                  account. (Error code: %{error})
+                subcode: APPTST-101
+              - message: >-
+                  We sincerely apologize, but there seems to be a technical
+                  issue with starting your consult. We've already pinged our top
+                  engineers to investigate and resolve the issue. If you need
+                  further assistance, please don't hesitate to contact our
+                  Quality Care Team at support@healthtap.com. If you cannot
+                  start your consult in time, we will fully re-credit your
+                  account. (Error code: %{error})
+                subcode: APPTST-102
+              - message: >-
+                  We sincerely apologize, but there seems to be a technical
+                  issue with starting your consult. We've already pinged our top
+                  engineers to investigate and resolve the issue. If you need
+                  further assistance, please don't hesitate to contact our
+                  Quality Care Team at support@healthtap.com. If you cannot
+                  start your consult in time, we will fully re-credit your
+                  account. (Error code: %{error})
+                subcode: APPTST-103
+              - message: >-
+                  We sincerely apologize, but there seems to be a technical
+                  issue with starting your consult. We've already pinged our top
+                  engineers to investigate and resolve the issue. If you need
+                  further assistance, please don't hesitate to contact our
+                  Quality Care Team at support@healthtap.com. If you cannot
+                  start your consult in time, we will fully re-credit your
+                  account. (Error code: %{error})
+                subcode: APPTST-104
+              - message: >-
+                  We sincerely apologize, but there seems to be a technical
+                  issue with starting your consult. We've already pinged our top
+                  engineers to investigate and resolve the issue. If you need
+                  further assistance, please don't hesitate to contact our
+                  Quality Care Team at support@healthtap.com. If you cannot
+                  start your consult in time, we will fully re-credit your
+                  account. (Error code: %{error})
+                subcode: APPTST-105
+              - message: >-
+                  We sincerely apologize, but there seems to be a technical
+                  issue with starting your consult. We've already pinged our top
+                  engineers to investigate and resolve the issue. If you need
+                  further assistance, please don't hesitate to contact our
+                  Quality Care Team at support@healthtap.com. If you cannot
+                  start your consult in time, we will fully re-credit your
+                  account. (Error code: %{error})
+                subcode: APPTST-106
+              - message: >-
+                  We sincerely apologize, but there seems to be a technical
+                  issue with starting your consult. We've already pinged our top
+                  engineers to investigate and resolve the issue. If you need
+                  further assistance, please don't hesitate to contact our
+                  Quality Care Team at support@healthtap.com. If you cannot
+                  start your consult in time, we will fully re-credit your
+                  account. (Error code: %{error})
+                subcode: APPTST-107
+              - message: >-
+                  We sincerely apologize, but there seems to be a technical
+                  issue with starting your consult. We've already pinged our top
+                  engineers to investigate and resolve the issue. If you need
+                  further assistance, please don't hesitate to contact our
+                  Quality Care Team at support@healthtap.com. If you cannot
+                  start your consult in time, we will fully re-credit your
+                  account. (Error code: %{error})
+                subcode: APPTST-108
+              - message: >-
+                  We sincerely apologize, but there seems to be a technical
+                  issue with starting your consult. We've already pinged our top
+                  engineers to investigate and resolve the issue. If you need
+                  further assistance, please don't hesitate to contact our
+                  Quality Care Team at support@healthtap.com. If you cannot
+                  start your consult in time, we will fully re-credit your
+                  account. (Error code: %{error})
+                subcode: APPTST-109
+              - message: >-
+                  We sincerely apologize, but there seems to be a technical
+                  issue with starting your consult. We've already pinged our top
+                  engineers to investigate and resolve the issue. If you need
+                  further assistance, please don't hesitate to contact our
+                  Quality Care Team at support@healthtap.com. If you cannot
+                  start your consult in time, we will fully re-credit your
+                  account. (Error code: %{error})
+                subcode: APPTST-110
+              - message: >-
+                  We sincerely apologize, but there seems to be a technical
+                  issue with starting your consult. We've already pinged our top
+                  engineers to investigate and resolve the issue. If you need
+                  further assistance, please don't hesitate to contact our
+                  Quality Care Team at support@healthtap.com. If you cannot
+                  start your consult in time, we will fully re-credit your
+                  account. (Error code: %{error})
+                subcode: APPTST-111
+              - message: >-
+                  We sincerely apologize, but there seems to be a technical
+                  issue with starting your consult. We've already pinged our top
+                  engineers to investigate and resolve the issue. If you need
+                  further assistance, please don't hesitate to contact our
+                  Quality Care Team at support@healthtap.com. If you cannot
+                  start your consult in time, we will fully re-credit your
+                  account. (Error code: %{error})
+                subcode: APPTST-112
+              - message: >-
+                  We sincerely apologize, but there seems to be a technical
+                  issue with starting your consult. We've already pinged our top
+                  engineers to investigate and resolve the issue. If you need
+                  further assistance, please don't hesitate to contact our
+                  Quality Care Team at support@healthtap.com. If you cannot
+                  start your consult in time, we will fully re-credit your
+                  account. (Error code: %{error})
+                subcode: APPTST-113
+              - message: >-
+                  We sincerely apologize, but there seems to be a technical
+                  issue with starting your consult. We've already pinged our top
+                  engineers to investigate and resolve the issue. If you need
+                  further assistance, please don't hesitate to contact our
+                  Quality Care Team at support@healthtap.com. If you cannot
+                  start your consult in time, we will fully re-credit your
+                  account. (Error code: %{error})
+                subcode: APPTST-114
+              - message: >-
+                  We sincerely apologize, but there seems to be a technical
+                  issue with starting your consult. We've already pinged our top
+                  engineers to investigate and resolve the issue. If you need
+                  further assistance, please don't hesitate to contact our
+                  Quality Care Team at support@healthtap.com. If you cannot
+                  start your consult in time, we will fully re-credit your
+                  account. (Error code: %{error})
+                subcode: APPTST-300
+              - message: >-
+                  We sincerely apologize, but there seems to be a technical
+                  issue with starting your consult. We've already pinged our top
+                  engineers to investigate and resolve the issue. If you need
+                  further assistance, please don't hesitate to contact our
+                  Quality Care Team at support@healthtap.com. If you cannot
+                  start your consult in time, we will fully re-credit your
+                  account. (Error code: %{error})
+                subcode: APPTST-115
+              - message: >-
+                  We sincerely apologize, but there seems to be a technical
+                  issue with starting your consult. We've already pinged our top
+                  engineers to investigate and resolve the issue. If you need
+                  further assistance, please don't hesitate to contact our
+                  Quality Care Team at support@healthtap.com. If you cannot
+                  start your consult in time, we will fully re-credit your
+                  account. (Error code: %{error})
+                subcode: APPTST-116
+              - message: >-
+                  It appears your account is already currently in a live virtual
+                  consult with a doctor. Please continue your consult from that
+                  browser window or device. For further assistance, please
+                  contact our Quality Care Team at support@healthtap.com. (Error
+                  code: %{error})
+                subcode: APPTST-200
+              - message: >-
+                  It appears your account is already currently in a live virtual
+                  consult with a doctor. Please continue your consult from that
+                  browser window or device. For further assistance, please
+                  contact our Quality Care Team at support@healthtap.com. (Error
+                  code: %{error})
+                subcode: APPTST-201
+              - message: >-
+                  We're sorry but you must be 18 years or older to start a
+                  Virtual Consult with a doctor. We can't start your consult at
+                  this time. For questions, please contact our Quality Care Team
+                  at support@healthtap.com. If you cannot start your consult in
+                  time, we will fully re-credit your account. (Error code:
+                  %{error})
+                subcode: APPTST-400
+              - message: >-
+                  We sincerely apologize, but there was an issue charging your
+                  account for this virtual consult. We can't start your consult
+                  until this issue is resolved. For further assistance, please
+                  contact our Quality Care Team at support@healthtap.com. (Error
+                  code: %{error})
+                subcode: APPTST-401
+              - message: >-
+                  Sorry, you've been removed from this consult and may not join
+                  again. (Error code: %{error})
+                subcode: APPTST-402
+              - message: >-
+                  Sorry, but this consult has reached the maximum number of
+                  allowed participants. (Error code: %{error})
+                subcode: APPTST-403
+              - message: 'Sorry, this consult has already ended. (Error code: %{error})'
+                subcode: APPTST-404
+              - message: >-
+                  Sorry, this consult has not yet started. Try again later.
+                  (Error code: %{error})
+                subcode: APPTST-405
+              - message: >-
+                  Sorry, this appointment has been canceled. (Error code:
+                  %{error})
+                subcode: APPTST-406
+              - message: >-
+                  We're sorry but you have already exceeded the amount of
+                  consults you are allowed to, please check your email and your
+                  account. If you have any questions please contact our Quality
+                  Care team at support@healthtap.com. (Error code: %{error})
+                subcode: APPTST-407
+              - message: >-
+                  Appointment cannot be make at that time. Please choose another
+                  time slot. If you have any questions please contact our
+                  Quality Care team at support@healthtap.com. (Error code:
+                  %{error})
+                subcode: APPTST-408
+              - message: >-
+                  We sincerely apologize, but the Doctor is temporarily
+                  unavailable. For further assistance, please contact our
+                  Quality Care Team at support@healthtap.com. (Error code:
+                  %{error})
+                subcode: APPTST-117
+              - message: Internal Server Error
+                subcode: APPTST-501
+              - message: >-
+                  We sincerely apologize, but there seems to be a technical
+                  issue with starting your consult. We've already pinged our top
+                  engineers to investigate and resolve the issue. If you need
+                  further assistance, please don't hesitate to contact our
+                  Quality Care Team at expertsupport@healthtap.com. (Error code:
+                  %{error})
+                subcode: DOCCNSLT-101
+              - message: >-
+                  We sincerely apologize, but there seems to be a technical
+                  issue with starting your consult. We've already pinged our top
+                  engineers to investigate and resolve the issue. If you need
+                  further assistance, please don't hesitate to contact our
+                  Quality Care Team at expertsupport@healthtap.com. (Error code:
+                  %{error})
+                subcode: DOCCNSLT-104
+              - message: >-
+                  We sincerely apologize, but there seems to be a technical
+                  issue with starting your consult. We've already pinged our top
+                  engineers to investigate and resolve the issue. If you need
+                  further assistance, please don't hesitate to contact our
+                  Quality Care Team at expertsupport@healthtap.com. (Error code:
+                  %{error})
+                subcode: DOCCNSLT-106
+              - message: >-
+                  We sincerely apologize, but there seems to be a technical
+                  issue with starting your consult. We've already pinged our top
+                  engineers to investigate and resolve the issue. If you need
+                  further assistance, please don't hesitate to contact our
+                  Quality Care Team at expertsupport@healthtap.com. (Error code:
+                  %{error})
+                subcode: DOCCNSLT-500
+              - message: >-
+                  We sincerely apologize, but there seems to be a technical
+                  issue with starting your consult. We've already pinged our top
+                  engineers to investigate and resolve the issue. If you need
+                  further assistance, please don't hesitate to contact our
+                  Quality Care Team at expertsupport@healthtap.com. (Error code:
+                  %{error})
+                subcode: DOCCNSLT-503
+              - message: >-
+                  It appears this consult has already been ended, either because
+                  it was answered or the patient hung up. If you need further
+                  assistance, please don't hesitate to contact our Quality Care
+                  Team at expertsupport@healthtap.com. (Error code: %{error})
+                subcode: DOCCNSLT-102
+              - message: >-
+                  It appears this consult has already been ended, either because
+                  it was answered or the patient hung up. If you need further
+                  assistance, please don't hesitate to contact our Quality Care
+                  Team at expertsupport@healthtap.com. (Error code: %{error})
+                subcode: DOCCNSLT-103
+              - message: >-
+                  It appears this consult has already been ended, either because
+                  it was answered or the patient hung up. If you need further
+                  assistance, please don't hesitate to contact our Quality Care
+                  Team at expertsupport@healthtap.com. (Error code: %{error})
+                subcode: DOCCNSLT-107
+              - message: >-
+                  We sincerely apologize, but it seems you are offline
+                  potentially due to a missed call. If you need further
+                  assistance, please don't hesitate to contact our Quality Care
+                  Team at expertsupport@healthtap.com. (Error code: %{error})
+                subcode: DOCCNSLT-105
+              - message: >-
+                  Please enter a valid device ID and passcode combination (Error
+                  code: %{error})
+                subcode: DOCCNSLT-108
+              - message: >-
+                  Sorry, there was an error assigning this device. (Error code:
+                  %{error})
+                subcode: DOCCNSLT-109
+              - message: >-
+                  Sorry, there was an error unassigning this device. This may
+                  happen if there are pending future appointments on this
+                  device. (Error code: %{error})
+                subcode: DOCCNSLT-110
+              - message: Bad Argument
+                subcode: APPTST-502
+              - message: Daily Rate Limit Reached
+                subcode: ASKDOCS-100
+        default:
+          description: bad request2
+          schema:
+            $ref: '#/definitions/ErrorModel'
+  '/chat_sessions/{id}/rate':
+    post:
+      description: Rate a consult (chat session)
+      operationId: rate_chat_session
+      summary: Rate a chat session
+      produces:
+        - application/json
+      tags:
+        - ChatSession
+      security:
+        - oauth:
+            - member_write
+            - provider_write
+      parameters:
+        - name: id
+          description: chat session id
+          in: path
+          required: true
+          type: string
+        - name: rating
+          type: string
+          in: formData
+          description: rating for this chat session
+          required: true
+        - name: rating_comment
+          type: string
+          in: formData
+          description: comment for this chat session
+          required: false
+      responses:
+        '204':
+          description: No content. Success
+        '400':
+          description: Bad Request
+  /speed_tests/configuration:
+    get:
+      description: Get Speed Test Configuration
+      operationId: Get Speed Test
+      summary: Get Speed Test Configuration
+      produces:
+        - application/json
+      tags:
+        - Speed Test
+      security:
+        - oauth:
+            - member_read
+      responses:
+        '200':
+          description: success
+          schema:
+            $ref: '#/definitions/speed_test_configuration_schema'
+  /speed_tests:
+    post:
+      description: Speed Test
+      operationId: Create User Speed Report
+      summary: Create Speed Test Report
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      tags:
+        - Speed Test
+      security:
+        - oauth:
+            - member_write
+      parameters:
+        - name: body
+          in: body
+          description: >-
+            array of json hashes with the following keys: start_ts, end_ts, and
+            file_size
+          required: true
+          schema:
+            $ref: '#/definitions/speed_test_schema'
+      responses:
+        '200':
+          description: success
+          schema:
+            $ref: '#/definitions/speed_test_report_schema'
+  /speed_tests/download:
+    get:
+      description: Download Speed Test
+      operationId: User Speed Test
+      summary: Download Speed Test
+      produces:
+        - application/octet-stream
+      tags:
+        - Speed Test
+      security:
+        - oauth:
+            - member_read
+      responses:
+        '200':
+          description: success
+          schema: {}
+  /speed_tests/upload:
+    post:
+      description: Upload Speed Test
+      operationId: User Speed Test
+      summary: Upload Speed Test
+      produces:
+        - application/json
+      tags:
+        - Speed Test
+      security:
+        - oauth:
+            - member_write
+      parameters:
+        - name: file
+          type: file
+          in: formData
+          description: file to upload
+          required: true
+      responses:
+        '201':
+          description: success
+          schema: {}
+  /speed_tests/ping:
+    get:
+      description: Ping Speed Test
+      operationId: User Speed Test
+      summary: Ping Speed Test
+      produces:
+        - application/json
+      tags:
+        - Speed Test
+      security:
+        - oauth:
+            - member_read
+      responses:
+        '200':
+          description: success
+          schema:
+            $ref: '#/definitions/pong_schema'
+  '/treatment_reviews/{id}':
+    get:
+      description: Get rateRx details
+      operationId: rateRx
+      summary: Get Treatment Reviews
+      produces:
+        - application/json
+      tags:
+        - Library
+      security:
+        - oauth:
+            - member_read
+      parameters:
+        - name: id
+          in: path
+          description: treatment id
+          required: true
+          type: string
+        - name: locale
+          in: query
+          required: false
+          type: string
+          description: Locale identifier
+      responses:
+        '200':
+          description: success
+          schema:
+            $ref: '#/definitions/rateRx'
+  /api/v2.1/logging:
+    post:
+      description: unified_logging
+      operationId: Unified Logging
+      summary: Unified Logging
+      produces:
+        - application/json
+      tags:
+        - Logging
+      security:
+        - oauth: []
+      parameters:
+        - name: app_id
+          description: Your App Id
+          required: true
+          in: query
+          type: string
+        - name: body
+          in: body
+          description: Logging message
+          required: true
+          schema:
+            $ref: '#/definitions/log_schema'
+      responses:
+        '204':
+          description: success
+  /countries:
+    get:
+      description: Get all countries details
+      operationId: get_countries_details
+      summary: Get countries details
+      produces:
+        - application/json
+      tags:
+        - Country
+      responses:
+        '200':
+          description: success
+          schema:
+            $ref: '#/definitions/all_country_details'
+  /api/v2.1/analytics_events:
+    post:
+      description: Analytics event
+      operationId: Analytics Event
+      summary: Analytics Event
+      produces:
+        - application/json
+      tags:
+        - Logging
+      security:
+        - oauth: []
+      parameters:
+        - name: app_id
+          description: Your App Id
+          required: true
+          in: query
+          type: string
+        - name: body
+          in: body
+          description: Analytics Events
+          required: true
+          schema:
+            $ref: '#/definitions/analytics_log_schema'
+      responses:
+        '201':
+          description: success
+  /notification_settings:
+    get:
+      description: Fetch all notification settings
+      operationId: notification_setting
+      summary: Get All Notification Settings
+      produces:
+        - application/json
+      tags:
+        - NotificationSettings
+      security:
+        - oauth:
+            - member_read
+      responses:
+        '200':
+          description: success
+          schema:
+            $ref: '#/definitions/notification_settings'
+  '/notification_settings/:id':
+    put:
+      description: update notification setting
+      operationId: update_notification_setting
+      summary: Update Notification Setting
+      produces:
+        - application/json
+      tags:
+        - NotificationSettings
+      security:
+        - oauth:
+            - member_write
+      responses:
+        '204':
+          description: success
+        '400':
+          description: failed
+  /configurations:
+    get:
+      description: Fetch configurations
+      operationId: configurations
+      summary: Get All configurations Settings
+      produces:
+        - application/json
+      tags:
+        - Configurations
+      security:
+        - oauth:
+            - public
+      responses:
+        '200':
+          description: success
+          schema:
+            $ref: '#/definitions/configurations'
+definitions:
+  links:
+    required:
+      - self
+    properties:
+      self:
+        type: string
+        example: 'https://www.healthtap.com/api/v2.1/users/me/basic_profile'
+  location:
+    required:
+      - city
+      - state
+      - postcode
+    properties:
+      city:
+        type: string
+        example: Palo Alto
+      state:
+        type: string
+        example: CA
+      country:
+        type: string
+        example: United States
+      postcode:
+        type: string
+        example: '94301'
+  attributes:
+    required:
+      - photo
+      - location
+      - gender
+      - dob
+      - given_name
+      - family_name
+      - locale
+    properties:
+      photo:
+        $ref: '#/definitions/image'
+      location:
+        $ref: '#/definitions/location'
+      gender:
+        type: string
+        example: female
+      dob:
+        type: string
+        example: '1990-01-01'
+      name:
+        $ref: '#/definitions/person_name'
+      contact_information:
+        properties:
+          email:
+            type: string
+            example: hello@healthtap.com
+          phone:
+            type: string
+            example: +1 1234567890
+          address:
+            properties:
+              address_line_1:
+                type: string
+                example: 270 University Ave
+              address_line_2:
+                type: string
+                example: second floor
+              city:
+                type: string
+                example: Palo Alto
+              state:
+                type: string
+                example: CA
+              postcode:
+                type: string
+                example: '94301'
+              country:
+                type: string
+                example: United States
+      locale:
+        type: string
+        example: en-US
+  user_profile:
+    required:
+      - links
+      - data
+    properties:
+      links:
+        $ref: '#/definitions/links'
+      data:
+        required:
+          - type
+          - id
+          - attributes
+        properties:
+          type:
+            type: string
+            example: Person
+          id:
+            type: string
+            example: 850de72540eb434fb631e6a7a9073b1d
+            description: Gloabl person id
+          attributes:
+            $ref: '#/definitions/attributes'
+  user_feed:
+    required:
+      - links
+      - data
+    properties:
+      links:
+        required:
+          - self
+        properties:
+          self:
+            type: string
+            example: 'https://www.healthtap.com/users/me/feed'
+      data:
+        type: array
+        items:
+          properties:
+            type:
+              type: string
+              example: PolymorphicActivity
+            id:
+              type: string
+              example: '10000'
+            attributes:
+              properties:
+                action_name:
+                  type: string
+                  example: question_answered
+                actor_type:
+                  type: string
+                  example: Expert
+                actor_name:
+                  type: string
+                  example: Dr. Robert Binford
+                response_id:
+                  type: string
+                  example: '123456'
+                locale:
+                  type: string
+                  example: en-US
+            relationships:
+              properties:
+                activity:
+                  properties:
+                    type:
+                      type: string
+                      example: UserAnswer
+                    id:
+                      type: string
+                      example: '1000'
+      included:
+        type: array
+        items:
+          $ref: '#/definitions/activity'
+  activity:
+    properties:
+      type:
+        type: string
+        example: UserAnswer
+      id:
+        type: integer
+        example: '1000'
+      attributes:
+        properties:
+          image:
+            $ref: '#/definitions/image'
+          short_answer:
+            type: string
+            example: 'Multivit, C, Zinc'
+          long_answer:
+            type: string
+            example: >-
+              Surgery is a significant stress on the body and recovering from
+              surgery requires the body to have adequate protein, vitamins,
+              minerals and essential oils. It is best to have good body stores
+              prior to surgery.After surgery particular nutrients may speed
+              recovery.I advise a well-rounded high-quality multivit./mineral
+              supplement with additional vit. C (2000 mg 2x/day) & zinc
+              (30-50mg/day)
+  personal_check:
+    properties:
+      type:
+        type: string
+        example: PersonalCheck
+      id:
+        type: string
+        example: '51888'
+      attributes:
+        properties:
+          closed:
+            type: boolean
+            example: true
+          completed:
+            type: boolean
+            example: true
+          completed_in_a_row_count:
+            type: integer
+            example: 0
+          completed_total_count:
+            type: integer
+            example: 1
+          remaining_count:
+            type: integer
+            example: 0
+          name:
+            type: string
+            example: running
+          frequency:
+            type: string
+            example: Everyday
+          frequency_string:
+            type: string
+            example: One hour for a day
+          duration:
+            type: string
+            example: One hour
+          until_when:
+            type: string
+            example: June 1st
+          send_reminder:
+            type: boolean
+            example: true
+  personal_check_not_completed:
+    properties:
+      type:
+        type: string
+        example: PersonalCheck
+      id:
+        type: string
+        example: '51889'
+      attributes:
+        properties:
+          closed:
+            type: boolean
+            example: false
+          completed:
+            type: boolean
+            example: false
+          completed_in_a_row_count:
+            type: integer
+            example: 0
+          completed_total_count:
+            type: integer
+            example: 1
+          remaining_count:
+            type: integer
+            example: 0
+          name:
+            type: string
+            example: Workout
+          frequency:
+            type: string
+            example: Everyday
+          frequency_string:
+            type: string
+            example: One hour for a day
+          duration:
+            type: string
+            example: One hour
+          until_when:
+            type: string
+            example: June 1st
+  checklist_schema:
+    required:
+      - links
+      - data
+    properties:
+      links:
+        required:
+          - self
+        properties:
+          self:
+            type: string
+            example: 'https://www.healthtap.com/api/v2.1/users/me/checklists'
+      data:
+        type: array
+        items:
+          properties:
+            type:
+              type: string
+              example: Checklist
+            id:
+              type: string
+              example: '10000'
+            attributes:
+              properties:
+                all_completed:
+                  type: boolean
+                  example: false
+                name:
+                  type: string
+                  example: Private Checklist by Dr. Heidi Fowler
+                participants_count:
+                  type: integer
+                  example: 1
+                public:
+                  type: boolean
+                  example: false
+                expert_id:
+                  type: string
+                  example: '12616846'
+                locale:
+                  type: string
+                  example: en-US
+            relationships:
+              properties:
+                completed:
+                  type: array
+                  items:
+                    properties:
+                      personal_check:
+                        properties:
+                          type:
+                            type: string
+                            example: PersonalCheck
+                          id:
+                            type: string
+                            example: '51889'
+                to_be_done:
+                  type: array
+                  items:
+                    properties:
+                      personal_check:
+                        properties:
+                          type:
+                            type: string
+                            example: PersonalCheck
+                          id:
+                            type: string
+                            example: '51881'
+      included:
+        type: array
+        items:
+          $ref: '#/definitions/personal_check_not_completed'
+  checklist_complete:
+    required:
+      - link
+      - data
+    properties:
+      data:
+        $ref: '#/definitions/personal_check'
+  user_credential:
+    properties:
+      access_token:
+        type: string
+        example: 697e9298cc055e8b570b70141e1e7b39ee6c025fe9329de0197f1986042396b0
+      token_type:
+        type: string
+        example: bearer
+      expires_in:
+        type: integer
+        example: 7199
+      refresh_token:
+        type: string
+        example: 2387fc24551a13429c2e6bf53c7ad70768c6eb2daebf4720f842f778d6b6fa3d
+      scope:
+        type: string
+        example: member_read
+        description: one of member_read and member_write
+      created_at:
+        type: integer
+        example: 1478054227
+      guid:
+        type: string
+        example: f01bdaf185154a4fa694f90a334104b8
+  enterprise_user_credential:
+    properties:
+      access_token:
+        type: string
+        example: 697e9298cc055e8b570b70141e1e7b39ee6c025fe9329de0197f1986042396b0
+      token_type:
+        type: string
+        example: bearer
+      expires_in:
+        type: integer
+        example: 7199
+      refresh_token:
+        type: string
+        example: 2387fc24551a13429c2e6bf53c7ad70768c6eb2daebf4720f842f778d6b6fa3d
+      scope:
+        type: string
+        example: member_read
+        description: one of member_read and member_write
+      created_at:
+        type: integer
+        example: 1478054227
+  user_sign_in_schema:
+    required:
+      - username
+      - password
+    properties:
+      username:
+        type: string
+        example: username
+      password:
+        type: string
+        example: password
+  health_metrics:
+    required:
+      - links
+      - data
+    properties:
+      links:
+        required:
+          - self
+        properties:
+          self:
+            type: string
+            example: 'https://www.healthtap.com/api/v2.1/users/me/health_metrics'
+      data:
+        $ref: '#/definitions/health_metrics_data'
+  health_metrics_data:
+    properties:
+      heart_rate:
+        type: array
+        items:
+          properties:
+            timestamp:
+              type: string
+              example: '2014-05-13T17:53:20+00:00'
+            value:
+              type: integer
+              example: 125
+            unit:
+              type: string
+              example: beats/minute
+            details:
+              type: string
+              example: running
+            duration:
+              type: string
+              example: null
+  health_metrics_input_format:
+    required:
+      - data
+    properties:
+      data:
+        $ref: '#/definitions/health_metrics_input'
+  health_metrics_input:
+    required:
+      - source
+      - metrics
+    properties:
+      source:
+        type: string
+        description: Source the data come from
+        example: Apple HealthKit
+      metrics:
+        type: array
+        description: Health metrics data
+        items:
+          required:
+            - name
+            - unit
+            - data
+          properties:
+            name:
+              type: string
+              description: Name of the metrics
+              example: heart_rate
+            source_category:
+              type: string
+              description: Source categor
+              example: iHealth
+            unit:
+              type: string
+              description: Unit of the data
+              example: bpm
+            data:
+              type: array
+              description: Array of data
+              items:
+                required:
+                  - start_ts
+                  - value
+                properties:
+                  start_ts:
+                    type: integer
+                    example: 1400000000
+                  value:
+                    type: integer
+                    example: 120
+                  duration:
+                    type: integer
+                    example: 3600
+                  details:
+                    type: string
+                    example: running
+  health_profile_including:
+    type: array
+    items:
+      properties:
+        type:
+          type: string
+          example: KbAttribute
+        id:
+          type: string
+          example: '101105'
+        attributes:
+          properties:
+            name:
+              type: string
+              example: Crestor
+            notes:
+              type: string
+              example: Use cetirizine in the spring when my eye allergies bother me
+            date_added:
+              $ref: '#/definitions/date'
+  health_profile_relationships:
+    properties:
+      medications:
+        $ref: '#/definitions/current_past_medication'
+      allergies:
+        $ref: '#/definitions/current_past_allergy'
+      conditions_and_symptoms:
+        $ref: '#/definitions/current_past_condition'
+      treatments:
+        $ref: '#/definitions/current_past_treatment'
+      vaccinations:
+        properties:
+          details:
+            type: array
+            items:
+              properties:
+                type:
+                  type: string
+                  example: KbAttribute
+                id:
+                  type: string
+                  example: '111074016'
+      family_history:
+        type: array
+        items:
+          properties:
+            type:
+              type: string
+              example: Person
+            id:
+              type: string
+              example: '36312449'
+      pharmacy_details:
+        properties:
+          id:
+            type: string
+            example: '123556'
+          type:
+            type: string
+            example: Pharmacy
+  health_profile_attribute:
+    properties:
+      name:
+        $ref: '#/definitions/person_name'
+      photo:
+        $ref: '#/definitions/image'
+      dob:
+        type: string
+        example: '1990-01-01'
+      gender:
+        type: string
+        example: female
+      ethnicity:
+        type: array
+        items:
+          type: string
+          example: White
+      height:
+        properties:
+          value:
+            type: number
+            example: 5.2
+          unit:
+            type: string
+            example: feet
+      weight:
+        properties:
+          value:
+            type: number
+            example: 140.4
+          unit:
+            type: string
+            example: lbs
+      pregnancy:
+        type: string
+        example: 'yes'
+        description: one of Yes and No
+      phone_number:
+        type: string
+        example: '65055555555'
+      mailing_address:
+        properties:
+          line_1:
+            type: string
+            example: 3252 6th Street
+          line_2:
+            type: string
+            example: Apt 2103
+          city:
+            type: string
+            example: Austin
+          state:
+            type: string
+            example: TX
+          country:
+            type: string
+            example: United States
+          postcode:
+            type: string
+            example: '70703'
+      life_style:
+        properties:
+          dietary_restriction:
+            type: array
+            items:
+              type: string
+              example: Lactose Intolerant
+          recreational_drug:
+            type: array
+            items:
+              type: string
+              example: Marijuana
+          alcohol:
+            type: string
+            example: Moderate Drinker
+          tobacco:
+            type: string
+            example: 'Yes, 0-2 packs a month'
+          sexually_active:
+            type: string
+            example: Men
+      health_metrics:
+        $ref: '#/definitions/health_metrics_data'
+      locale:
+        type: string
+        example: en-US
+  health_profile:
+    required:
+      - links
+      - data
+    properties:
+      links:
+        required:
+          - self
+        properties:
+          self:
+            type: string
+            example: 'https://www.healthtap.com/api/v2.1/users/me/health_profile'
+      data:
+        properties:
+          type:
+            type: string
+            example: Person
+          id:
+            type: string
+            example: 850de72540eb434fb631e6a7a9073b1d
+          attributes:
+            $ref: '#/definitions/health_profile_attribute'
+          relationships:
+            $ref: '#/definitions/health_profile_relationships'
+          included:
+            $ref: '#/definitions/health_profile_including'
+  current_past_medication:
+    properties:
+      current:
+        type: array
+        items:
+          properties:
+            type:
+              type: string
+              example: KbAttribute
+            id:
+              type: string
+              example: '11307'
+      past:
+        type: array
+        items:
+          properties:
+            type:
+              type: string
+              example: KbAttribute
+            id:
+              type: string
+              example: '111130601'
+  current_past_treatment:
+    properties:
+      details:
+        type: array
+        items:
+          properties:
+            type:
+              type: string
+              example: KbAttribute
+            id:
+              type: string
+              example: '11125'
+  current_past_allergy:
+    properties:
+      current:
+        type: array
+        items:
+          properties:
+            type:
+              type: string
+              example: KbAttribute
+            id:
+              type: string
+              example: '111017795'
+      past:
+        type: array
+        items:
+          properties:
+            type:
+              type: string
+              example: KbAttribute
+            id:
+              type: string
+              example: '111018391'
+  current_past_condition:
+    properties:
+      current:
+        type: array
+        items:
+          properties:
+            type:
+              type: string
+              example: KbAttribute
+            id:
+              type: string
+              example: '111077435'
+      past:
+        type: array
+        items:
+          properties:
+            type:
+              type: string
+              example: KbAttribute
+            id:
+              type: string
+              example: '12266'
+  health_profile_input:
+    properties:
+      data:
+        properties:
+          city:
+            type: string
+            example: Palo Alto
+          state:
+            type: string
+            example: CA
+          postcode:
+            type: string
+            example: '94000'
+          country:
+            type: string
+            example: United States
+          gender:
+            type: string
+            example: female
+          dob:
+            type: string
+            example: '2000-01-02'
+          given_name:
+            type: string
+            example: 'Jenna '
+          family_name:
+            type: string
+            example: Smith
+          middle_name:
+            type: string
+            example: M
+          email:
+            type: string
+            example: jenna@healthtap.com
+          phone:
+            type: string
+            example: '1234567890'
+          address_line_1:
+            type: string
+            example: 270 University Ave
+          address_line_2:
+            type: string
+            example: '1'
+          address_city:
+            type: string
+            example: Palo Alto
+          address_state:
+            type: string
+            example: CA
+          address_postcode:
+            type: string
+            example: '94301'
+          address_country:
+            type: string
+            example: United States
+          ethnicity:
+            type: string
+            description: >-
+              Choose from White or Caucasian, Black or African American,
+              Hispanic or Latin American, South Asian, East Asian, African, East
+              African, Native American or Inuit, Native Hawaiian or other
+              Pacific Islander
+            example: White or Caucasian
+          dietary_restriction:
+            type: string
+            description: >-
+              Choose from Ovo-Vegetarian, Lacto-Vegetarian, Vegetarian, Vegan,
+              Pescatarian, Gluten-Free, Lactose Intolerant, None
+            example: Vegan
+          sexually_active:
+            type: string
+            description: 'Choose from Not sexually active, Men, Women, Both'
+            example: Women
+          alcohol_use:
+            type: string
+            description: >-
+              Choose from Social Drinker, Moderate Drinker, Heavy Drinker, Not a
+              Drinker
+            example: Not a Drinker
+          tobacco_use:
+            type: string
+            description: >-
+              Choose from Never smoked or chewed, Yes, 0-2 packs a month, Yes,
+              0-2 packs a week, Yes, 0-2 packs a day, Yes, more than 2 packs a
+              day, Yes, chewing tobacco
+            example: Never smoked or chewed
+          recreational_drug_use:
+            type: string
+            description: >-
+              Choose from None, Psychedelic Mushrooms, LSD, Barbiturates /
+              Benzodiazepines, Ecstasy, Heroin, Methamphetamines, Cocaine,
+              Marijuana, Other
+            example: None
+          height:
+            type: number
+            example: 6.3
+          weight:
+            type: number
+            example: 169
+  basic_profile_input:
+    properties:
+      data:
+        properties:
+          city:
+            type: string
+            example: Palo Alto
+          state:
+            type: string
+            example: CA
+          postcode:
+            type: string
+            example: '94000'
+          country:
+            type: string
+            example: United States
+          gender:
+            type: string
+            example: female
+          dob:
+            type: string
+            example: '2000-01-02'
+          given_name:
+            type: string
+            example: 'Jenna '
+          family_name:
+            type: string
+            example: Smith
+          middle_name:
+            type: string
+            example: M
+          email:
+            type: string
+            example: jenna@healthtap.com
+          phone:
+            type: string
+            example: '1234567890'
+          address_line_1:
+            type: string
+            example: 270 University Ave
+          address_line_2:
+            type: string
+            example: '1'
+          address_city:
+            type: string
+            example: Palo Alto
+          address_state:
+            type: string
+            example: CA
+          address_postcode:
+            type: string
+            example: '94301'
+          address_country:
+            type: string
+            example: United States
+  appointment_schema:
+    properties:
+      links:
+        required:
+          - self
+        properties:
+          self:
+            type: string
+            example: 'https://www.healthtap.com/users/me/appointments'
+      data:
+        type: array
+        items:
+          properties:
+            type:
+              type: string
+              example: Appointment
+            id:
+              type: string
+              example: '1407'
+            attributes:
+              properties:
+                slot_id:
+                  type: integer
+                  example: 1476939600
+                status:
+                  type: string
+                  enum:
+                    - appointed
+                    - cancelled
+                    - finished
+                    - missed
+                    - unconfirmed
+                    - started
+                  example: appointed
+                duration:
+                  type: integer
+                  example: 1800
+                live_consult_type:
+                  type: string
+                  example: video
+                reason_for_visit:
+                  type: string
+                  example: I have headache
+            locale:
+              type: string
+              example: en-US
+            relationships:
+              properties:
+                expert:
+                  properties:
+                    data:
+                      properties:
+                        type:
+                          type: string
+                          example: Expert
+                        id:
+                          type: string
+                          example: '12616846'
+                person:
+                  properties:
+                    data:
+                      properties:
+                        type:
+                          type: string
+                          example: Person
+                        id:
+                          type: string
+                          example: '25978119'
+      included:
+        type: array
+        items:
+          required:
+            - self
+          $ref: '#/definitions/expert_basic'
+  test_result:
+    required:
+      - links
+      - data
+    properties:
+      links:
+        properties:
+          self:
+            type: string
+            example: 'https://api.healthtap.com/api/v2.1/users/me/test_results'
+      data:
+        type: array
+        items:
+          properties:
+            type:
+              type: string
+              example: TestResult
+            id:
+              type: string
+              example: 12rd4va28a6da2f01a7a93ha
+            attributes:
+              properties:
+                name:
+                  type: string
+                  example: TOTAL PROTEIN LAB
+                expert_name:
+                  type: string
+                  example: Alex Williams
+                organization:
+                  properties:
+                    id:
+                      type: string
+                      example: 53c050ac51c69003200aa998
+                    name:
+                      type: string
+                      example: Mayo Clinic
+                test_time:
+                  type: string
+                  example: '2014-05-13T17:53:20+00:00'
+                results:
+                  type: array
+                  items:
+                    properties:
+                      high:
+                        type: number
+                        example: 8
+                      low:
+                        type: number
+                        example: 5.4
+                      name:
+                        type: string
+                        example: 'Protein Total, Serum'
+                      unit:
+                        type: string
+                        example: g/dL
+                      value:
+                        type: number
+                        example: 6.8
+  topics_and_goals:
+    required:
+      - links
+      - data
+    properties:
+      links:
+        properties:
+          self:
+            type: string
+            example: 'https://api.healthtap.com/api/v2.1/users/me/topics_and_goals'
+      data:
+        type: array
+        items:
+          properties:
+            type:
+              type: string
+              example: KbAttribute
+            id:
+              type: string
+              example: '125462346'
+            attributes:
+              properties:
+                num_participants:
+                  type: integer
+                  example: 24045
+                name:
+                  type: string
+                  example: Eating a Vegetarian Diet
+                image:
+                  $ref: '#/definitions/image'
+                topic_type:
+                  type: string
+                  example: Topic
+  basic_availability_info_schema:
+    required:
+      - data
+    properties:
+      data:
+        required:
+          - status
+        properties:
+          status:
+            type: string
+            enum:
+              - free
+              - in_session
+              - on_break
+              - offline
+              - assigned
+            example: free
+  availability_info_schema:
+    required:
+      - link
+      - data
+    properties:
+      link:
+        properties:
+          self:
+            type: string
+      data:
+        required:
+          - status
+          - current_shift_commitment
+          - expert_shift_id
+        properties:
+          status:
+            type: string
+            enum:
+              - free
+              - in_session
+              - on_break
+              - offline
+              - assigned
+            example: free
+          current_shift_commitment:
+            type: string
+            enum:
+              - committed
+              - stand_by
+              - try_me
+              - ad_hoc
+            example: committed
+          expert_shift_id:
+            type: integer
+            example: 1000
+          locale:
+            type: string
+            example: en-US
+  doctor:
+    required:
+      - links
+      - data
+    properties:
+      links:
+        properties:
+          self:
+            type: string
+            example: 'https://api.healthtap.com/api/v2.1/search?category=doctor'
+      data:
+        type: array
+        items:
+          properties:
+            type:
+              type: string
+              example: Expert
+            id:
+              type: string
+              example: '10049366'
+            attributes:
+              properties:
+                location:
+                  $ref: '#/definitions/location'
+                gender:
+                  type: string
+                  example: Female
+                specialty:
+                  type: string
+                  example: Pulmonary Critical Care
+                name:
+                  $ref: '#/definitions/person_name'
+  top_answer_for_headache:
+    properties:
+      image:
+        type: string
+        example: >-
+          https://edc2.healthtap.com/ht-webservices/user_answer/reference_image/6710/large/blood.jpeg?1386670471
+      short_answer:
+        type: string
+        example: Anything
+      long_answer:
+        type: string
+        example: >-
+          You could be having migraines, tension headaches or sinus headaches.
+          Sometimes dehydration, lack of sleep/poor sleep, skipping meals,
+          stress, sleep apnea/snoring or chronic sinus allergies can cause
+          headaches. I recommend you see a doctor
+  question:
+    required:
+      - links
+      - data
+    properties:
+      links:
+        properties:
+          self:
+            type: string
+            example: 'https://api.healthtap.com/api/v2.1/search?category=question'
+      data:
+        type: array
+        items:
+          properties:
+            type:
+              type: string
+              example: UserQuestion
+            id:
+              type: string
+              example: '1205535'
+            attributes:
+              properties:
+                value:
+                  type: string
+                  example: What may cause my headache?
+                top_answer:
+                  $ref: '#/definitions/top_answer_for_headache'
+                locale:
+                  type: string
+                  example: en-US
+  topic:
+    required:
+      - links
+      - data
+    properties:
+      links:
+        properties:
+          self:
+            type: string
+            example: 'https://api.healthtap.com/api/v2.1/search?category=topics'
+      data:
+        type: array
+        items:
+          properties:
+            type:
+              type: string
+              example: KbAttribute
+            id:
+              type: string
+              example: '125462346'
+            attributes:
+              properties:
+                name:
+                  type: string
+                  example: Eating a Vegetarian Diet
+                image:
+                  $ref: '#/definitions/small_image'
+                topic_type:
+                  type: string
+                  example: Topic
+                description:
+                  type: string
+                  example: Eating a Vegetarian Diet is good for your health
+                locale:
+                  type: string
+                  example: en-US
+  topic_details:
+    required:
+      - links
+      - data
+    properties:
+      links:
+        properties:
+          self:
+            type: string
+            example: 'https://api.healthtap.com/api/v2.1/topics/125462346'
+      data:
+        properties:
+          type:
+            type: string
+            example: KbAttribute
+          id:
+            type: string
+            example: '125462346'
+          attributes:
+            properties:
+              num_participants:
+                type: integer
+                example: 24045
+              name:
+                type: string
+                example: Eating a Vegetarian Diet
+              image:
+                $ref: '#/definitions/image'
+              topic_type:
+                type: string
+                example: topic
+  top_expert:
+    properties:
+      type:
+        type: string
+        example: Expert
+      id:
+        type: string
+        example: '10014569'
+      attributes:
+        properties:
+          name:
+            type: string
+            example: Dr. Romanth Waghmarae
+          image:
+            $ref: '#/definitions/image'
+  tips:
+    required:
+      - links
+      - data
+    properties:
+      links:
+        properties:
+          self:
+            type: string
+            example: 'https://api.healthtap.com/api/v2.1/search?category=tips'
+      data:
+        type: array
+        items:
+          properties:
+            type:
+              type: string
+              example: UserAnswer
+            id:
+              type: string
+              example: '296529'
+            attributes:
+              properties:
+                value:
+                  type: string
+                  example: >-
+                    usually some injury - trivial or not - that results in
+                    sensitization of peripheral nerve fibers that then results
+                    in painful state. If left untreated changes take place in
+                    the spinal cord and brain as well.
+                image:
+                  type: string
+                  example: >-
+                    https://edc2.healthtap.com/ht-webservices/user_answer/reference_image/8352/large/Varicocele.jpeg?1386670636
+                locale:
+                  type: string
+                  example: en-US
+            relationships:
+              properties:
+                top_expert:
+                  $ref: '#/definitions/top_expert'
+  small_image:
+    type: string
+    example: >-
+      https://edc2.healthtap.com/ht-webservices/user_answer/reference_image/11106/large/Lip_biting.jpeg?1386669990
+  news:
+    required:
+      - links
+      - data
+    properties:
+      links:
+        properties:
+          self:
+            type: string
+            example: 'https://api.healthtap.com/api/v2.1/search?category=news'
+      data:
+        type: array
+        items:
+          properties:
+            type:
+              type: string
+              example: NewsItem
+            id:
+              type: string
+              example: '1254369'
+            attributes:
+              properties:
+                description:
+                  type: string
+                  example: >-
+                    What proportion of cancer deaths are attributable to smoking
+                    around the US?
+                image:
+                  $ref: '#/definitions/small_image'
+                url:
+                  type: string
+                  example: >-
+                    https://www.sciencedaily.com/releases/2016/10/161024133716.html
+                publication_date:
+                  type: string
+                  example: '2016-10-24'
+                locale:
+                  type: string
+                  example: en-US
+            relationships:
+              properties:
+                top_expert:
+                  properties:
+                    type:
+                      type: string
+                      example: Expert
+                    id:
+                      type: string
+                      example: '10014569'
+                    name:
+                      type: string
+                      example: Jenna Smith
+                    photo:
+                      $ref: '#/definitions/small_image'
+  specialties:
+    required:
+      - links
+      - data
+    properties:
+      links:
+        properties:
+          self:
+            type: string
+            example: 'https://api.healthtap.com/api/v2.1/search?category=specialties'
+      data:
+        type: array
+        items:
+          type: string
+          example: Physical Medicine and Rehabilitation
+  expert_basic:
+    properties:
+      type:
+        type: string
+        example: Expert
+      id:
+        type: string
+        example: '10049366'
+      attributes:
+        properties:
+          name:
+            $ref: '#/definitions/person_name'
+          specialty:
+            type: string
+            example: Addiction Medicine
+          photo:
+            $ref: '#/definitions/image'
+  appointments_slots:
+    required:
+      - links
+      - data
+    properties:
+      links:
+        required:
+          - self
+        properties:
+          self:
+            type: string
+            example: 'https://www.healthtap.com/api/v2.1/experts/12616846/office_hours'
+      data:
+        properties:
+          time_zone:
+            type: string
+            example: American/Los_Angeles
+          available_slots:
+            type: array
+            items:
+              $ref: '#/definitions/slot_format'
+          additional_available_slots:
+            properties:
+              appointment_duration:
+                type: integer
+                example: 15
+              available_slots:
+                type: array
+                items:
+                  $ref: '#/definitions/slot_format'
+          locale:
+            type: string
+            example: en-US
+  slot_format:
+    required:
+      - slot_id
+      - display
+    properties:
+      slot_id:
+        type: integer
+        example: 1476995400
+      display:
+        type: string
+        example: '1:30pm - 1:45pm'
+  scheduled_schema:
+    properties:
+      data:
+        properties:
+          type:
+            type: string
+            example: Appointment
+          id:
+            type: integer
+            example: 1421
+  expert_details:
+    required:
+      - links
+      - data
+    properties:
+      links:
+        properties:
+          self:
+            type: string
+            example: 'https://api.healthtap.com/api/v2.1/experts/{id}'
+      data:
+        type: array
+        items:
+          $ref: '#/definitions/expert_details_data'
+  expert_details_data:
+    properties:
+      type:
+        type: string
+        example: Expert
+      id:
+        type: string
+        example: '10049366'
+      attributes:
+        properties:
+          doc_score:
+            type: string
+            example: '96'
+          bio_summary:
+            type: string
+            example: >-
+              Dr. Smith, a doctor specializing in pain management, prides his
+              ability to help patients wherever, whenever. Over the years being
+              available to treat patients from around the world has been an
+              extraordinary experience and a sincere pleasure.CredentialsDr.
+              Lewis is an ivy league trained physician who graduated from Mount
+              Sinai Medical School in New York. He then completed a residency in
+              Physical Medicine and Rehabilitation, also known as Physiatry, at
+              Tufts New England Medical Center in Boston where he served as
+              Chief Resident. In addition to his medical degree and training,
+              Dr. Lewis holds a Master's Degree in Public Health from New York
+              University. Dr. Lewis enjoys an active professional career as the
+              Chief of Physical Medicine and Rehabilitation at California
+              Pacific Medical Center - St. Luke's Campus in the Department of
+              Orthopedics. He is also Volunteer Clinical Faculty for the
+              University of California, San Francisco and the Touro University
+              of Osteopathic Medicine.PhilosophyPain is an unpleasant sensory
+              and emotional experience. Physical pain is often generated by
+              tissue damage. As doctors, it is our duty to become more sensitive
+              to a patient's pain and to dedicate ourselves.
+          intro:
+            type: string
+            example: >-
+              I believe in personal, customized treatment for all my patients. I
+              am excited to embrace this new technology. My focus is on physical
+              medicine and rehabilitation, which addresses people's pain through
+              as many natural approaches as possible, minimizing medication and
+              procedures if appropriate. I look forward to hearing from you, and
+              you will find my answers to be detailed.
+          specialty:
+            type: string
+            example: Physical Medicine and Rehabilitation
+          approved_licenses_states_display:
+            type: array
+            items:
+              type: string
+              example: Rhode island
+          practice_duration:
+            type: integer
+            example: 20
+          num_lives_saved:
+            type: integer
+            example: 34
+          in_concierge:
+            type: boolean
+            example: true
+          in_prime:
+            type: boolean
+            example: true
+          people_helped:
+            type: integer
+            example: 2855262
+          gender:
+            type: string
+            example: Female
+          image:
+            $ref: '#/definitions/image'
+          location:
+            $ref: '#/definitions/location'
+          name:
+            $ref: '#/definitions/person_name'
+          vanity_url:
+            type: string
+            example: 'https://www.healthtap.com/dr-jenna-smith'
+  chat_sessions_rating:
+    required:
+      - links
+      - data
+    properties:
+      links:
+        required:
+          - self
+        properties:
+          self:
+            type: string
+      data:
+        type: array
+        items:
+          properties:
+            type:
+              type: string
+              example: ChatSession
+            id:
+              type: string
+              example: '28995'
+            attributes:
+              properties:
+                start_time:
+                  type: integer
+                  example: 1487890308
+                end_time:
+                  type: integer
+                  example: 1487890416
+                consult_type:
+                  type: string
+                  example: LiveConsult
+                state:
+                  type: string
+                  example: ended
+                concierge_type:
+                  type: string
+                  example: regular
+                rating:
+                  type: integer
+                  example: 5
+                rating_comment:
+                  type: string
+                  example: Awesome experience
+            relationships:
+              properties:
+                person:
+                  properties:
+                    type:
+                      type: string
+                      example: Person
+                    id:
+                      type: string
+                      example: '30007144'
+      included:
+        type: array
+        items:
+          properties:
+            type:
+              type: string
+              example: Person
+            id:
+              type: string
+              example: '30007144'
+            attributes:
+              properties:
+                name:
+                  $ref: '#/definitions/person_name'
+                photo:
+                  $ref: '#/definitions/image'
+                dob:
+                  type: integer
+                  example: 757929600
+                gender:
+                  type: string
+                  example: female
+  upcoming_appointments:
+    required:
+      - links
+      - data
+    properties:
+      links:
+        required:
+          - self
+        properties:
+          self:
+            type: string
+      data:
+        type: array
+        items:
+          properties:
+            type:
+              type: string
+              example: ConciergeAppointment
+            id:
+              type: string
+              example: '1140'
+            attributes:
+              properties:
+                slot_id:
+                  type: integer
+                  example: 1491202800
+                duration:
+                  type: integer
+                  example: 1800
+                grace_period:
+                  type: integer
+                  example: 600
+                live_consult_type:
+                  type: string
+                  example: video
+                reason_for_visit:
+                  type: string
+                  example: My nose is bleeding please help
+            relationships:
+              properties:
+                person:
+                  properties:
+                    type:
+                      type: string
+                      example: Person
+                    id:
+                      type: string
+                      example: '25978119'
+      included:
+        type: array
+        items:
+          properties:
+            type:
+              type: string
+              example: Person
+            id:
+              type: string
+              example: '25978119'
+              description: person id
+            attributes:
+              properties:
+                photo:
+                  $ref: '#/definitions/image'
+                location:
+                  $ref: '#/definitions/location'
+                gender:
+                  type: string
+                  example: female
+                dob:
+                  type: integer
+                  example: 757929600
+                name:
+                  $ref: '#/definitions/person_name'
+  expert_profile:
+    required:
+      - links
+      - data
+    properties:
+      links:
+        properties:
+          self:
+            type: string
+      data:
+        required:
+          - type
+          - id
+          - attributes
+        properties:
+          type:
+            type: string
+            example: Expert
+          id:
+            type: string
+            example: '12616846'
+            description: Gloabl expert id
+          attributes:
+            properties:
+              gender:
+                type: string
+                example: male
+              doc_score:
+                type: integer
+                example: 85
+              approved_licenses_states:
+                type: array
+                items:
+                  type: string
+                  example: ca
+              specialty:
+                type: string
+                example: Addiction Medicine
+              medical_school:
+                type: string
+                example: 'Stanford University School of Medicine, CA'
+              graduation_year:
+                type: string
+                example: '2008'
+              photo:
+                $ref: '#/definitions/image'
+              name:
+                $ref: '#/definitions/person_name'
+              contact_information:
+                properties:
+                  phone:
+                    type: string
+                    example: '1234567890'
+                  phone_country_code:
+                    type: string
+                    example: '+1'
+                  address:
+                    properties:
+                      address_line_1:
+                        type: string
+                        example: 270 University Ave
+                      address_line_2:
+                        type: string
+                        example: second floor
+                      city:
+                        type: string
+                        example: Palo Alto
+                      state:
+                        type: string
+                        example: CA
+                      country:
+                        type: string
+                        example: United States
+              fellowship:
+                type: array
+                items:
+                  properties:
+                    specialty:
+                      type: string
+                      example: Clinical Genetics
+                    hospital:
+                      type: string
+                      example: UCSF MEDICAL CENTER
+                    year:
+                      type: string
+                      example: '2000'
+              residencies:
+                type: array
+                items:
+                  properties:
+                    specialty:
+                      type: string
+                      example: Anti-Aging Medicine
+                    primary_hospital:
+                      type: string
+                      example: UCSF MEDICAL CENTER
+                    year:
+                      type: string
+                      example: '2007'
+              specialties:
+                type: array
+                items:
+                  type: string
+                  example: Family Medicine
+  expert_profile_input:
+    properties:
+      data:
+        properties:
+          gender:
+            type: string
+            example: female
+          specialty:
+            type: string
+            example: Family Care
+          medical_school:
+            type: string
+            example: UCSF
+          graduation_year:
+            type: string
+            example: '2000'
+          city:
+            type: string
+            example: Palo Alto
+          state:
+            type: string
+            example: CA
+          postcode:
+            type: string
+            example: '94000'
+          country:
+            type: string
+            example: United States
+          given_name:
+            type: string
+            example: 'Jenna '
+          family_name:
+            type: string
+            example: Smith
+          middle_name:
+            type: string
+            example: M
+          phone:
+            type: string
+            example: '1234567890'
+          phone_country_code:
+            type: string
+            example: '+1'
+          address_line_1:
+            type: string
+            example: 270 University Ave
+          address_line_2:
+            type: string
+            example: '1'
+          address_city:
+            type: string
+            example: Palo Alto
+          address_state:
+            type: string
+            example: CA
+          address_country:
+            type: string
+            example: United States
+          fellowship_specialty:
+            type: string
+            example: Family Care
+          fellowship_hospital:
+            type: string
+            example: UCSF
+          fellowship_year:
+            type: string
+            example: '2001'
+          residencies_specialty:
+            type: string
+            example: Family Care
+          residencies_primary_hospital:
+            type: string
+            example: UCSF
+          residencies_year:
+            type: string
+            example: '2001'
+  expert_feed:
+    required:
+      - links
+      - data
+    properties:
+      links:
+        required:
+          - self
+        properties:
+          self:
+            type: string
+            example: 'https://next-dev.healthtap.com/api/v2.1/experts/me/feed'
+      data:
+        type: array
+        items:
+          properties:
+            type:
+              type: string
+              example: UserQuestion
+            id:
+              type: string
+              example: '1205055'
+            attributes:
+              properties:
+                question:
+                  type: string
+                  example: Hello why I have headache?
+                url:
+                  type: string
+                  example: /user_questions/1205055-hello-what-is-my-free-question
+                num_answers:
+                  type: integer
+                  example: 1
+            relationships:
+              properties:
+                asker:
+                  properties:
+                    type:
+                      type: string
+                      example: Person
+                    id:
+                      type: string
+                      example: '17620589'
+      included:
+        type: array
+        items:
+          properties:
+            type:
+              type: string
+              example: Person
+            id:
+              type: string
+              example: '17620589'
+            attributes:
+              properties:
+                name:
+                  properties:
+                    full_name:
+                      type: string
+                      example: Tom Smith
+  post_question_input_format:
+    required:
+      - data
+    properties:
+      data:
+        $ref: '#/definitions/post_question_input'
+  post_question_input:
+    required:
+      - question_type
+      - question
+      - external_question_id
+    properties:
+      question_type:
+        type: string
+        description: One of regular or expedited
+        example: regular
+      external_question_id:
+        type: string
+        description: External question id
+        example: '22'
+      question:
+        type: string
+        description: Question to ask
+        example: How to stop nose blooding
+  post_question:
+    required:
+      - data
+    properties:
+      data:
+        $ref: '#/definitions/post_question_data'
+  post_question_data:
+    required:
+      - id
+      - type
+    properties:
+      type:
+        type: string
+        example: UserQuestion
+      id:
+        type: string
+        example: '1205535'
+  top_answer:
+    properties:
+      type:
+        type: string
+        example: UserAnswer
+      id:
+        type: string
+        example: '1648698'
+      attributes:
+        properties:
+          image:
+            $ref: '#/definitions/image'
+          short_answer:
+            type: string
+            example: Drink water
+          long_answer:
+            type: string
+            example: Drink water and sleep more
+  question_output:
+    required:
+      - links
+      - data
+    properties:
+      links:
+        properties:
+          self:
+            type: string
+            example: 'https://www.healthtap.com/api/v2.1/questions/1205535'
+      data:
+        properties:
+          type:
+            type: string
+            example: UserQuestion
+          id:
+            type: string
+            example: '1205535'
+          attributes:
+            properties:
+              value:
+                type: string
+                example: What to do when nose blooding?
+              asker_id:
+                type: string
+                example: '30007142'
+              answer_ids:
+                type: array
+                items:
+                  type: string
+                  example: '1648695'
+              locale:
+                type: string
+                example: en-US
+          relationships:
+            properties:
+              top_answer:
+                properties:
+                  type:
+                    type: string
+                    example: UserAnswer
+                  id:
+                    type: string
+                    example: '1648698'
+      included:
+        type: array
+        items:
+          $ref: '#/definitions/top_answer'
+  news_details:
+    required:
+      - links
+      - data
+    properties:
+      links:
+        properties:
+          self:
+            type: string
+            example: 'https://api.healthtap.com/api/v2.1/news/1254369'
+      data:
+        properties:
+          type:
+            type: string
+            example: NewsItem
+          id:
+            type: string
+            example: '1254369'
+          attributes:
+            properties:
+              description:
+                type: string
+                example: >-
+                  What proportion of cancer deaths are attributable to smoking
+                  around the US?
+              url:
+                type: string
+                example: >-
+                  https://www.sciencedaily.com/releases/2016/10/161024133716.html
+              publication_date:
+                $ref: '#/definitions/date'
+              topics:
+                type: array
+                items:
+                  type: string
+                  example: cancer
+              comments_count:
+                type: integer
+                example: 14
+              locale:
+                type: string
+                example: en-US
+  tips_detail:
+    required:
+      - links
+      - data
+    properties:
+      links:
+        properties:
+          self:
+            type: string
+            example: 'https://api.healthtap.com/api/v2.1/tips/296529'
+      data:
+        properties:
+          type:
+            type: string
+            example: UserAnswer
+          id:
+            type: string
+            example: '296529'
+          attributes:
+            properties:
+              value:
+                type: string
+                example: >-
+                  usually some injury - trivial or not - that results in
+                  sensitization of peripheral nerve fibers that then results in
+                  painful state. If left untreated changes take place in the
+                  spinal cord and brain as well.
+              image:
+                $ref: '#/definitions/image'
+              num_agrees:
+                type: integer
+                example: 124
+              num_comments:
+                type: integer
+                example: 152
+              locale:
+                type: string
+                example: en-US
+          relationships:
+            properties:
+              top_expert:
+                properties:
+                  type:
+                    type: string
+                    example: Expert
+                  id:
+                    type: string
+                    example: '10014569'
+      included:
+        type: array
+        items:
+          $ref: '#/definitions/top_expert'
+  file_upload_schema:
+    required:
+      - data
+    properties:
+      data:
+        properties:
+          type:
+            type: string
+            example: file
+          id:
+            type: string
+            example: '100'
+          attributes:
+            properties:
+              url:
+                type: string
+                example: 'https://www.healthtap.com/api/v2.1/files/100'
+  chat_session_feed:
+    required:
+      - data
+    properties:
+      data:
+        properties:
+          type:
+            type: string
+            example: File
+          id:
+            type: string
+            example: '1'
+          attributes:
+            properties:
+              url:
+                type: string
+                example: 'https://api.healthtap.com/waiting_room.mp4'
+              reason_for_visit:
+                type: st
+  session_detail:
+    required:
+      - data
+    properties:
+      data:
+        properties:
+          type:
+            type: string
+            example: ChatSession
+          id:
+            type: string
+            example: '10001'
+          attributes:
+            properties:
+              consult_type:
+                type: string
+                example: video
+              reason_for_visit:
+                type: string
+                example: I have a headache
+              consult_geo_state:
+                type: string
+                example: CA
+              consult_geo_country:
+                type: string
+                example: United States
+              concierge_appointment_id:
+                type: string
+                example: '1000'
+  ErrorModel:
+    type: object
+    required:
+      - message
+      - subcode
+    properties:
+      message:
+        type: string
+      subcode:
+        type: string
+  speed_test_configuration_schema:
+    required:
+      - link
+      - data
+    properties:
+      links:
+        properties:
+          self:
+            type: string
+      data:
+        properties:
+          num_pings:
+            type: number
+            example: 5
+          ping_url:
+            type: string
+          bandwidth_file_size:
+            type: number
+            example: 1048576
+          num_downloads:
+            type: number
+            example: 5
+          download_url:
+            type: string
+          num_uploads:
+            type: number
+            example: 5
+          bandwidth_download_time:
+            type: number
+            example: 1000
+          upload_url:
+            type: string
+          bandwidth_upload_time:
+            type: number
+            example: 1000
+  speed_test_report_schema:
+    properties:
+      data:
+        properties:
+          live_consults_allowed:
+            type: array
+            example:
+              - live
+              - audio
+              - text
+            items:
+              type: string
+          set_unavailable:
+            type: boolean
+            example: false
+          bandwith_check_count:
+            type: number
+            example: 5
+          should_set_availability_based_on_result:
+            type: boolean
+            example: false
+  file_transfer_speed_schema:
+    required:
+      - start_ts
+      - end_ts
+      - file_size
+    properties:
+      start_ts:
+        type: integer
+        example: 100000
+      end_ts:
+        type: integer
+        example: 100000
+      file_size:
+        type: integer
+        example: 100000
+  speed_test_schema:
+    required:
+      - ping_results
+    properties:
+      mode:
+        type: string
+        enum:
+          - background
+          - foreground
+        example: background
+      ping_results:
+        type: array
+        example:
+          - 10000
+          - 1002
+        items:
+          type: string
+      download_results:
+        type: array
+        items:
+          $ref: '#/definitions/file_transfer_speed_schema'
+      upload_results:
+        type: array
+        items:
+          $ref: '#/definitions/file_transfer_speed_schema'
+  download_schema: {}
+  pong_schema:
+    required:
+      - data
+    properties:
+      data:
+        properties:
+          content:
+            type: string
+            example: pong
+  rateRx:
+    required:
+      - links
+      - data
+    properties:
+      links:
+        properties:
+          self:
+            type: string
+            example: 'https://api.healthtap.com/api/v2.1/treatments_reviews/479186'
+      data:
+        type: array
+        items:
+          properties:
+            type:
+              type: string
+              example: KbAttribute
+            id:
+              type: string
+              example: '479186'
+            attributes:
+              properties:
+                display_string:
+                  type: string
+                  example: How effective is Albuterol for Asthma?
+                indication:
+                  properties:
+                    id:
+                      type: string
+                      example: '111018391'
+                    name:
+                      type: string
+                      example: Asthma
+                medication:
+                  properties:
+                    id:
+                      type: string
+                      example: '18342'
+                    name:
+                      type: string
+                      example: Albuterol
+                average_rating:
+                  type: number
+                  example: 4.19
+                brand_names:
+                  type: array
+                  items:
+                    type: string
+                    example: Proventil
+                is_a_procedure:
+                  type: boolean
+                  example: false
+            relationships:
+              properties:
+                comments:
+                  type: array
+                  items:
+                    properties:
+                      type:
+                        type: string
+                        example: Vote
+                      id:
+                        type: string
+                        example: '9519520'
+      included:
+        type: array
+        items:
+          properties:
+            type:
+              type: string
+              example: Vote
+            id:
+              type: string
+              example: '9519520'
+            attributes:
+              properties:
+                note:
+                  type: string
+                  example: >-
+                    Extremely effective for intermittant, mild asthma, so much
+                    so that not responding to albuterol triggers serious doubt
+                    that asthma is present.  As asthma worsens, albuterol's
+                    limits are appreciated; it is not antiinflammatory, and
+                    overuse id associate with death from asthma.
+                expert:
+                  properties:
+                    type:
+                      type: string
+                      example: Expert
+                    id:
+                      type: string
+                      example: '12828798'
+  log_schema:
+    required:
+      - data
+    properties:
+      data:
+        type: array
+        items:
+          properties:
+            action:
+              type: string
+              example: start_session
+            timestamp:
+              type: integer
+              example: 1488316782
+            result:
+              type: boolean
+              example: true
+            message:
+              type: string
+              example: Network Error
+            error_code:
+              type: string
+              example: network_error
+  all_country_details:
+    required:
+      - links
+      - data
+    properties:
+      links:
+        properties:
+          self:
+            type: string
+      data:
+        type: array
+        items:
+          properties:
+            name:
+              type: string
+              example: New Zealand
+            display_name:
+              type: string
+              example: New Zealand
+            phone_country_code:
+              type: string
+              example: '+64'
+            country_code:
+              type: string
+              example: '64'
+  analytics_log_schema:
+    required:
+      - data
+    properties:
+      data:
+        type: array
+        items:
+          properties:
+            event_category:
+              type: string
+              example: session
+            event_name:
+              type: string
+              example: start_session
+            version:
+              type: string
+              example: '2.1'
+            value:
+              type: string
+              example: 'true'
+            device_type:
+              type: string
+              example: MobileWeb
+            entry_point:
+              type: string
+              example: landing_page
+            device_id:
+              type: string
+              example: '1000'
+            htuid:
+              type: string
+              example: '1000'
+            referrer:
+              type: string
+              example: 'https://google.com'
+            landing_page:
+              type: string
+              example: /home
+            timestamp:
+              type: integer
+              example: 1488316782
+  notification_settings:
+    required:
+      - data
+    properties:
+      data:
+        type: array
+        items:
+          properties:
+            type:
+              type: string
+              example: NotificationSetting
+            id:
+              type: string
+              example: your_question_received_answer_push
+            attributes:
+              properties:
+                channel:
+                  type: string
+                  enum:
+                    - push
+                    - email
+                  example: push
+                enabled:
+                  type: boolean
+                  example: true
+                value:
+                  type: boolean
+                  example: true
+                title:
+                  type: string
+                  example: A doctor answers your question
+                category:
+                  type: string
+                  example: your_questions
+  configurations:
+    required:
+      - data
+    properties:
+      data:
+        type: array
+        items: {}
+  person_name:
+    properties:
+      given_name:
+        type: string
+        example: Jenna
+      family_name:
+        type: string
+        example: Smith
+      middle_name:
+        type: string
+        example: M
+      full_name:
+        type: string
+        example: Jenna M Smith
+  image:
+    properties:
+      large:
+        type: string
+        example: >-
+          https://webservices.healthtap.com/images/avatars/gallery/member45_medium.png
+      thumb:
+        type: string
+        example: >-
+          https://webservices.healthtap.com/images/avatars/gallery/member45_thumb.png
+  date:
+    type: string
+    example: 03-03-1992

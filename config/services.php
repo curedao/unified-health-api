@@ -43,55 +43,55 @@ return [
     'facebook' => [
         'client_id'     => env('CONNECTOR_FACEBOOK_CLIENT_ID'),
         'client_secret' => env('CONNECTOR_FACEBOOK_CLIENT_SECRET'),
-        'redirect'      => env('CONNECTOR_FACEBOOK_REDIRECT', env('APP_URL') . '/auth/facebook/callback'),
+        'redirect'      => env('CONNECTOR_FACEBOOK_REDIRECT', env('APP_URL') . '/oauth/facebook/callback'),
     ],
 
     'twitter' => [
         'client_id'     => env('CONNECTOR_TWITTER_CLIENT_ID'),
         'client_secret' => env('CONNECTOR_TWITTER_CLIENT_SECRET'),
-        'redirect'      => env('CONNECTOR_TWITTER_REDIRECT', env('APP_URL') . '/auth/twitter/callback'),
+        'redirect'      => env('CONNECTOR_TWITTER_REDIRECT', env('APP_URL') . '/oauth/twitter/callback'),
     ],
 
     'google' => [
         'client_id'     => env('CONNECTOR_GOOGLE_CLIENT_ID'),
         'client_secret' => env('CONNECTOR_GOOGLE_CLIENT_SECRET'),
-        'redirect'      => env('CONNECTOR_GOOGLE_REDIRECT', env('APP_URL') . '/auth/google/callback'),
+        'redirect'      => env('CONNECTOR_GOOGLE_REDIRECT', env('APP_URL') . '/oauth/google/callback'),
     ],
 
     'github' => [
         'client_id'     => env('CONNECTOR_GITHUB_CLIENT_ID'),
         'client_secret' => env('CONNECTOR_GITHUB_CLIENT_SECRET'),
-        'redirect'      => env('CONNECTOR_GITHUB_REDIRECT', env('APP_URL') . '/auth/github/callback'),
+        'redirect'      => env('CONNECTOR_GITHUB_REDIRECT', env('APP_URL') . '/oauth/github/callback'),
     ],
 
 //    'youtube' => [
 //        'client_id'     => env('CONNECTOR_YOUTUBE_KEY'),
 //        'client_secret' => env('CONNECTOR_YOUTUBE_CLIENT_SECRET'),
-//        'redirect'      => env('CONNECTOR_YOUTUBE_REDIRECT_URI', env('APP_URL') . '/auth/youtube/callback'),
+//        'redirect'      => env('CONNECTOR_YOUTUBE_REDIRECT_URI', env('APP_URL') . '/oauth/youtube/callback'),
 //    ],
 //
 //    'twitch' => [
 //        'client_id'     => env('CONNECTOR_TWITCH_KEY'),
 //        'client_secret' => env('CONNECTOR_TWITCH_CLIENT_SECRET'),
-//        'redirect'      => env('CONNECTOR_TWITCH_REDIRECT_URI', env('APP_URL') . '/auth/twitch/callback'),
+//        'redirect'      => env('CONNECTOR_TWITCH_REDIRECT_URI', env('APP_URL') . '/oauth/twitch/callback'),
 //    ],
 //
 //    'instagram' => [
 //        'client_id'     => env('CONNECTOR_INSTAGRAM_KEY'),
 //        'client_secret' => env('CONNECTOR_INSTAGRAM_CLIENT_SECRET'),
-//        'redirect'      => env('CONNECTOR_INSTAGRAM_REDIRECT_URI', env('APP_URL') . '/auth/instagram/callback'),
+//        'redirect'      => env('CONNECTOR_INSTAGRAM_REDIRECT_URI', env('APP_URL') . '/oauth/instagram/callback'),
 //    ],
 //
 //    '37signals' => [
 //        'client_id'     => env('CONNECTOR_37SIGNALS_KEY'),
 //        'client_secret' => env('CONNECTOR_37SIGNALS_CLIENT_SECRET'),
-//        'redirect'      => env('CONNECTOR_37SIGNALS_REDIRECT_URI', env('APP_URL') . '/auth/37signals/callback'),
+//        'redirect'      => env('CONNECTOR_37SIGNALS_REDIRECT_URI', env('APP_URL') . '/oauth/37signals/callback'),
 //    ],
 //
     'linkedin' => [
         'client_id'     => env('CONNECTOR_LINKEDIN_KEY'),
         'client_secret' => env('CONNECTOR_LINKEDIN_CLIENT_SECRET'),
-        'redirect'      => env('CONNECTOR_LINKEDIN_REDIRECT_URI', env('APP_URL') . '/auth/linkedin/callback'),
+        'redirect'      => env('CONNECTOR_LINKEDIN_REDIRECT_URI', env('APP_URL') . '/oauth/linkedin/callback'),
     ],
 
 ];
