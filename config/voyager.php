@@ -13,7 +13,7 @@ return [
     'user' => [
         'add_default_role_on_register' => true,
         'default_role'                 => 'user',
-        'default_avatar'               => 'users/default.png',
+        'default_avatar'               => 'https://cdn2.iconfinder.com/data/icons/social-flat-buttons-3/512/anonymous-512.png',
         'redirect'                     => '/admin',
     ],
 
@@ -55,7 +55,8 @@ return [
     */
 
     'storage' => [
-        'disk' => 'public',
+        //'disk' => 'public',
+        'disk' => 's3',
     ],
 
     /*
@@ -67,7 +68,7 @@ return [
     |
     */
 
-    'hidden_files' => false,
+    'hidden_files' => true,
 
     /*
     |--------------------------------------------------------------------------
@@ -170,7 +171,7 @@ return [
         // When a BREAD is added, create the related Permission.
         'add_permission' => true,
 
-        // which role add premissions to
+        // which role add permissions to
         'default_role' => 'admin',
     ],
 
@@ -210,14 +211,14 @@ return [
 
     'media' => [
         // The allowed mimetypes to be uploaded through the media-manager.
-        // 'allowed_mimetypes' => '*', //All types can be uploaded
-        'allowed_mimetypes' => [
-          'image/jpeg',
-          'image/png',
-          'image/gif',
-          'image/bmp',
-          'video/mp4',
-        ],
+        'allowed_mimetypes' => '*', //All types can be uploaded
+//        'allowed_mimetypes' => [
+//          'image/jpeg',
+//          'image/png',
+//          'image/gif',
+//          'image/bmp',
+//          'video/mp4',
+//        ],
         //Path for media-manager. Relative to the filesystem.
         'path'                => '/',
         'show_folders'        => true,

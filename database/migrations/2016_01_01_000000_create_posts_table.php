@@ -12,6 +12,9 @@ class CreatePostsTable extends Migration
      */
     public function up()
     {
+        if(Schema::hasTable('posts')){
+            return;
+        }
         // Create table for storing roles
         Schema::create('posts', function (Blueprint $table) {
             $table->increments('id');

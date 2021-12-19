@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use JoelButcher\Socialstream\HasConnectedAccounts;
 use JoelButcher\Socialstream\SetsProfilePhotoFromUrl;
@@ -74,7 +73,22 @@ class User extends \TCG\Voyager\Models\User
         if (filter_var($this->profile_photo_path, FILTER_VALIDATE_URL)) {
             return $this->profile_photo_path;
         }
-
+        if (filter_var($this->avatar, FILTER_VALIDATE_URL)) {
+            return $this->avatar;
+        }
         return $this->getPhotoUrl();
+    }
+    public function setAvatarAttribute($value){
+        if($value){
+            $value = str_replace("\\", "/", $value);
+        }
+        return $this->attributes['profile_photo_path'] = $this->attributes['avatar'] = $value;
+    }
+
+    public function getAvatarAttribute($value){
+        if($value){
+            $value = str_replace("\\", "/", $value);
+        }
+        return $value ?? config('voyager.user.default_avatar', 'users/default.png');
     }
 }
