@@ -8,14 +8,11 @@ use NunoMaduro\PhpInsights\Domain\Insights\ForbiddenNormalClasses;
 use NunoMaduro\PhpInsights\Domain\Insights\ForbiddenPrivateMethods;
 use NunoMaduro\PhpInsights\Domain\Insights\ForbiddenTraits;
 use NunoMaduro\PhpInsights\Domain\Metrics\Architecture\Classes;
-use SlevomatCodingStandard\Sniffs\Commenting\UselessFunctionDocCommentSniff;
-use SlevomatCodingStandard\Sniffs\Namespaces\AlphabeticallySortedUsesSniff;
+use PhpCsFixer\Fixer\Comment\NoEmptyCommentFixer;
+use SlevomatCodingStandard\Sniffs\Commenting\DocCommentSpacingSniff;
 use SlevomatCodingStandard\Sniffs\TypeHints\DeclareStrictTypesSniff;
+use SlevomatCodingStandard\Sniffs\TypeHints\DisallowArrayTypeHintSyntaxSniff;
 use SlevomatCodingStandard\Sniffs\TypeHints\DisallowMixedTypeHintSniff;
-use SlevomatCodingStandard\Sniffs\TypeHints\ParameterTypeHintSniff;
-use SlevomatCodingStandard\Sniffs\TypeHints\PropertyTypeHintSniff;
-use SlevomatCodingStandard\Sniffs\TypeHints\ReturnTypeHintSniff;
-
 return [
     /*
     |--------------------------------------------------------------------------
@@ -76,21 +73,27 @@ return [
     ],
 
     'remove' => [
-        AlphabeticallySortedUsesSniff::class,
+        //AlphabeticallySortedUsesSniff::class,
         DeclareStrictTypesSniff::class,
         DisallowMixedTypeHintSniff::class,
         ForbiddenDefineFunctions::class,
         ForbiddenNormalClasses::class,
         ForbiddenTraits::class,
-        ParameterTypeHintSniff::class,
-        PropertyTypeHintSniff::class,
-        ReturnTypeHintSniff::class,
-        UselessFunctionDocCommentSniff::class,
+        //ParameterTypeHintSniff::class,
+        //PropertyTypeHintSniff::class,
+        //ReturnTypeHintSniff::class,
+        //UselessFunctionDocCommentSniff::class,
+        DocCommentSpacingSniff::class,
+        DisallowArrayTypeHintSyntaxSniff::class,
+        NoEmptyCommentFixer::class,
     ],
 
     'config' => [
         ForbiddenPrivateMethods::class => [
             'title' => 'The usage of private methods is not idiomatic in Laravel.',
+        ],
+        DocCommentSpacingSniff::class => [
+            'linesCountBetweenDifferentAnnotationsTypes' => 0,
         ],
     ],
 

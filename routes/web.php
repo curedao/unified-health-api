@@ -31,6 +31,6 @@ Route::middleware([
     return view('dashboard');
 })->name('dashboard');
 
-Route::group(['prefix' => 'admin'], function () {
+Route::group(['prefix' => 'admin'], function (): void {
     Voyager::routes();
 });

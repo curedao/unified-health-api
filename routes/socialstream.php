@@ -8,7 +8,7 @@ use JoelButcher\Socialstream\Http\Controllers\OAuthController;
 use JoelButcher\Socialstream\Socialstream;
 use Laravel\Jetstream\Jetstream;
 
-Route::group(['middleware' => config('socialstream.middleware', ['web'])], function () {
+Route::group(['middleware' => config('socialstream.middleware', ['web'])], function (): void {
     Route::get('/oauth/{provider}', [OAuthController::class, 'redirectToProvider'])->name('oauth.redirect');
     Route::get('/oauth/{provider}/callback', [OAuthController::class, 'handleProviderCallback'])->name('oauth.callback');
 
