@@ -15,7 +15,9 @@ trait CreatesApplication
     {
         $app = require __DIR__.'/../bootstrap/app.php';
 
-        $app->make(Kernel::class)->bootstrap();
+        /** @var Kernel $k */
+        $k = $app->make(Kernel::class);
+        $k->bootstrap();
 
         return $app;
     }

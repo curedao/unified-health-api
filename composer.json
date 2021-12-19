@@ -52,6 +52,12 @@
         }
     },
     "scripts": {
+        "clear-cache": [
+            "php artisan cache:clear",
+            "php artisan route:clear",
+            "php artisan config:clear",
+            "php artisan view:clear"
+        ],
         "vapor-list": "php vendor/bin/vapor list",
         "vapor-deploy": "php vendor/bin/vapor deploy",
         "vapor-login": "php vendor/bin/vapor login",
