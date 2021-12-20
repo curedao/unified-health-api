@@ -14,7 +14,7 @@
         "@tailwindcss/typography": "^0.5.0",
         "alpinejs": "^3.0.6",
         "axios": "^0.21",
-        "husky": "^4.3.8",
+        "husky": "7.0.4",
         "laravel-mix": "^6.0.6",
         "lodash": "^4.17.19",
         "postcss": "^8.1.14",
