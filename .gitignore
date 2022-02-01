@@ -14,6 +14,12 @@ _book
 *.epub
 *.mobi
 *.pdf
+
+/.idea/
+/_gsdata_/
+reference-databases/snomed/SnomedRfsMySql/
+*.zip
+
 reference-databases/SnomedRfsMySql/
 reference-databases/Loinc/
 reference-databases/Loinc_2.71_Text_2.71.zip
