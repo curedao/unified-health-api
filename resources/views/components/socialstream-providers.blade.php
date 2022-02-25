@@ -5,6 +5,10 @@
 </div>
 
 <div class="flex items-center justify-center">
+    <a href="{{ route('oauth.redirect', ['provider' => 'fitbit']) }}">
+        <x-fitbit-icon class="h-6 w-6 mx-2" />
+        <span class="sr-only">Fitbit</span>
+    </a>
     @if (JoelButcher\Socialstream\Socialstream::hasFacebookSupport())
         <a href="{{ route('oauth.redirect', ['provider' => JoelButcher\Socialstream\Providers::facebook()]) }}">
             <x-facebook-icon class="h-6 w-6 mx-2" />

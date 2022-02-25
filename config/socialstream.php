@@ -35,6 +35,7 @@ return [
         Providers::facebook(),
         Providers::twitter(),
         Providers::linkedin(),
+        'fitbit'
     ],
 
     /*

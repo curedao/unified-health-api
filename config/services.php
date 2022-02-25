@@ -93,5 +93,10 @@ return [
         'client_secret' => env('CONNECTOR_LINKEDIN_CLIENT_SECRET'),
         'redirect'      => env('CONNECTOR_LINKEDIN_REDIRECT_URI', env('APP_URL') . '/oauth/linkedin/callback'),
     ],
+    'fitbit' => [
+        'client_id'     => env('CONNECTOR_FITBIT_KEY'),
+        'client_secret' => env('CONNECTOR_FITBIT_CLIENT_SECRET'),
+        'redirect'      => env('CONNECTOR_FITBIT_REDIRECT_URI', env('APP_URL') . '/oauth/fitbit/callback'),
+    ],
 
 ];

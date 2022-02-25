@@ -10,6 +10,9 @@
                 @case(JoelButcher\Socialstream\Providers::google())
                     <x-google-icon class="h-6 w-6 mr-2" />
                     @break
+                @case('fitbit')
+                    <x-fitbit-icon class="h-6 w-6 mr-2" />
+                @break
                 @case(JoelButcher\Socialstream\Providers::twitter())
                     <x-twitter-icon class="h-6 w-6 mr-2" />
                     @break
