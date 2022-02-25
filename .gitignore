@@ -21,3 +21,6 @@ yarn-error.log
 !.env.testing
 !.env.example
 /.php-cs-fixer.cache
+config/ssl/
+.run/
+desktop.ini
