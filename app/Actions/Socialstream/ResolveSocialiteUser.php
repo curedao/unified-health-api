@@ -17,7 +17,11 @@ class ResolveSocialiteUser implements ResolvesSocialiteUsers
      */
     public function resolve($provider): User
     {
-        $user = Socialite::driver($provider)->user();
+        try {
+            $user = Socialite::driver($provider)->user();
+        } catch (\Throwable $e) {
+            $user = Socialite::driver($provider)->stateless()->user();
+        }
 
         if (Socialstream::generatesMissingEmails()) {
             $user->email = $user->getEmail() ?? "{$user->id}@{$provider}".config('app.domain');
