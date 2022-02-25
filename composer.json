@@ -20,6 +20,7 @@
         "laravel/vapor-core": "^2.17",
         "laravel/vapor-ui": "^1.4",
         "livewire/livewire": "^2.5",
+        "sentry/sentry-laravel": "^2.10",
         "socialiteproviders/generators": "^4.6",
         "socialiteproviders/providers": "dev-master",
         "tcg/voyager": "^1.5"
@@ -50,20 +51,22 @@
         }
     },
     "scripts": {
-        "clear-cache": [
-            "php artisan cache:clear",
-            "php artisan route:clear",
-            "php artisan config:clear",
-            "php artisan view:clear"
+        "cache-clear": [
+            "@php artisan cache:clear",
+            "@php artisan route:clear",
+            "@php artisan config:clear",
+            "@php artisan view:clear",
+            "@php artisan clear-compiled"
         ],
         "vapor-list": "php vendor/bin/vapor list",
         "vapor-deploy": "php vendor/bin/vapor deploy",
         "vapor-login": "php vendor/bin/vapor login",
+        "autoload-dump": "composer dump-autoload",
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi",
             "@php artisan laralens:diagnostic",
-            "@php artisan clear-compiled",
+            "@cache-clear",
             "php artisan storage:link"
         ],
         "post-update-cmd": [
