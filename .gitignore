@@ -24,3 +24,4 @@ yarn-error.log
 config/ssl/
 .run/
 desktop.ini
+/_gsdata_/
