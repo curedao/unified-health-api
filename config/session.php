@@ -2,6 +2,13 @@
 
 use Illuminate\Support\Str;
 
+if($domain = $_SERVER['HTTP_HOST'] ?? null) {
+    $parts = explode('.', $domain);
+    $baseDomain = ".".$parts[count($parts) - 2] . '.' . $parts[count($parts) - 1];
+} else {
+    $baseDomain = null;
+}
+
 return [
 
     /*
@@ -155,7 +162,7 @@ return [
     |
     */
 
-    'domain' => env('SESSION_DOMAIN', null),
+    'domain' => env('SESSION_DOMAIN', $baseDomain),
 
     /*
     |--------------------------------------------------------------------------

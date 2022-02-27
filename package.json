@@ -23,7 +23,9 @@
     },
     "dependencies": {
         "@apideck/components": "^0.6.11",
-        "clockwork-browser": "^1.1.0"
+        "clockwork-browser": "^1.1.0",
+        "laravel-echo": "^1.11.3",
+        "pusher-js": "^7.0.6"
     },
     "husky": {
         "hooks": {
