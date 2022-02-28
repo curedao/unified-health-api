@@ -1,5 +1,42 @@
 # The Unified Health API
-The Unified Health API integrates the disparate health data standards in order to accelerate clinical research.
+The Unified Health API is the core module of our health data software infrastructure. The main purpose is to provide a single storage and query solution for the analysis of health data.
+
+- It integrates the most used health data standards into a single reference database
+- It fills the gaps of not-standardized health data with own references
+- It provides our database design for a standardized health data storage solution
+- It includes the validation of incoming data against the references
+- It specifies the API to query the aggregated health data
+
+![The Core Architecture](diagrams/core_module_architecture.png)
+
+## Data Validation
+In order to ensure a level of quality required by healthcare and clinical trials, data quality and consistency must be ensured. The data validation middleware will validate the data before it is stored in the time-series database.
+Validation involves the following steps:
+- Ensure values are within allowed ranges for a variable and unit
+- Outlier detection
+- Strict data type checking for all properties
+Invalid Data Handling:
+- Data deviating from allowed value ranges will be flagged for review and deletion or correction
+- Outliers will be be flagged
+- Invalid data types will be ignored and the data ingestion plugin developer will be notified
+- Duplicate data for a given timestamp will be ignored and the data ingestion plugin developer will be notified
+
+## Data Storage
+The typical storage for data analysis is a value and a timestamp and is called a measurement. This module includes the storage schema and the interacting functions to spin up an agnostic measurements storage solution.
+
+## Data API
+The API lets you interact with the normalized data from your applications to get specific, filtered, sorted, grouped data sets for your use case.
+
+## Reference Database
+For the purpose of effective data analysis we put all health data references into a single table and call them variables.
+The variables are:
+
+- Biomarkers
+- Outcomes
+- Conditions
+- Interventions
+
+The actual content of this pack of references is managed in this repository: [cure-dao/health-reference-data](https://github.com/cure-dao/health-reference-data)
 
 # Work in Progress
 
