@@ -33,14 +33,12 @@ class EmailVerificationTest extends TestCase
     public function test_email_can_be_verified()
     {
         if (! Features::enabled(Features::emailVerification())) {
-            $this->markTestSkipped('Email verification not enabled.');
+            return $this->markTestSkipped('Email verification not enabled.');
         }
 
         Event::fake();
 
-        $user = User::factory()->create([
-            'email_verified_at' => null,
-        ]);
+        $user = User::factory()->unverified()->create();
 
         $verificationUrl = URL::temporarySignedRoute(
             'verification.verify',
@@ -59,12 +57,10 @@ class EmailVerificationTest extends TestCase
     public function test_email_can_not_verified_with_invalid_hash()
     {
         if (! Features::enabled(Features::emailVerification())) {
-            $this->markTestSkipped('Email verification not enabled.');
+            return $this->markTestSkipped('Email verification not enabled.');
         }
 
-        $user = User::factory()->create([
-            'email_verified_at' => null,
-        ]);
+        $user = User::factory()->unverified()->create();
 
         $verificationUrl = URL::temporarySignedRoute(
             'verification.verify',

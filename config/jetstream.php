@@ -1,6 +1,7 @@
 <?php
 
 use Laravel\Jetstream\Features;
+use Laravel\Jetstream\Http\Middleware\AuthenticateSession;
 
 return [
 
@@ -30,6 +31,21 @@ return [
 
     'middleware' => ['web'],
 
+    'auth_session' => AuthenticateSession::class,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Jetstream Guard
+    |--------------------------------------------------------------------------
+    |
+    | Here you may specify the authentication guard Jetstream will use while
+    | authenticating users. This value should correspond with one of your
+    | guards that is already present in your "auth" configuration file.
+    |
+    */
+
+    'guard' => 'sanctum',
+
     /*
     |--------------------------------------------------------------------------
     | Features
@@ -42,10 +58,10 @@ return [
     */
 
     'features' => [
-        Features::termsAndPrivacyPolicy(),
-        Features::profilePhotos(),
-        Features::api(),
-        Features::teams(['invitations' => true]),
+        // Features::termsAndPrivacyPolicy(),
+        // Features::profilePhotos(),
+        // Features::api(),
+        // Features::teams(['invitations' => true]),
         Features::accountDeletion(),
     ],
 
@@ -60,6 +76,6 @@ return [
     |
     */
 
-    'profile_photo_disk' => 's3',
+    'profile_photo_disk' => 'public',
 
 ];

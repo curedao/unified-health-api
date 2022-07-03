@@ -18,14 +18,3 @@ module.exports = {
 
     plugins: [require('@tailwindcss/forms'), require('@tailwindcss/typography')],
 };
-
-// const config = require('@apideck/components/tailwind-config')
-//
-// module.exports = config({
-//     purge: [],
-//     theme: {
-//         extend: {}
-//     },
-//     variants: {},
-//     plugins: []
-// })
